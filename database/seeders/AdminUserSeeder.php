@@ -18,31 +18,10 @@ class AdminUserSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'Nan Thae Thinzar Wai',
-                'email' => 'nanthaethinzarwai@eduplus.com',
+                'name' => 'Super Admin',
+                'email' => 'superadmin@idea.com',
                 'password' => '123456',
-                'mobile' => '09543287675',
-                'is_active' => 1
-            ],
-            [
-                'name' => 'Myo Paing Thu',
-                'email' => 'myopaingthu@eduplus.com',
-                'password' => '123456',
-                'mobile' => '09987465763',
-                'is_active' => 1
-            ],
-            [
-                'name' => 'Htet Htet Oo Wai',
-                'email' => 'htethtetoowai@eduplus.com',
-                'password' => '123456',
-                'mobile' => '09265436861',
-                'is_active' => 1
-            ],
-            [
-                'name' => 'Aung Kaung Myat',
-                'email' => 'aungkaungmyat@eduplus.com',
-                'password' => '123456',
-                'mobile' => '09897656424',
+                'mobile' => '09422555544',
                 'is_active' => 1
             ]
         ];
