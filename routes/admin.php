@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ClosureController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 
@@ -16,12 +18,18 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::apiResources([
         'users' => UserController::class,
         'roles' => RoleController::class,
+        'categories' => CategoryController::class,
+        'closures' => ClosureController::class,
     ]);
     Route::get('users/change-status/{user}', [UserController::class, 'changeStatus']);
+
+    Route::get('categories/change-status/{category}', [CategoryController::class, 'changeStatus']);
 
     Route::get('auth-user', [AuthController::class, 'getAuthUser']);
     Route::get('/get-all-roles', [UserController::class, 'getRoles']);
     Route::get('/permissions', [RoleController::class, 'getPermissions']);
+
+
 });
 
 //dummy api for dropzone

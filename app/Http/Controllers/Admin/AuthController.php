@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
@@ -15,32 +17,59 @@ class AuthController extends Controller
             'email' =>'required|email|exists:users,email',
             'password' => 'required|string|min:6'
         ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if ($user) {
+            if (Hash::check($request->password, $user->password)) {
+                if (!$user->is_active) {
+                    return response()->error("Account is not active. Please contact admin to login.", Response::HTTP_FORBIDDEN, ['email' => ['Inactive account!']]);
+                }
+
+                Auth::guard('admin')->setUser($user);
+                $data['access_token'] = $user->createToken('adminAuthToken')->accessToken;
+                $data['user']['id'] = $user->id;
+                $data['user']['name'] = $user->name;
+                $data['user']['email'] = $user->email;
+                $data['user']['mobile'] = $user->mobile;
+                $data['user']['profile'] = $user->profile ? $user->profile : null;
+                $data['roles'] = $user->getRoleNames();
+                $data['permissions'] = $user->getPermissionsViaRoles()->pluck('name');
+
+                return response()->success('Login Success!', Response::HTTP_OK, $data);
+            } else {
+                return response()->error('The given data was invalid.', Response::HTTP_UNPROCESSABLE_ENTITY, ['password' => ['Password is incorrect!']]);
+            }
+        } else {
+            return response()->error('User Not Found', Response::HTTP_NOT_FOUND, ['email' => ['User Not Found!']]);
+        }
+
         
-        $input = $request->only('email', 'password');
+        // $input = $request->only('email', 'password');
 
-        $auth = Auth::attempt($input);
+        // $auth = Auth::attempt($input);
 
-        if (!$auth) {
-            return response()->error('The given data was invalid.', 422, ['password' => ['The password you entered is incorrect!']]);
-        }
+        // if (!$auth) {
+        //     return response()->error('The given data was invalid.', 422, ['password' => ['The password you entered is incorrect!']]);
+        // }
 
-        $user = $request->user();
+        // $user = $request->user();
 
-        if (! $user->is_active) {
-            return response()->error("You don't have permission to access on this application.", Response::HTTP_FORBIDDEN, ['email' => ['Invalid user!']]);
-        }
+        // if (! $user->is_active) {
+        //     return response()->error("You don't have permission to access on this application.", Response::HTTP_FORBIDDEN, ['email' => ['Invalid user!']]);
+        // }
 
-        Auth::guard('admin')->setUser($user);
-        $data['access_token'] = $user->createToken('adminAuthToken')->plainTextToken;
-        $data['user']['id'] = $user->id;
-        $data['user']['name'] = $user->name;
-        $data['user']['email'] = $user->email;
-        $data['user']['mobile'] = $user->mobile;
-        $data['user']['profile'] = $user->profile ? $user->profile : null;
-        $data['roles'] = $user->getRoleNames();
-        $data['permissions'] = $user->getPermissionsViaRoles()->pluck('name');
+        // Auth::guard('admin')->setUser($user);
+        // $data['access_token'] = $user->createToken('adminAuthToken')->accessToken;
+        // $data['user']['id'] = $user->id;
+        // $data['user']['name'] = $user->name;
+        // $data['user']['email'] = $user->email;
+        // $data['user']['mobile'] = $user->mobile;
+        // $data['user']['profile'] = $user->profile ? $user->profile : null;
+        // $data['roles'] = $user->getRoleNames();
+        // $data['permissions'] = $user->getPermissionsViaRoles()->pluck('name');
 
-        return response()->success('Login Success!', Response::HTTP_OK, $data);
+        // return response()->success('Login Success!', Response::HTTP_OK, $data);
     }
 
     public function logout(Request $request)
