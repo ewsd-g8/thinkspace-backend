@@ -1,0 +1,143 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Models\Department;
+use App\Services\Admin\DepartmentService;
+use App\Http\Resources\Department\DepartmentResource;
+use Illuminate\Routing\Controllers\Middleware;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Spatie\Permission\Middleware\PermissionMiddleware;
+use App\Http\Requests\Department\CreateDepartmentRequest;
+use App\Http\Requests\Department\UpdateDepartmentRequest;
+use Illuminate\Support\Facades\Validator;
+
+class DepartmentController extends Controller implements HasMiddleware
+{
+    public static function middleware(): array
+    {
+        return [
+            new Middleware(PermissionMiddleware::using('user-list'), only:['index']),
+            new Middleware(PermissionMiddleware::using('user-create'), only:['store']),
+            new Middleware(PermissionMiddleware::using('user-edit'), only:['update', 'changeStatus']),
+        ];
+    }
+
+    /**
+     * @var DepartmentService
+     */
+    protected $departmentService;
+
+    public function __construct(DepartmentService $departmentService)
+    {
+        $this->departmentService = $departmentService;
+    }
+
+    public function index(Request $request)
+    {
+        $departments = $this->departmentService->getDepartments($request);
+
+        return response()->success('Success!', Response::HTTP_OK, $departments);
+    }
+
+    // public function index()
+    // {
+    //     $departments = Department::all();
+    //     return response()->json($departments);
+    // }
+
+    public function store(CreateDepartmentRequest $request)
+    {
+        $this->departmentService->create($request->all());
+
+        return response()->success('Success!', Response::HTTP_OK);
+    }
+
+    // public function store(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'name' => 'required|string|max:100',
+    //     ]);
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'message' => 'Name should not exceed 100 characters'
+    //         ], 400);
+    //     }
+    //     $department = new Department();
+    //     $department->name = $request->name;
+    //     $department->description = $request->description;
+    //     $department->save();
+    //     return response()->json([
+    //         'message' => 'Department Added!'
+    //     ], 201);
+    // }
+    public function show(string $id)
+    {
+        $data = $this->departmentService->getDepartmentById($id);
+        $result = new DepartmentResource($data);
+
+        return response()->success('Success!', Response::HTTP_OK, $result);
+    }
+    // public function show($id)
+    // {
+    //     $department = Department::find($id);
+    //     if (!empty($department)) {
+    //         return response()->json($department);
+    //     } else {
+    //         return response()->json([
+    //             'message' => 'Department not found'
+    //         ], 404);
+    //     }
+    // }
+
+    // public function update(Request $request, $id)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'name' => 'required|string|max:100',
+            
+    //     ]);
+    //     if ($validator->fails()) {
+    //         return response()->json([
+    //             'message' => 'Name should not exceed 100 characters'
+    //         ], 400);
+    //     }
+    //     $department = Department::find($id);
+    //     if (!empty($department)) {
+    //         $department->name = $request->name;
+    //         $department->description = $request->description;
+    //         $department->save();
+    //         return response()->json([
+    //             'message' =>'Department Updated!'
+    //         ], 200);
+    //     } else {
+    //         return response()->json([
+    //             'message' => 'Department not found'
+    //         ], 404);
+    //     }
+    // }
+
+    public function update(UpdateDepartmentRequest $request, Department $department)
+    {
+        $this->departmentService->update($department, $request->all());
+
+        return response()->success('Success!', Response::HTTP_OK);
+    }
+
+    public function destroy($id)
+    {
+        $department = Department::find($id);
+        if (!empty($department)) {
+            $department->delete();
+            return response()->json([
+                'message' => 'Department Deleted!'
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Department not found'
+            ], 404);
+        }
+    }
+}
