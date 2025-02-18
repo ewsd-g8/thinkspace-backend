@@ -3,8 +3,9 @@
 namespace App\Models;
 
 use App\Traits\Uuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Closure;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Idea extends Model
 {
@@ -20,5 +21,23 @@ class Idea extends Model
     public function closure()
     {
         return $this->hasOne(Closure::class);
+    }
+
+    public function scopeAdminSort($query, $sortType, $sortBy)
+    {
+        $sortFields = ['title', 'content'] ;
+
+        if ($sortBy && $sortType) {
+            $sortField = in_array($sortBy, $sortFields) ? $sortBy : 'title';
+            $query->orderBy($sortField, $sortType);
+        }
+    }
+
+    public function scopeAdminSearch($query, $search)
+    {
+        if (!is_null($search)) {
+            $query->where('title', 'like', "%$search%")
+                  ->orWhere('content', 'like', "%$search%");
+        }
     }
 }
