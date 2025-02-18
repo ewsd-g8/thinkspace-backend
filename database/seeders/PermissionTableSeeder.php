@@ -109,6 +109,30 @@ class PermissionTableSeeder extends Seeder
                 'label' => 'Destroy',
                 'guard_name' => 'admin'
             ],
+            [
+                'category' => 'Idea Management',
+                'name' => 'idea-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Idea Management',
+                'name' => 'idea-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Idea Management',
+                'name' => 'idea-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Idea Management',
+                'name' => 'idea-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
         ];
 
         foreach ($permissions as $permission) {

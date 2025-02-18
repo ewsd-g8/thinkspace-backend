@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ClosureController;
+use App\Http\Controllers\Admin\IdeaController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 
@@ -20,10 +21,12 @@ Route::group(['middleware' => 'auth:admin'], function () {
         'roles' => RoleController::class,
         'categories' => CategoryController::class,
         'closures' => ClosureController::class,
+        'ideas' => IdeaController::class,
     ]);
     Route::get('users/change-status/{user}', [UserController::class, 'changeStatus']);
 
     Route::get('categories/change-status/{category}', [CategoryController::class, 'changeStatus']);
+    Route::get('ideas/increase-views/{idea}', [IdeaController::class, 'increaseViews']);
 
     Route::get('auth-user', [AuthController::class, 'getAuthUser']);
     Route::get('/get-all-roles', [UserController::class, 'getRoles']);
