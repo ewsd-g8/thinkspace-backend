@@ -14,7 +14,7 @@ class Closure extends Model
 
     public function ideas()
     {
-        return $this->belongsTo(Idea::class);
+        return $this->hasMany(Idea::class);
     }
 
     public function scopeAdminSort($query, $sortType, $sortBy)
