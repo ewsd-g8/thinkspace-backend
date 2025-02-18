@@ -13,7 +13,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 use App\Http\Requests\Department\CreateDepartmentRequest;
 use App\Http\Requests\Department\UpdateDepartmentRequest;
-use Illuminate\Support\Facades\Validator;
+
 
 class DepartmentController extends Controller implements HasMiddleware
 {
@@ -22,7 +22,7 @@ class DepartmentController extends Controller implements HasMiddleware
         return [
             new Middleware(PermissionMiddleware::using('user-list'), only:['index']),
             new Middleware(PermissionMiddleware::using('user-create'), only:['store']),
-            new Middleware(PermissionMiddleware::using('user-edit'), only:['update', 'changeStatus']),
+            new Middleware(PermissionMiddleware::using('user-edit'), only:['update']),
         ];
     }
 

@@ -37,7 +37,6 @@ class DepartmentRepository
         } else {
             $departments = $departments->paginate(10);
         }
-
         return $departments;
     }
 
@@ -47,12 +46,11 @@ class DepartmentRepository
             'name'  => $data['name'],
             'description' => $data['description'],
         ]);
-        $department->save();
 
         return $department;
     }
 
-    public function update(Department $department, array $data)
+    public function update(Department $department, array $data): Department
     {
         $department->name = isset($data['name']) ? $data['name'] : $department->name;
         $department->description = isset($data['description']) ? $data['description'] : $department->description;
