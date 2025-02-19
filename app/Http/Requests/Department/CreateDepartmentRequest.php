@@ -22,8 +22,8 @@ class CreateDepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:' . config('constants.STRING_DEFAULT_MAX_LENGTH'),
-            'description' => 'required|string|max:' . config('constants.STRING_DEFAULT_MAX_LENGTH')
+            'name' => 'required|string|unique:departments,name',
+            'description' => 'required|string',
         ];
     }
 }

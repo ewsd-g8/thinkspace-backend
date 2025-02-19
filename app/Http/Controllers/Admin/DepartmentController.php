@@ -10,7 +10,6 @@ use App\Http\Resources\Department\DepartmentResource;
 use Illuminate\Routing\Controllers\Middleware;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
-use Spatie\Permission\Middleware\PermissionMiddleware;
 use App\Http\Requests\Department\CreateDepartmentRequest;
 use App\Http\Requests\Department\UpdateDepartmentRequest;
 
@@ -20,9 +19,9 @@ class DepartmentController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware(PermissionMiddleware::using('user-list'), only:['index']),
-            new Middleware(PermissionMiddleware::using('user-create'), only:['store']),
-            new Middleware(PermissionMiddleware::using('user-edit'), only:['update']),
+            new Middleware(permission::using('user-list'), only:['index','show']),
+            new Middleware(permission::using('user-create'), only:['store']),
+            new Middleware(permission::using('user-edit'), only:['update']),
         ];
     }
 
