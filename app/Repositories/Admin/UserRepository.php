@@ -6,7 +6,6 @@ use App\Models\Role;
 use App\Models\User;
 use App\Enums\Status;
 use App\Helpers\MediaHelper;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;

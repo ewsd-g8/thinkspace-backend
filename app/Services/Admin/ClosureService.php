@@ -1,0 +1,82 @@
+<?php
+
+namespace App\Services\Admin;
+
+use Exception;
+use App\Models\Closure;
+use InvalidArgumentException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Repositories\Admin\ClosureRepository;
+use App\Services\Interfaces\Admin\ClosureServiceInterface;
+
+class ClosureService implements ClosureServiceInterface
+{
+    /**
+      * @var roleRepository
+      */
+    protected $closureRepository;
+
+    /**
+     * AppointmentService constructor.
+     *
+     * @param AppointmentRepository $appointmentRepository
+     */
+    public function __construct(ClosureRepository $closureRepository)
+    {
+        $this->closureRepository = $closureRepository;
+    }
+
+    public function getClosures($request)
+    {
+        $result = $this->closureRepository->getClosures($request);
+
+        return $result;
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Http\Response
+     */
+
+    public function create(array $data)
+    {
+        DB::beginTransaction();
+        try {
+            $result = $this->closureRepository->create($data);
+        } catch (Exception $exc) {
+            DB::rollBack();
+            Log::error($exc->getMessage());
+            throw new InvalidArgumentException('Unable to create Closure');
+        }
+        DB::commit();
+
+        return $result;
+    }
+
+    public function getClosure($id)
+    {
+        return $this->closureRepository->getClosure($id);
+    }
+
+    public function update(Closure $closure, array $data)
+    {
+        DB::beginTransaction();
+        try {
+            $result = $this->closureRepository->update($closure, $data);
+        } catch (Exception $exc) {
+            DB::rollBack();
+            Log::error($exc->getMessage());
+            throw new InvalidArgumentException('Unable to update closure');
+        }
+        DB::commit();
+
+        return $result;
+    }
+
+   //  public function changeStatus(Closure $closure)
+   //  {
+   //      return $this->closureRepository->changeStatus($closure);
+   //  }
+}

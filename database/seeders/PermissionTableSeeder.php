@@ -61,6 +61,78 @@ class PermissionTableSeeder extends Seeder
                 'label' => 'Destroy',
                 'guard_name' => 'admin'
             ],
+            [
+                'category' => 'Category Management',
+                'name' => 'category-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Category Management',
+                'name' => 'category-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Category Management',
+                'name' => 'category-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Category Management',
+                'name' => 'category-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Closure Management',
+                'name' => 'closure-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Closure Management',
+                'name' => 'closure-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Closure Management',
+                'name' => 'closure-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Closure Management',
+                'name' => 'closure-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Idea Management',
+                'name' => 'idea-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Idea Management',
+                'name' => 'idea-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Idea Management',
+                'name' => 'idea-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Idea Management',
+                'name' => 'idea-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
         ];
 
         foreach ($permissions as $permission) {
