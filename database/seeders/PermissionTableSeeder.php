@@ -133,6 +133,31 @@ class PermissionTableSeeder extends Seeder
                 'label' => 'Destroy',
                 'guard_name' => 'admin'
             ],
+            [
+                'category' => 'Department Management',
+                'name' => 'department-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Department Management',
+                'name' => 'department-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Department Management',
+                'name' => 'department-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Department Management',
+                'name' => 'department-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
+            
         ];
 
         foreach ($permissions as $permission) {

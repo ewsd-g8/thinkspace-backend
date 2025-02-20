@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Department;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -25,7 +26,7 @@ class AdminUserSeeder extends Seeder
                 'mobile' => '09422555544',
                 'is_active' => 1,
                 'is_anonymous' => 0,
-                'department_id' => 1
+                'department_id' => Department::first()->id
             ]
         ];
 
