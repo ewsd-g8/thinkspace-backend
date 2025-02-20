@@ -19,9 +19,10 @@ class DepartmentController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware(permission::using('user-list'), only:['index','show']),
-            new Middleware(permission::using('user-create'), only:['store']),
-            new Middleware(permission::using('user-edit'), only:['update']),
+            new Middleware('permission:department-list', only:['index','show']),
+            new Middleware('permission:department-create', only: ['store']),
+            new Middleware('permission:department-edit', only: ['update']),
+            new Middleware('permission:department-delete', only: ['destroy'])
         ];
     }
 

@@ -12,9 +12,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        Department::factory()->count(5)->create();
+        // Department::factory()->count(5)->create();
 
         $this->call([
+            DepartmentTableSeeder::class,
             PermissionTableSeeder::class,
             RoleTableSeeder::class,
             AdminUserSeeder::class,
