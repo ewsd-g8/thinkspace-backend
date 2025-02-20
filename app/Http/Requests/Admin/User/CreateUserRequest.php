@@ -29,7 +29,8 @@ class CreateUserRequest extends FormRequest
             'mobile' => 'nullable|unique:users,mobile|regex:/^([0-9\s\-\+\(\)]*)$/|phone:MM|max:' . config('constants.STRING_DEFAULT_MAX_LENGTH'),
             'password' => 'required|string|same:password_confirmation|min:6|max:' . config('constants.STRING_DEFAULT_MAX_LENGTH'),
             'profile' => 'nullable|mimes:jpeg,png,jpg,gif',
-            'roles' => 'required'
+            'roles' => 'required',
+            'department_id' => 'required|exists:departments,id',
         ];
     }
 }
