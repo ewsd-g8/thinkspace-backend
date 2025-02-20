@@ -4309,6 +4309,7 @@
         },
         {
             "name": "spatie/laravel-permission",
+<<<<<<< HEAD
             "version": "6.15.0",
             "source": {
                 "type": "git",
@@ -4319,6 +4320,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/86074fcfd127f9fa7bcdf550b7c938e3beb0d65f",
                 "reference": "86074fcfd127f9fa7bcdf550b7c938e3beb0d65f",
+=======
+            "version": "6.14.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-permission.git",
+                "reference": "addf63f14c037afc16298724f2fa69bc010cd00d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/addf63f14c037afc16298724f2fa69bc010cd00d",
+                "reference": "addf63f14c037afc16298724f2fa69bc010cd00d",
+>>>>>>> 80120856b8f742c5f386076e92610fc235416fb2
                 "shasum": ""
             },
             "require": {
@@ -4380,7 +4393,11 @@
             ],
             "support": {
                 "issues": "https://github.com/spatie/laravel-permission/issues",
+<<<<<<< HEAD
                 "source": "https://github.com/spatie/laravel-permission/tree/6.15.0"
+=======
+                "source": "https://github.com/spatie/laravel-permission/tree/6.14.0"
+>>>>>>> 80120856b8f742c5f386076e92610fc235416fb2
             },
             "funding": [
                 {
@@ -4388,7 +4405,11 @@
                     "type": "github"
                 }
             ],
+<<<<<<< HEAD
             "time": "2025-02-17T19:18:01+00:00"
+=======
+            "time": "2025-02-13T19:57:18+00:00"
+>>>>>>> 80120856b8f742c5f386076e92610fc235416fb2
         },
         {
             "name": "symfony/clock",
@@ -7161,6 +7182,7 @@
         },
         {
             "name": "laravel/pint",
+<<<<<<< HEAD
             "version": "v1.21.0",
             "source": {
                 "type": "git",
@@ -7171,6 +7193,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/pint/zipball/531fa0871fbde719c51b12afa3a443b8f4e4b425",
                 "reference": "531fa0871fbde719c51b12afa3a443b8f4e4b425",
+=======
+            "version": "v1.20.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/pint.git",
+                "reference": "53072e8ea22213a7ed168a8a15b96fbb8b82d44b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/53072e8ea22213a7ed168a8a15b96fbb8b82d44b",
+                "reference": "53072e8ea22213a7ed168a8a15b96fbb8b82d44b",
+>>>>>>> 80120856b8f742c5f386076e92610fc235416fb2
                 "shasum": ""
             },
             "require": {
@@ -7181,12 +7215,21 @@
                 "php": "^8.2.0"
             },
             "require-dev": {
+<<<<<<< HEAD
                 "friendsofphp/php-cs-fixer": "^3.68.5",
                 "illuminate/view": "^11.42.0",
                 "larastan/larastan": "^3.0.4",
                 "laravel-zero/framework": "^11.36.1",
                 "mockery/mockery": "^1.6.12",
                 "nunomaduro/termwind": "^2.3",
+=======
+                "friendsofphp/php-cs-fixer": "^3.66.0",
+                "illuminate/view": "^10.48.25",
+                "larastan/larastan": "^2.9.12",
+                "laravel-zero/framework": "^10.48.25",
+                "mockery/mockery": "^1.6.12",
+                "nunomaduro/termwind": "^1.17.0",
+>>>>>>> 80120856b8f742c5f386076e92610fc235416fb2
                 "pestphp/pest": "^2.36.0"
             },
             "bin": [
@@ -7223,7 +7266,11 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
+<<<<<<< HEAD
             "time": "2025-02-18T03:18:57+00:00"
+=======
+            "time": "2025-01-14T16:20:53+00:00"
+>>>>>>> 80120856b8f742c5f386076e92610fc235416fb2
         },
         {
             "name": "laravel/sail",
@@ -7972,6 +8019,7 @@
         },
         {
             "name": "phpunit/phpunit",
+<<<<<<< HEAD
             "version": "11.5.8",
             "source": {
                 "type": "git",
@@ -7982,6 +8030,18 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c9bd61aab12f0fc5e82ecfe621ff518a1d1f1049",
                 "reference": "c9bd61aab12f0fc5e82ecfe621ff518a1d1f1049",
+=======
+            "version": "11.5.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sebastianbergmann/phpunit.git",
+                "reference": "e1cb706f019e2547039ca2c839898cd5f557ee5d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e1cb706f019e2547039ca2c839898cd5f557ee5d",
+                "reference": "e1cb706f019e2547039ca2c839898cd5f557ee5d",
+>>>>>>> 80120856b8f742c5f386076e92610fc235416fb2
                 "shasum": ""
             },
             "require": {
@@ -8053,7 +8113,11 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
+<<<<<<< HEAD
                 "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.8"
+=======
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.7"
+>>>>>>> 80120856b8f742c5f386076e92610fc235416fb2
             },
             "funding": [
                 {
@@ -8069,7 +8133,11 @@
                     "type": "tidelift"
                 }
             ],
+<<<<<<< HEAD
             "time": "2025-02-18T06:26:59+00:00"
+=======
+            "time": "2025-02-06T16:10:05+00:00"
+>>>>>>> 80120856b8f742c5f386076e92610fc235416fb2
         },
         {
             "name": "sebastian/cli-parser",

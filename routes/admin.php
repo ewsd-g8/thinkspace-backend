@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ClosureController;
 use App\Http\Controllers\Admin\IdeaController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\DepartmentController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
@@ -19,6 +20,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::apiResources([
         'users' => UserController::class,
         'roles' => RoleController::class,
+        'departments' => DepartmentController::class,
         'categories' => CategoryController::class,
         'closures' => ClosureController::class,
         'ideas' => IdeaController::class,
