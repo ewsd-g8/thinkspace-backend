@@ -4,6 +4,7 @@ namespace App\Repositories\Admin;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Department;
 use App\Enums\Status;
 use App\Helpers\MediaHelper;
 use Illuminate\Support\Facades\Hash;
@@ -29,8 +30,8 @@ class UserRepository
 
     public function getUsers($request)
     {
-        $users = User::select('id', 'name', 'email', 'mobile', 'is_active')->with(['roles' => function ($q) {
-            $q->select('name');
+        $users = User::select('id', 'name', 'email', 'mobile', 'is_active','department_id')->with(['roles','department' => function ($q) {
+            $q->select('id','name');
         }])->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
 
         if (request()->has('paginate')) {
@@ -50,6 +51,7 @@ class UserRepository
             'email' => $data['email'],
             'mobile' => isset($data['mobile']) ? $data['mobile'] : null,
             'is_active' => Status::Active,
+            'department_id' => $data['department_id'],
         ]);
         if (isset($data['profile'])) {
             //   $mediaRepository = new MediaRepository();
@@ -83,6 +85,7 @@ class UserRepository
         $user->name = isset($data['name']) ? $data['name'] : $user->name;
         $user->email = isset($data['email']) ? $data['email'] : $user->email;
         $user->mobile = isset($data['mobile']) ? $data['mobile'] : $user->mobile;
+        $user->department_id = isset($data['department_id'])? $data['department_id'] : $user->department_id;
         if (isset($data['profile'])) {
             // if ($user->profile && Storage::disk('s3')->exists($user->profile)) {
             //     Storage::disk('s3')->delete($user->profile);
@@ -126,7 +129,7 @@ class UserRepository
 
     public function getUserById($id)
     {
-        return User::with('roles')->where('id', $id)->first();
+        return User::with('roles','department:id,name')->where('id', $id)->first();
     }
 
     public function changeStatus(User $user)
