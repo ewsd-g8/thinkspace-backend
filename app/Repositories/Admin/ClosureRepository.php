@@ -38,7 +38,7 @@ class ClosureRepository
         return $closure;
     }
 
-    public function getCategory($id)
+    public function getClosure($id)
     {
         return Closure::where('id', $id)->first();
     }
