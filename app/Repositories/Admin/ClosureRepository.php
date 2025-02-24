@@ -32,7 +32,7 @@ class ClosureRepository
         $closure = Closure::create([
             'name'  => $data['name'],
             'date' => $data['date'],
-            'final_date' => $data['date'],
+            'final_date' => $data['final_date'],
         ]);
 
         return $closure;
