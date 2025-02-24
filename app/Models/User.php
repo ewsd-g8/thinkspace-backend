@@ -37,6 +37,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Department::class);
     }
+
+    public function ideas()
+    {
+        return $this->hasMany(Idea::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
