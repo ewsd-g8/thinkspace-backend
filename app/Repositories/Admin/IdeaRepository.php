@@ -16,7 +16,7 @@ class IdeaRepository
 
     public function getIdeas($request)
     {
-        $idea = Idea::select('id', 'title', 'content', 'views')->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
+        $idea = Idea::select('id', 'title', 'content', 'views')->with(['categories:id,name,description'])->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
 
         if (request()->has('paginate')) {
             $idea = $idea->paginate(request()->get('paginate'));
