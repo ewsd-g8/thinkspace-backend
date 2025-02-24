@@ -32,13 +32,13 @@ class ClosureRepository
         $closure = Closure::create([
             'name'  => $data['name'],
             'date' => $data['date'],
-            'final_date' => $data['date'],
+            'final_date' => $data['final_date'],
         ]);
 
         return $closure;
     }
 
-    public function getCategory($id)
+    public function getClosure($id)
     {
         return Closure::where('id', $id)->first();
     }
