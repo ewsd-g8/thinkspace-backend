@@ -18,11 +18,6 @@ class DepartmentService implements DepartmentServiceInterface
       */
     protected $departmentRepository;
 
-    /**
-     * AppointmentService constructor.
-     *
-     * @param AppointmentRepository $appointmentRepository
-     */
     public function __construct(DepartmentRepository $departmentRepository)
     {
         $this->departmentRepository = $departmentRepository;
