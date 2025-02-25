@@ -18,9 +18,15 @@ class Idea extends Model
         return $this->belongsToMany(Category::class, 'category_idea', 'idea_id', 'category_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
     public function closure()
     {
-        return $this->hasOne(Closure::class);
+        return $this->belongsTo(Closure::class); // Ensure correct foreign key
     }
 
     public function scopeAdminSort($query, $sortType, $sortBy)

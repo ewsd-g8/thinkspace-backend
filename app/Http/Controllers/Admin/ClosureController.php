@@ -48,6 +48,7 @@ class ClosureController extends Controller implements HasMiddleware
     public function store(CreateClosureRequest $request)
     {
         $this->closureService->create($request->all());
+
         return response()->success('Success!', Response::HTTP_OK);
     }
 

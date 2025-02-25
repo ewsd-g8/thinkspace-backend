@@ -3,6 +3,7 @@
 namespace App\Repositories\Admin;
 
 use App\Models\Idea;
+use App\Models\User;
 
 class IdeaRepository
 {
@@ -16,7 +17,7 @@ class IdeaRepository
 
     public function getIdeas($request)
     {
-        $idea = Idea::select('id', 'title', 'content', 'views')->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
+        $idea = Idea::with(['categories:id,name,description', 'user', 'closure'])->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
 
         if (request()->has('paginate')) {
             $idea = $idea->paginate(request()->get('paginate'));
