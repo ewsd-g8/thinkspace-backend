@@ -28,6 +28,9 @@ Route::group(['middleware' => 'auth:admin'], function () {
         'comments' => CommentController::class,
     ]);
     Route::get('users/change-status/{user}', [UserController::class, 'changeStatus']);
+    Route::get('users/block-status/{user}', [UserController::class, 'changeBlockStatus']);
+    Route::get('users/hide-status/{user}', [UserController::class, 'changeHiddenStatus']);
+    
 
     Route::get('categories/change-status/{category}', [CategoryController::class, 'changeStatus']);
     Route::get('ideas/increase-views/{idea}', [IdeaController::class, 'increaseViews']);
