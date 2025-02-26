@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\IdeaController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DepartmentController;
+use App\Http\Controllers\Admin\CommentController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
@@ -24,8 +25,12 @@ Route::group(['middleware' => 'auth:admin'], function () {
         'categories' => CategoryController::class,
         'closures' => ClosureController::class,
         'ideas' => IdeaController::class,
+        'comments' => CommentController::class,
     ]);
     Route::get('users/change-status/{user}', [UserController::class, 'changeStatus']);
+    Route::get('users/block-status/{user}', [UserController::class, 'changeBlockStatus']);
+    Route::get('users/hide-status/{user}', [UserController::class, 'changeHiddenStatus']);
+    
 
     Route::get('categories/change-status/{category}', [CategoryController::class, 'changeStatus']);
     Route::get('ideas/increase-views/{idea}', [IdeaController::class, 'increaseViews']);

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\Uuids;
 use App\Models\Closure;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Comment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Idea extends Model
@@ -27,6 +28,10 @@ class Idea extends Model
     public function closure()
     {
         return $this->belongsTo(Closure::class); // Ensure correct foreign key
+    }
+
+    public function comments(){
+        return $this->hasMany(Comment::class);
     }
 
     public function scopeAdminSort($query, $sortType, $sortBy)
