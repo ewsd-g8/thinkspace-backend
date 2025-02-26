@@ -21,7 +21,7 @@ class UserController extends Controller implements HasMiddleware
         return [
             new Middleware(PermissionMiddleware::using('user-list'), only:['index']),
             new Middleware(PermissionMiddleware::using('user-create'), only:['store']),
-            new Middleware(PermissionMiddleware::using('user-edit'), only:['update', 'changeStatus']),
+            new Middleware(PermissionMiddleware::using('user-edit'), only:['update', 'changeStatus','changeBlockStatus','changeHiddenStatus']),
         ];
     }
     
