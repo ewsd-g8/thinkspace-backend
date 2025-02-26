@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Category\CreateCategoryRequest;
-use App\Http\Requests\Admin\Category\UpdateCategoryRequest;
 use App\Http\Requests\Admin\Closure\CreateClosureRequest;
 use App\Http\Requests\Admin\Closure\UpdateClosureRequest;
 use App\Models\Closure as ClosureModel;
