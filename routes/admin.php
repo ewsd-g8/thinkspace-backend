@@ -37,7 +37,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
 
     Route::post('reactions', [ReactionController::class, 'store']);
     Route::get('ideas/{idea}/count-reactions', [ReactionController::class, 'getIdeaReactionCount']);
-    Route::get('ideas/{idea}/reactions/me', [ReactionController::class, 'getMyReactionForIdea']);
+    Route::get('ideas/{idea}/reactions/me', [ReactionController::class, 'getUserReactionForIdea']);
 
     Route::get('auth-user', [AuthController::class, 'getAuthUser']);
     Route::get('/get-all-roles', [UserController::class, 'getRoles']);
