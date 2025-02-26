@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->uuid('id')->primary();
             $table->string('title');
             $table->text('content');
-            $table->integer('views')->default(0);
             $table->uuid('closure_id');
             $table->uuid('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
