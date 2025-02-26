@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use App\Http\Requests\Admin\Comment\CreateCommentRequest;
 use App\Http\Requests\Admin\Comment\UpdateCommentRequest;
-class CommentController extends Controller
+class CommentController extends Controller implements HasMiddleware
 {
     protected $commentService;
     public static function middleware(): array
