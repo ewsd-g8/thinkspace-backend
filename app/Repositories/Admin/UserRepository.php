@@ -168,21 +168,18 @@ class UserRepository
     }
 
     public function changeHiddenStatus(User $user){
-        $user->update([
-            'is_hidden' => !$user->is_hidden,
-        ]);
-        // if ($user->is_hidden == 0) {
-        //     $user->update([
-        //         'is_hidden' => 1,
-        //     ]);
+        if ($user->is_hidden == 0) {
+            $user->update([
+                'is_hidden' => 1,
+            ]);
 
             
-        // } else {
-        //     $user->update([
-        //         'is_hidden' => 0,
-        //     ]);
+        } else {
+            $user->update([
+                'is_hidden' => 0,
+            ]);
 
-        // }
+        }
     }
     //  public function destroy(User $user)
     //  {

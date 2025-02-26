@@ -29,6 +29,8 @@ class User extends Authenticatable
         'profile',
         'password',
         'is_active',
+        'is_blocked',
+        'is_hidden',
         'is_anonymous',
         'department_id',
     ];
