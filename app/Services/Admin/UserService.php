@@ -82,6 +82,33 @@ class UserService implements UserServiceInterface
         return $result;
     }
 
+    public function changeBlockStatus(User $user)
+    {
+        DB::beginTransaction();
+        try {
+            $result = $this->userRepository->changeBlockStatus($user);
+        } catch (Exception $exc) {
+            DB::rollBack();
+            Log::error($exc->getMessage());
+            throw new InvalidArgumentException('Unable to block user');
+        }
+        DB::commit();
+        return $result;
+    }
+
+    public function changeHiddenStatus(User $user)
+    {
+        DB::beginTransaction();
+        try {
+            $result = $this->userRepository->changeHiddenStatus($user);
+        } catch (Exception $exc) {
+            DB::rollBack();
+            Log::error($exc->getMessage());
+            throw new InvalidArgumentException('Unable to hide user');
+        }
+        DB::commit();
+        return $result;
+    }
     //  public function destroy(User $user)
     //  {
     //      DB::beginTransaction();

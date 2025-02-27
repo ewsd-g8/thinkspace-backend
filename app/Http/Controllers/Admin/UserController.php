@@ -21,7 +21,7 @@ class UserController extends Controller implements HasMiddleware
         return [
             new Middleware(PermissionMiddleware::using('user-list'), only:['index']),
             new Middleware(PermissionMiddleware::using('user-create'), only:['store']),
-            new Middleware(PermissionMiddleware::using('user-edit'), only:['update', 'changeStatus']),
+            new Middleware(PermissionMiddleware::using('user-edit'), only:['update', 'changeStatus','changeBlockStatus','changeHiddenStatus']),
         ];
     }
     
@@ -83,6 +83,18 @@ class UserController extends Controller implements HasMiddleware
         return response()->success('Success!', Response::HTTP_OK);
     }
 
+    public function changeBlockStatus(User $user)
+    {
+        $this->userService->changeBlockStatus($user);
+
+        return response()->success('Success!', Response::HTTP_OK);
+    }
+    public function changeHiddenStatus(User $user)
+    {
+        $this->userService->changeHiddenStatus($user);
+        
+        return response()->success('Success!', Response::HTTP_OK);
+    }
     public function getRoles()
     {
         $data = $this->userService->getRoles();

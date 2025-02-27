@@ -150,7 +150,37 @@ class UserRepository
             return $user->refresh();
         }
     }
+    
+    public function changeBlockStatus(User $user){
+        if ($user->is_blocked == 0) {
+            $user->update([
+                'is_blocked' => 1,
+            ]);
 
+
+        } else {
+            $user->update([
+                'is_blocked' => 0,
+            ]);
+
+
+        }
+    }
+
+    public function changeHiddenStatus(User $user){
+        if ($user->is_hidden == 0) {
+            $user->update([
+                'is_hidden' => 1,
+            ]);
+
+            
+        } else {
+            $user->update([
+                'is_hidden' => 0,
+            ]);
+
+        }
+    }
     //  public function destroy(User $user)
     //  {
     //      $deleted = $this->deleteById($user->id);

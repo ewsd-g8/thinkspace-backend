@@ -157,6 +157,42 @@ class PermissionTableSeeder extends Seeder
                 'label' => 'Destroy',
                 'guard_name' => 'admin'
             ],
+            [
+                'category' => 'Comment Management',
+                'name' => 'comment-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Comment Management',
+                'name' => 'comment-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Comment Management',
+                'name' => 'comment-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Comment Management',
+                'name' => 'comment-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Reaction Management',
+                'name' => 'reaction-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Reaction Management',
+                'name' => 'reaction-set',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
         ];
 
         foreach ($permissions as $permission) {

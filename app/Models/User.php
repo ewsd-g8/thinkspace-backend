@@ -29,6 +29,8 @@ class User extends Authenticatable
         'profile',
         'password',
         'is_active',
+        'is_blocked',
+        'is_hidden',
         'is_anonymous',
         'department_id',
     ];
@@ -41,6 +43,12 @@ class User extends Authenticatable
     public function ideas()
     {
         return $this->hasMany(Idea::class);
+    }
+
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
     /**
      * The attributes that should be hidden for serialization.
