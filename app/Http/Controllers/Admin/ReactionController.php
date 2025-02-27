@@ -17,7 +17,7 @@ class ReactionController extends Controller implements HasMiddleware
     {
         return [
             new Middleware('permission:reaction-list', only:['getIdeaReactionCount','getUserReactionForIdea']),
-            new Middleware('permission:reaction-set', only: ['store']),
+            new Middleware('permission:reaction-create', only: ['store']),
         ];
     }
 
