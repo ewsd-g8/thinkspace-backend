@@ -25,10 +25,11 @@ class CreateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:' . config('constants.STRING_DEFAULT_MAX_LENGTH'),
+            'full_name' => 'required|string|max:' . config('constants.STRING_DEFAULT_MAX_LENGTH'),
             'email' => 'required|email|max:' . config('constants.STRING_DEFAULT_MAX_LENGTH') . '|unique:users,email',
             'mobile' => 'nullable|unique:users,mobile|regex:/^([0-9\s\-\+\(\)]*)$/|phone:MM|max:' . config('constants.STRING_DEFAULT_MAX_LENGTH'),
-            'password' => 'required|string|same:password_confirmation|min:6|max:' . config('constants.STRING_DEFAULT_MAX_LENGTH'),
             'profile' => 'nullable|mimes:jpeg,png,jpg,gif',
+            'password' => 'required|string|same:password_confirmation|min:6|max:' . config('constants.STRING_DEFAULT_MAX_LENGTH'),
             'roles' => 'required',
             'department_id' => 'required|exists:departments,id',
         ];
