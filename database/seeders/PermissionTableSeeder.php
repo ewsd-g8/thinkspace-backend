@@ -189,7 +189,7 @@ class PermissionTableSeeder extends Seeder
             ],
             [
                 'category' => 'Reaction Management',
-                'name' => 'reaction-set',
+                'name' => 'reaction-create',
                 'label' => 'Write',
                 'guard_name' => 'admin'
             ],
