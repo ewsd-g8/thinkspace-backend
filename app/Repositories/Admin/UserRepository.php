@@ -30,8 +30,8 @@ class UserRepository
 
     public function getUsers($request)
     {
-        $users = User::select('id', 'name', 'email', 'mobile', 'is_active','department_id')->with(['roles','department' => function ($q) {
-            $q->select('id','name');
+        $users = User::select('id', 'name', 'email', 'mobile', 'is_active', 'department_id')->with(['roles','department' => function ($q) {
+            $q->select('id', 'name');
         }])->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
 
         if (request()->has('paginate')) {
@@ -129,7 +129,7 @@ class UserRepository
 
     public function getUserById($id)
     {
-        return User::with('roles','department:id,name')->where('id', $id)->first();
+        return User::with('roles', 'department:id,name')->where('id', $id)->first();
     }
 
     public function changeStatus(User $user)
@@ -151,7 +151,8 @@ class UserRepository
         }
     }
     
-    public function changeBlockStatus(User $user){
+    public function changeBlockStatus(User $user)
+    {
         if ($user->is_blocked == 0) {
             $user->update([
                 'is_blocked' => 1,
@@ -167,7 +168,8 @@ class UserRepository
         }
     }
 
-    public function changeHiddenStatus(User $user){
+    public function changeHiddenStatus(User $user)
+    {
         if ($user->is_hidden == 0) {
             $user->update([
                 'is_hidden' => 1,

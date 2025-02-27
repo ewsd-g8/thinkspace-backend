@@ -28,6 +28,8 @@ class UpdateIdeaRequest extends FormRequest
             'user_id' => 'required|exists:users,id',
             'categories' => 'required|array',
             'categories.*' => 'exists:categories,id',
+            'documents' => 'nullable|array|max:3',
+            'documents.*' => 'file|mimes:jpg,jpeg,png,pdf|max:5120',
         ];
     }
 }
