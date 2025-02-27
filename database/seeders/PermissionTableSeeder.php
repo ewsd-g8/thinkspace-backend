@@ -181,6 +181,18 @@ class PermissionTableSeeder extends Seeder
                 'label' => 'Destroy',
                 'guard_name' => 'admin'
             ],
+            [
+                'category' => 'Reaction Management',
+                'name' => 'reaction-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Reaction Management',
+                'name' => 'reaction-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
         ];
 
         foreach ($permissions as $permission) {

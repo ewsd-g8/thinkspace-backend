@@ -47,9 +47,10 @@ class UserRepository
     {
         $user = User::create([
             'name'  => $data['name'],
-            'password' => Hash::make($data['password']),
+            'full_name' => $data['full_name'],
             'email' => $data['email'],
             'mobile' => isset($data['mobile']) ? $data['mobile'] : null,
+            'password' => Hash::make($data['password']),
             'is_active' => Status::Active,
             'department_id' => $data['department_id'],
         ]);

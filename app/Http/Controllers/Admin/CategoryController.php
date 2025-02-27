@@ -15,7 +15,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 class CategoryController extends Controller implements HasMiddleware
 {
     /**
-     * @var RoleService
+     * @var CategoryService
      */
     protected $catergoryService;
     public static function middleware(): array

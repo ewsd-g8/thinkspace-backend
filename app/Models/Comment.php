@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\Uuids;
-use Illuminate\Testing\Fluent\Concerns\Has;
 
 class Comment extends Model
 {

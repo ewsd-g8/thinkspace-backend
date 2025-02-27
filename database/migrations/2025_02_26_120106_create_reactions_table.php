@@ -4,20 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('ideas', function (Blueprint $table) {
+        Schema::create('reactions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('title');
-            $table->text('content');
-            $table->uuid('closure_id');
+            $table->string('type');
             $table->uuid('user_id');
+            $table->uuid('idea_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('closure_id')->references('id')->on('closures')->onDelete('cascade');
+            $table->foreign('idea_id')->references('id')->on('ideas')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('ideas');
+        Schema::dropIfExists('reactions');
     }
 };
