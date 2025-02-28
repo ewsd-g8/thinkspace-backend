@@ -4,6 +4,10 @@ namespace App\Repositories\Admin;
 
 use App\Models\Idea;
 use App\Models\User;
+use App\Models\Document;
+use App\Helpers\MediaHelper;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Response;
 
 class IdeaRepository
 {
@@ -17,7 +21,7 @@ class IdeaRepository
 
     public function getIdeas($request)
     {
-        $idea = Idea::with(['categories:id,name,description', 'user', 'closure'])->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
+        $idea = Idea::with(['categories:id,name,description', 'user', 'closure', 'documents'])->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
 
         if (request()->has('paginate')) {
             $idea = $idea->paginate(request()->get('paginate'));
@@ -41,12 +45,31 @@ class IdeaRepository
             $idea->categories()->attach($data['categories']); // Attach categories
         }
 
+        if (isset($data['documents'])) {
+            if (count($data['documents'])) {
+                for ($document=0; $document < count($data['documents']) ; $document++) {
+                    $mediaHelper = new MediaHelper($data['documents'][$document], 'documents');
+                    $media = $mediaHelper->save();
+                    if ($media['status'] == false) {
+                        return response()->error($media['message'], Response::HTTP_BAD_REQUEST, ['document' => ['Invalid format!']]);
+                    }
+
+                    $idea->profile = $media['storage_path'];
+
+                    Document::create([
+                        'file_path' => $media['storage_path'],
+                        'idea_id' => $idea->id
+                    ]);
+                }
+            }
+        }
+
         return $idea;
     }
 
     public function getIdea($id)
     {
-        return Idea::where('id', $id)->first();
+        return Idea::where('id', $id)->with(['categories:id,name,description', 'user', 'closure', 'documents'])->first();
     }
 
     public function update(Idea $idea, array $data): Idea
@@ -62,6 +85,40 @@ class IdeaRepository
 
         if (!empty($data['categories'])) {
             $idea->categories()->sync($data['categories']);
+        }
+
+        if (isset($data['documents'])) {
+            if (count($data['documents'])) {
+
+                $documents = $idea->documents;
+                if ($documents->count()) {
+                    foreach ($documents as $document) {
+                        $path = parse_url($document->file_path, PHP_URL_PATH);
+                        $pathParts = explode('/', $path);
+                        $filepath = implode('/', array_slice($pathParts, 2));
+
+                        if ($filepath && Storage::exists($filepath)) {
+                            Storage::delete($filepath);
+                        }
+                        $document->delete();
+                    }
+                }
+
+                for ($document=0; $document < count($data['documents']) ; $document++) {
+                    $mediaHelper = new MediaHelper($data['documents'][$document], 'documents');
+                    $media = $mediaHelper->save();
+                    if ($media['status'] == false) {
+                        return response()->error($media['message'], Response::HTTP_BAD_REQUEST, ['document' => ['Invalid format!']]);
+                    }
+
+                    $idea->profile = $media['storage_path'];
+
+                    Document::create([
+                        'file_path' => $media['storage_path'],
+                        'idea_id' => $idea->id
+                    ]);
+                }
+            }
         }
 
         return $idea;

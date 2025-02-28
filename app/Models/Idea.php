@@ -30,8 +30,14 @@ class Idea extends Model
         return $this->belongsTo(Closure::class); // Ensure correct foreign key
     }
 
-    public function comments(){
+    public function comments()
+    {
         return $this->hasMany(Comment::class);
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
     }
 
     public function scopeAdminSort($query, $sortType, $sortBy)
