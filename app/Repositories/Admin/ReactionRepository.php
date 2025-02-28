@@ -40,11 +40,16 @@ class ReactionRepository
         }
     }
 
-    public function getIdeaReactionCount ($ideaId) 
+    public function getIdeaLikeCount ($ideaId) 
     {
         $likeCount = Reaction::where('idea_id', $ideaId)->where('type', true)->count();
+        return ['likes' => $likeCount];
+    }
+
+    public function getIdeaUnlikeCount ($ideaId) 
+    {
         $unlikeCount = Reaction::where('idea_id', $ideaId)->where('type', false)->count();
-        return ['likes' => $likeCount, 'unlikes' => $unlikeCount];
+        return ['unlikes' => $unlikeCount];
     }
 
     public function getUserReactionForIdea ($userId, $ideaId)
