@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 interface ReactionServiceInterface
 {
     public function setReaction ($userId, $ideaId, $type);
-    public function getIdeaLikeCount ($ideaId);
-    public function getIdeaUnlikeCount ($ideaId);
+    public function getIdeaReactionCount ($ideaId);
     public function getUserReactionForIdea ($userId, $ideaId);
 }

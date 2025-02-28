@@ -31,14 +31,9 @@ class ReactionService
         return $result;
     }
 
-    public function getIdeaLikeCount ($ideaId)
+    public function getIdeaReactionCount ($ideaId)
     {
-        return $this->reactionRepository->getIdeaLikeCount($ideaId);
-    }
-
-    public function getIdeaUnlikeCount ($ideaId)
-    {
-        return $this->reactionRepository->getIdeaUnlikeCount($ideaId);
+        return $this->reactionRepository->getIdeaReactionCount($ideaId);
     }
 
     public function getUserReactionForIdea ($userId, $ideaId)

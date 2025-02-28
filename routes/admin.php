@@ -36,8 +36,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('ideas/increase-views/{idea}', [IdeaController::class, 'increaseViews']);
 
     Route::post('reactions', [ReactionController::class, 'store']);
-    Route::get('ideas/{idea}/count-likes', [ReactionController::class, 'getIdeaLikeCount']);
-    Route::get('ideas/{idea}/count-unlikes', [ReactionController::class, 'getIdeaUnlikeCount']);
+    Route::get('ideas/{idea}/count-reactions', [ReactionController::class, 'getIdeaReactionCount']);
     Route::get('ideas/{idea}/reactions/me', [ReactionController::class, 'getUserReactionForIdea']);
 
     Route::get('auth-user', [AuthController::class, 'getAuthUser']);
