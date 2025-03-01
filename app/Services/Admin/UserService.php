@@ -128,4 +128,9 @@ class UserService implements UserServiceInterface
     {
         return $this->userRepository->getRoles();
     }
+
+    public function getDepartments()
+    {
+        return $this->userRepository->getDepartments();
+    }
 }

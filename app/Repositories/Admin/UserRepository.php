@@ -152,7 +152,7 @@ class UserRepository
         }
     }
     
-    public function changeBlockStatus(User $user)
+    public function changeBlockStatus(User $user): void 
     {
         if ($user->is_blocked == 0) {
             $user->update([
@@ -169,7 +169,7 @@ class UserRepository
         }
     }
 
-    public function changeHiddenStatus(User $user)
+    public function changeHiddenStatus(User $user): void
     {
         if ($user->is_hidden == 0) {
             $user->update([
@@ -195,5 +195,10 @@ class UserRepository
     public function getRoles()
     {
         return Role::latest()->get();
+    }
+
+    public function getDepartments()
+    {
+        return Department::latest()->get(); 
     }
 }
