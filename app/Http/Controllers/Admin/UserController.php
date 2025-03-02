@@ -101,4 +101,11 @@ class UserController extends Controller implements HasMiddleware
 
         return response()->success('Success!', Response::HTTP_OK, $data);
     }
+
+    public function getDepartments()
+    {
+        $data = $this->userService->getDepartments();
+
+        return response()->success('Success', Response::HTTP_OK, $data); 
+    }
 }

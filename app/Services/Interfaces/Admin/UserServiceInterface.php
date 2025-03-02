@@ -15,4 +15,5 @@ interface UserServiceInterface
     public function getRoles();
     public function changeBlockStatus(User $user);
     public function changeHiddenStatus(User $user);
+    public function getDepartments();
 }
