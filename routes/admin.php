@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ReactionController;
+use App\Http\Controllers\Admin\ViewController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
@@ -38,6 +39,8 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::post('reactions', [ReactionController::class, 'store']);
     Route::get('ideas/{idea}/count-reactions', [ReactionController::class, 'getIdeaReactionCount']);
     Route::get('ideas/{idea}/reactions/me', [ReactionController::class, 'getUserReactionForIdea']);
+
+    Route::post('views', [ViewController::class, 'store']);
 
     Route::get('auth-user', [AuthController::class, 'getAuthUser']);
     Route::get('/get-all-roles', [UserController::class, 'getRoles']);

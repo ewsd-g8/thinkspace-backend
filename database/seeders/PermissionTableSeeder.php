@@ -193,6 +193,18 @@ class PermissionTableSeeder extends Seeder
                 'label' => 'Write',
                 'guard_name' => 'admin'
             ],
+            [
+                'category' => 'View Management',
+                'name' => 'view-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'View Management',
+                'name' => 'view-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
         ];
 
         foreach ($permissions as $permission) {
