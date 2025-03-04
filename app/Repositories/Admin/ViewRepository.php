@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Admin;
 
+use App\Models\Idea;
 use App\Models\View;
 
 class ViewRepository
@@ -29,5 +30,20 @@ class ViewRepository
              return $view;
          }
      }
+
+     public function getViewsCountByIdeaId($ideaId)
+     {
+         return View::where('idea_id', $ideaId)->count();
+     }
+
+
+    public function getUsersViewByIdea($ideaId)
+    {
+        return View::where('idea_id', $ideaId)
+            ->with('user:id,name,email,department_id')
+            ->with('user.department:id,name')
+            ->latest()
+            ->get();
+    }
      
 }
