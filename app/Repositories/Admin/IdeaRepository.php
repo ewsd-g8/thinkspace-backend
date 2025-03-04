@@ -36,7 +36,10 @@ class IdeaRepository
             $idea = $idea->paginate(10);
         }
 
-        return $idea;
+        return $idea->through(function ($item) {
+            $item->user_reaction = $item->getUserReactionAttribute();
+            return $item;
+        });
     }
 
     public function create(array $data): Idea

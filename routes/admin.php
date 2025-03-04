@@ -46,7 +46,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/permissions', [RoleController::class, 'getPermissions']);
     Route::get('/get-all-departments', [UserController::class, 'getDepartments']);
 
-    Route::get('reports/{report}/change-status', [ReportController::class, 'changeStatus']);
+    Route::get('reports/change-status/{report}', [ReportController::class, 'changeStatus']);
 });
 
 //dummy api for dropzone

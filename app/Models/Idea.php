@@ -13,7 +13,6 @@ class Idea extends Model
     use HasFactory, Uuids;
 
     protected $guarded = [];
-    protected $appends = ['user_reaction'];
 
     public function categories()
     {
@@ -24,7 +23,6 @@ class Idea extends Model
     {
         return $this->belongsTo(User::class);
     }
-
 
     public function closure()
     {
@@ -56,6 +54,7 @@ class Idea extends Model
     //     return $this->reactions()->where('user_id', auth()->id())->exists();
     // }
 
+    // get the user's reaction type / status for an idea
     public function getUserReactionAttribute()
     {
         $reaction = $this->reactions()->where('user_id', auth()->id())->first();
