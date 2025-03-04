@@ -193,6 +193,55 @@ class PermissionTableSeeder extends Seeder
                 'label' => 'Write',
                 'guard_name' => 'admin'
             ],
+            [
+                'category' => 'Report Type Management',
+                'name' => 'reportType-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Type Management',
+                'name' => 'reportType-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Type Management',
+                'name' => 'reportType-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Type Management',
+                'name' => 'reportType-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
+
+            [
+                'category' => 'Report Management',
+                'name' => 'report-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Management',
+                'name' => 'report-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Management',
+                'name' => 'report-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Management',
+                'name' => 'report-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
         ];
 
         foreach ($permissions as $permission) {

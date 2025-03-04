@@ -16,12 +16,6 @@ class CommentRepository
         return Comment::class;
     }
 
-    /**
-     * Get lists of carPost.
-     *
-     * @return Collection | static []
-     */
-
     public function getComments($request)
     {
         $comment = Comment::with(['user','idea'])->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
