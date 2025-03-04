@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\ReportTypeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -27,6 +29,8 @@ Route::group(['middleware' => 'auth:admin'], function () {
         'closures' => ClosureController::class,
         'ideas' => IdeaController::class,
         'comments' => CommentController::class,
+        'report-types' => ReportTypeController::class,
+        'reports' => ReportController::class,
     ]);
     Route::get('users/change-status/{user}', [UserController::class, 'changeStatus']);
     Route::get('users/block-status/{user}', [UserController::class, 'changeBlockStatus']);
@@ -44,6 +48,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/permissions', [RoleController::class, 'getPermissions']);
     Route::get('/get-all-departments', [UserController::class, 'getDepartments']);
 
+    Route::get('reports/{report}/change-status', [ReportController::class, 'changeStatus']);
 });
 
 //dummy api for dropzone

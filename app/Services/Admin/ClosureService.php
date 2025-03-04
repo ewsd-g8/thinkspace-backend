@@ -12,16 +12,8 @@ use App\Services\Interfaces\Admin\ClosureServiceInterface;
 
 class ClosureService implements ClosureServiceInterface
 {
-    /**
-      * @var roleRepository
-      */
     protected $closureRepository;
 
-    /**
-     * AppointmentService constructor.
-     *
-     * @param AppointmentRepository $appointmentRepository
-     */
     public function __construct(ClosureRepository $closureRepository)
     {
         $this->closureRepository = $closureRepository;

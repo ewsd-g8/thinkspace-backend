@@ -74,4 +74,11 @@ class CategoryRepository
             return $category->refresh();
         }
     }
+
+    public function getAllCategories($request)
+    {
+        $categories = Category::select('id', 'name', 'description', 'is_active');
+
+        return $categories;
+    }
 }

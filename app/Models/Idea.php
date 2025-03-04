@@ -40,6 +40,11 @@ class Idea extends Model
         return $this->hasMany(Document::class);
     }
 
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+
     public function scopeAdminSort($query, $sortType, $sortBy)
     {
         $sortFields = ['title', 'content'] ;
