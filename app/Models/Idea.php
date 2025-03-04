@@ -13,6 +13,7 @@ class Idea extends Model
     use HasFactory, Uuids;
 
     protected $guarded = [];
+    protected $appends = ['user_reaction'];
 
     public function categories()
     {
@@ -55,6 +56,11 @@ class Idea extends Model
     //     return $this->reactions()->where('user_id', auth()->id())->exists();
     // }
 
+    public function getUserReactionAttribute()
+    {
+        $reaction = $this->reactions()->where('user_id', auth()->id())->first();
+        return $reaction ? ($reaction->type ? true : false) : 'has not reacted';
+    }
 
     public function scopeAdminSort($query, $sortType, $sortBy)
     {

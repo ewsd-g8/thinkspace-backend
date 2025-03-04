@@ -28,8 +28,6 @@ class IdeaRepository
             'reactions as unlikes' => function ($query) {
                 $query->where('type', false);
             }])
-            ->withExists(['reactions as has_reacted' => function ($query) {
-            return $query->where('user_id', auth()->id());}])
             ->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
 
         if (request()->has('paginate')) {
