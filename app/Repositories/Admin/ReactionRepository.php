@@ -39,20 +39,4 @@ class ReactionRepository
             }
         }
     }
-
-    public function getIdeaReactionCount ($ideaId) 
-    {
-        $likeCount = Reaction::where('idea_id', $ideaId)->where('type', true)->count();
-        $unlikeCount = Reaction::where('idea_id', $ideaId)->where('type', false)->count();
-        return ['likes' => $likeCount, 'unlikes' => $unlikeCount];
-    }
-
-    public function getUserReactionForIdea ($userId, $ideaId)
-    {
-        $reaction = Reaction::where('user_id', $userId)->where('idea_id', $ideaId)->first();
-        return [
-            'idea_id' => $ideaId,
-            'type' => $reaction ? $reaction->type : null
-        ];
-    }
 }

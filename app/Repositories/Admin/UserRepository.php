@@ -22,12 +22,6 @@ class UserRepository
         return User::class;
     }
 
-    /**
-     * Get lists of carPost.
-     *
-     * @return Collection | static []
-     */
-
     public function getUsers($request)
     {
         $users = User::select('id', 'name', 'email', 'mobile', 'is_active', 'department_id', 'created_at', 'updated_at')->with(['roles','department' => function ($q) {

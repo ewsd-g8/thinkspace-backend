@@ -19,12 +19,6 @@ class DepartmentRepository
         return Department::class;
     }
 
-    /**
-     * Get lists of carPost.
-     *
-     * @return Collection | static []
-     */
-
     public function getDepartments($request)
     {
         $departments = Department::select('id', 'name', 'description', 'created_at', 'updated_at')
