@@ -3,7 +3,6 @@
 namespace App\Repositories\Admin;
 
 use App\Models\Idea;
-use App\Models\User;
 use App\Models\Document;
 use App\Helpers\MediaHelper;
 use Illuminate\Support\Facades\Storage;
@@ -21,7 +20,9 @@ class IdeaRepository
 
     public function getIdeas($request)
     {
-        $idea = Idea::with(['categories:id,name,description', 'user', 'closure', 'documents'])->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
+        $idea = Idea::with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])->withCount(['comments', 'reactions'])->withExists(['reactions as has_reacted' => function ($query) {
+            return $query->where('user_id', auth()->id());
+        }])->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
 
         if (request()->has('paginate')) {
             $idea = $idea->paginate(request()->get('paginate'));
@@ -69,7 +70,9 @@ class IdeaRepository
 
     public function getIdea($id)
     {
-        return Idea::where('id', $id)->with(['categories:id,name,description', 'user', 'closure', 'documents'])->first();
+        return Idea::where('id', $id)->with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])->withCount(['comments', 'reactions'])->withExists(['reactions as has_reacted' => function ($query) {
+            return $query->where('user_id', auth()->id());
+        }])->first();
     }
 
     public function update(Idea $idea, array $data): Idea
