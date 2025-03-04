@@ -27,7 +27,7 @@ class DepartmentRepository
 
     public function getDepartments($request)
     {
-        $departments = Department::select('id', 'name', 'description')
+        $departments = Department::select('id', 'name', 'description', 'created_at', 'updated_at')
         ->adminSort($request->sortType, $request->sortBy)
         ->adminSearch($request->search)
         ->latest();

@@ -30,7 +30,7 @@ class UserRepository
 
     public function getUsers($request)
     {
-        $users = User::select('id', 'name', 'email', 'mobile', 'is_active', 'department_id')->with(['roles','department' => function ($q) {
+        $users = User::select('id', 'name', 'email', 'mobile', 'is_active', 'department_id', 'created_at', 'updated_at')->with(['roles','department' => function ($q) {
             $q->select('id', 'name');
         }])->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
 
