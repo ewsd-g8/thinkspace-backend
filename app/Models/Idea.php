@@ -45,6 +45,17 @@ class Idea extends Model
         return $this->hasMany(Report::class);
     }
 
+    public function reactions()
+    {
+        return $this->hasMany(Reaction::class);
+    }
+
+    // public function getHasReactedAttribute()
+    // {
+    //     return $this->reactions()->where('user_id', auth()->id())->exists();
+    // }
+
+
     public function scopeAdminSort($query, $sortType, $sortBy)
     {
         $sortFields = ['title', 'content'] ;
