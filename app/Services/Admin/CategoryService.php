@@ -71,10 +71,9 @@ class CategoryService implements CategoryServiceInterface
     {
         return $this->categoryRepository->changeStatus($category);
     }
+
     public function getAllCategories()
     {
-        $result = $this->categoryRepository->getAllCategories();
-
-        return $result;
+        return $this->categoryRepository->getAllCategories();
     }
 }

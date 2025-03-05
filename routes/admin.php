@@ -43,8 +43,9 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::post('reactions', [ReactionController::class, 'store']);
 
     Route::get('auth-user', [AuthController::class, 'getAuthUser']);
-    Route::get('/get-all-roles', [UserController::class, 'getRoles']);
     Route::get('/permissions', [RoleController::class, 'getPermissions']);
+    Route::get('/get-all-roles', [UserController::class, 'getRoles']);
+    Route::get('/get-all-categories', [CategoryController::class, 'getAllCategories']);
     Route::get('/get-all-departments', [UserController::class, 'getDepartments']);
 
     Route::get('reports/change-status/{report}', [ReportController::class, 'changeStatus']);

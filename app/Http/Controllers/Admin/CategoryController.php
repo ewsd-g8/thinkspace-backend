@@ -86,11 +86,11 @@ class CategoryController extends Controller implements HasMiddleware
 
         return response()->success('Success!', Response::HTTP_OK);
     }
+
     public function getAllCategories()
     {
-        $categories = $this->catergoryService->getAllCategories();
+        $data = $this->catergoryService->getAllCategories();
 
-        return response()->success('Success!', Response::HTTP_OK, $categories);
+        return response()->success('Success', Response::HTTP_OK, $data); 
     }
-
 }
