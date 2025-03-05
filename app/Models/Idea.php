@@ -24,7 +24,6 @@ class Idea extends Model
         return $this->belongsTo(User::class);
     }
 
-
     public function closure()
     {
         return $this->belongsTo(Closure::class); // Ensure correct foreign key
@@ -40,6 +39,11 @@ class Idea extends Model
         return $this->hasMany(Document::class);
     }
 
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
+
     public function reactions()
     {
         return $this->hasMany(Reaction::class);
@@ -50,6 +54,12 @@ class Idea extends Model
     //     return $this->reactions()->where('user_id', auth()->id())->exists();
     // }
 
+    // get the user's reaction type / status for an idea
+    public function getUserReactionAttribute()
+    {
+        $reaction = $this->reactions()->where('user_id', auth()->id())->first();
+        return $reaction ? ($reaction->type ? true : false) : 'has not reacted';
+    }
 
     public function scopeAdminSort($query, $sortType, $sortBy)
     {

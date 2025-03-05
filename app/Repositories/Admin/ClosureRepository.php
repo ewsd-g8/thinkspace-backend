@@ -16,7 +16,7 @@ class ClosureRepository
 
     public function getClosures($request)
     {
-        $closures = Closure::select('id', 'name', 'date', 'final_date')->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
+        $closures = Closure::select('id', 'name', 'date', 'final_date', 'created_at', 'updated_at')->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
 
         if (request()->has('paginate')) {
             $closures = $closures->paginate(request()->get('paginate'));

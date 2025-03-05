@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\ReportType;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ReportType>
  */
-class CategoryFactory extends Factory
+class ReportTypeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,9 +18,8 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->word(),
-            'description' => $this->faker->paragraph(),
-            'is_active' => true
+            "name" => $this->faker->word(),
+            "description" => $this->faker->paragraph(),
         ];
     }
 }
