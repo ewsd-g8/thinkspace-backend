@@ -31,12 +31,6 @@ class ViewRepository
          }
      }
 
-     public function getViewsCountByIdeaId($ideaId)
-     {
-         return View::where('idea_id', $ideaId)->count();
-     }
-
-
     public function getUsersViewByIdea($ideaId)
     {
         return View::where('idea_id', $ideaId)

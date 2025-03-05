@@ -18,6 +18,7 @@ class ViewController extends Controller
     public function middleware(): array{
         return [
             new Middleware('permission:view-create', only: ['increaseView']),
+            new Middleware('permission:view-list', only: ['getUsersViewByIdea']),
         ];
     }
 
@@ -31,5 +32,12 @@ class ViewController extends Controller
         $this->viewService->increaseView($request->all());
 
         return response()->success('Success!', Response::HTTP_OK);
+    }
+
+    public function getUsersViewByIdea($ideaId)
+    {
+        $views = $this->viewService->getUsersViewByIdea($ideaId);
+
+        return response()->success('Success!', Response::HTTP_OK, $views);
     }
 }

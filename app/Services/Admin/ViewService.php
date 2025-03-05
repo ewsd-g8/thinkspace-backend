@@ -31,4 +31,9 @@ class ViewService
         return $result;
     }
 
+    public function getUsersViewByIdea($ideaId)
+    {
+        return $this->viewRepository->getUsersViewByIdea($ideaId);
+    }
+
 }

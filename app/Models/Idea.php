@@ -38,12 +38,10 @@ class Idea extends Model
     {
         return $this->hasMany(Document::class);
     }
-<<<<<<< HEAD
     public function views()
     {
         return $this->hasMany(View::class);
     }
-=======
 
     public function reports()
     {
@@ -67,7 +65,6 @@ class Idea extends Model
         return $reaction ? ($reaction->type ? true : false) : 'has not reacted';
     }
 
->>>>>>> 8b8c7ed947cd8aea6a69c1cc68c61074d3c668c0
     public function scopeAdminSort($query, $sortType, $sortBy)
     {
         $sortFields = ['title', 'content'] ;

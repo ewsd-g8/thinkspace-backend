@@ -43,6 +43,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::post('reactions', [ReactionController::class, 'store']);
 
     Route::post('views', [ViewController::class, 'store']);
+    Route::get('views/get-users-view-idea/{idea}', [ViewController::class,'getUsersViewByIdea']);
 
     Route::get('auth-user', [AuthController::class, 'getAuthUser']);
     Route::get('/get-all-roles', [UserController::class, 'getRoles']);
