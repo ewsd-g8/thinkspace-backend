@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ReactionController;
+use App\Http\Controllers\Admin\ViewController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
@@ -41,10 +42,14 @@ Route::group(['middleware' => 'auth:admin'], function () {
 
     Route::post('reactions', [ReactionController::class, 'store']);
 
+    Route::post('views', [ViewController::class, 'store']);
+    Route::get('views/get-users-view-idea/{idea}', [ViewController::class,'getUsersViewByIdea']);
+
     Route::get('auth-user', [AuthController::class, 'getAuthUser']);
     Route::get('/get-all-roles', [UserController::class, 'getRoles']);
     Route::get('/permissions', [RoleController::class, 'getPermissions']);
     Route::get('/get-all-departments', [UserController::class, 'getDepartments']);
+    Route::get('/get-all-report-types', [ReportTypeController::class, 'getAllReportTypes']);
 
     Route::get('reports/change-status/{report}', [ReportController::class, 'changeStatus']);
 });
