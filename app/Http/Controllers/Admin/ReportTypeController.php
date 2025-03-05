@@ -56,4 +56,11 @@ class ReportTypeController extends Controller implements HasMiddleware
 
         return response()->success('Success!', Response::HTTP_OK, $updated);
     }
+
+    public function getAllReportTypes()
+    {
+        $data = $this->reportTypeService->getAllReportTypes();
+
+        return response()->success('Success', Response::HTTP_OK, $data); 
+    }
 }

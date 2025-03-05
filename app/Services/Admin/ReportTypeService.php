@@ -61,4 +61,9 @@ class ReportTypeService implements ReportTypeServiceInterface
 
         return $result;
     }
+
+    public function getAllReportTypes()
+    {
+        return $this->ReportTypeRepository->getAllReportTypes();
+    }
 }

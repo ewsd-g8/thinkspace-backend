@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/get-all-roles', [UserController::class, 'getRoles']);
     Route::get('/permissions', [RoleController::class, 'getPermissions']);
     Route::get('/get-all-departments', [UserController::class, 'getDepartments']);
+    Route::get('/get-all-report-types', [ReportTypeController::class, 'getAllReportTypes']);
 
     Route::get('reports/change-status/{report}', [ReportController::class, 'changeStatus']);
 });
