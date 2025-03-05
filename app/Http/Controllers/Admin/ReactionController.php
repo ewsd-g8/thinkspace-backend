@@ -38,6 +38,8 @@ class ReactionController extends Controller implements HasMiddleware
                                 : response()->success('Reaction set', Response::HTTP_OK, $result);
     }
 
+
+
     public function getIdeaReactionCount ($idea)
     {
         $count = $this->reactionService->getIdeaReactionCount($idea);

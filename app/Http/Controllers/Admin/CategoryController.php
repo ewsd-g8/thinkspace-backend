@@ -21,7 +21,7 @@ class CategoryController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('permission:category-list', only: ['index', 'show']),
+            new Middleware('permission:category-list', only: ['index', 'show','getAllCategories']),
             new Middleware('permission:category-create', only: ['store']),
             new Middleware('permission:category-edit', only: ['update', 'changeStatus'])
         ];
@@ -86,4 +86,11 @@ class CategoryController extends Controller implements HasMiddleware
 
         return response()->success('Success!', Response::HTTP_OK);
     }
+    public function getAllCategories()
+    {
+        $categories = $this->catergoryService->getAllCategories();
+
+        return response()->success('Success!', Response::HTTP_OK, $categories);
+    }
+
 }

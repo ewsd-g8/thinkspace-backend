@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 interface CategoryServiceInterface
 {
     public function getCategories(Request $request);
+    public function getAllCategories();
     public function create(array $data);
     public function update(Category $category, array $data);
     public function getCategory($id);

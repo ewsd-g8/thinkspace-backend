@@ -121,10 +121,9 @@ class UserRepository
             $user->save();
         }
 
-        $role_array = [];
-        $role_array[] = $data['roles'];
-        $user->assignRole($role_array);
-
+        if (isset($data['roles'])) {
+            $user->syncRoles($data['roles']); // Use syncRoles to replace existing roles
+        }
         return $user;
     }
 

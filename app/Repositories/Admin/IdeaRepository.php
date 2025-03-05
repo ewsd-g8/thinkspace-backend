@@ -27,7 +27,7 @@ class IdeaRepository
         if (request()->has('paginate')) {
             $idea = $idea->paginate(request()->get('paginate'));
         } else {
-            $idea = $idea->paginate(10);
+            $idea = $idea->paginate(5);
         }
 
         return $idea;
