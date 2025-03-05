@@ -46,8 +46,9 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('views/get-users-view-idea/{idea}', [ViewController::class,'getUsersViewByIdea']);
 
     Route::get('auth-user', [AuthController::class, 'getAuthUser']);
-    Route::get('/get-all-roles', [UserController::class, 'getRoles']);
     Route::get('/permissions', [RoleController::class, 'getPermissions']);
+    Route::get('/get-all-roles', [UserController::class, 'getRoles']);
+    Route::get('/get-all-categories', [CategoryController::class, 'getAllCategories']);
     Route::get('/get-all-departments', [UserController::class, 'getDepartments']);
     Route::get('/get-all-report-types', [ReportTypeController::class, 'getAllReportTypes']);
 

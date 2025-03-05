@@ -12,4 +12,5 @@ interface CategoryServiceInterface
     public function update(Category $category, array $data);
     public function getCategory($id);
     public function changeStatus(Category $category);
+    public function getAllCategories();
 }
