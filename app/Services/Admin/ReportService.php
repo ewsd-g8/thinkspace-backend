@@ -48,6 +48,15 @@ class ReportService implements ReportServiceInterface
 
     public function changeStatus(Report $report)
     {
-        return $this->reportRepository->changeStatus($report);
+        DB::beginTransaction();
+        try {
+            $result = $this->reportRepository->changeStatus($report);
+        } catch (Exception $exc) {
+            DB::rollBack();
+            Log::error($exc->getMessage());
+            throw new InvalidArgumentException('Unable to change report status');
+        }
+        DB::commit();
+        return $result;
     }
 }

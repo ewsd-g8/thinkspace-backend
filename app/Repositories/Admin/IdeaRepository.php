@@ -21,11 +21,11 @@ class IdeaRepository
     public function getIdeas($request)
     {
         $idea = Idea::with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])->withCount([
-            'comments',
-            'reactions as likes' => function ($query) {
+            'comments', 'views',
+            'reactions as likes_count' => function ($query) {
                 $query->where('type', true);
             },
-            'reactions as unlikes' => function ($query) {
+            'reactions as unlikes_count' => function ($query) {
                 $query->where('type', false);
             }])
             ->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
@@ -37,7 +37,7 @@ class IdeaRepository
         }
 
         return $idea->through(function ($item) {
-            $item->user_reaction = $item->getUserReactionAttribute();
+            $item->user_reaction = $item->getUserReactionType();
             return $item;
         });
     }
@@ -79,9 +79,20 @@ class IdeaRepository
 
     public function getIdea($id)
     {
-        return Idea::where('id', $id)->with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])->withCount(['comments', 'reactions'])->withExists(['reactions as has_reacted' => function ($query) {
-            return $query->where('user_id', auth()->id());
-        }])->first();
+        $idea = Idea::where('id', $id)->with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])
+            ->withCount(['comments', 'views', 
+            'reactions as likes_count' => function ($query) {
+                $query->where('type', true);
+            },
+            'reactions as unlikes_count' => function ($query) {
+                $query->where('type', false);
+            }])
+            ->first();
+
+        if($idea) {
+            $idea->user_reaction = $idea->getUserReactionType();
+        }
+        return $idea;
     }
 
     public function update(Idea $idea, array $data): Idea

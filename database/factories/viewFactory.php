@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Closure;
+use App\Models\Idea;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Idea>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\View>
  */
-class IdeaFactory extends Factory
+class ViewFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,9 +19,7 @@ class IdeaFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence(),
-            'content' => $this->faker->paragraphs(3, true),
-            'closure_id' => fn () => Closure::inRandomOrder()->first()->id ?? Closure::factory()->create()->id,
+            'idea_id' => fn () => Idea::inRandomOrder()->first()->id ?? Idea::factory()->create()->id,
             'user_id' => fn () => User::inRandomOrder()->first()->id ?? User::factory()->create()->id,
         ];
     }
