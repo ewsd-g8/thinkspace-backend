@@ -19,7 +19,7 @@ class CategoryRepository
 
     public function getCategories($request)
     {
-        $categories = Category::select('id', 'name', 'description', 'is_active','created_at','updated_at')->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
+        $categories = Category::select('id', 'name', 'description', 'is_active', 'created_at', 'updated_at')->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
 
         if (request()->has('paginate')) {
             $categories = $categories->paginate(request()->get('paginate'));
@@ -74,13 +74,11 @@ class CategoryRepository
             return $category->refresh();
         }
     }
-    public function getAllCategories()
+
+    public function getAllCategories($request)
     {
+        $categories = Category::select('id', 'name', 'description', 'is_active');
 
-        $categories = Category:: latest() -> get();
-        return  $categories;
-
-        
-         
+        return $categories;
     }
 }

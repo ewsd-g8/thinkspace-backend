@@ -20,9 +20,15 @@ class IdeaRepository
 
     public function getIdeas($request)
     {
-        $idea = Idea::with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])->withCount(['comments', 'reactions'])->withExists(['reactions as has_reacted' => function ($query) {
-            return $query->where('user_id', auth()->id());
-        }])->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
+        $idea = Idea::with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])->withCount([
+            'comments',
+            'reactions as likes' => function ($query) {
+                $query->where('type', true);
+            },
+            'reactions as unlikes' => function ($query) {
+                $query->where('type', false);
+            }])
+            ->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
 
         if (request()->has('paginate')) {
             $idea = $idea->paginate(request()->get('paginate'));
@@ -30,7 +36,10 @@ class IdeaRepository
             $idea = $idea->paginate(5);
         }
 
-        return $idea;
+        return $idea->through(function ($item) {
+            $item->user_reaction = $item->getUserReactionAttribute();
+            return $item;
+        });
     }
 
     public function create(array $data): Idea

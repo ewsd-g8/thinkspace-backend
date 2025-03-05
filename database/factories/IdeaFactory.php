@@ -25,7 +25,6 @@ class IdeaFactory extends Factory
             'content' => $this->faker->paragraphs(3, true),
             'closure_id' => fn () => Closure::inRandomOrder()->first()->id ?? Closure::factory()->create()->id,
             'user_id' => fn () => User::inRandomOrder()->first()->id ?? User::factory()->create()->id,
-            'category_id' => fn () => Category::inRandomOrder()->first()->id ?? Category::factory()->create()->id,
         ];
     }
 }

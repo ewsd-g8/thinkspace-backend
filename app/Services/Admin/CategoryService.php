@@ -12,16 +12,8 @@ use App\Services\Interfaces\Admin\CategoryServiceInterface;
 
 class CategoryService implements CategoryServiceInterface
 {
-    /**
-      * @var roleRepository
-      */
     protected $categoryRepository;
 
-    /**
-     * AppointmentService constructor.
-     *
-     * @param AppointmentRepository $appointmentRepository
-     */
     public function __construct(CategoryRepository $categoryRepository)
     {
         $this->categoryRepository = $categoryRepository;
