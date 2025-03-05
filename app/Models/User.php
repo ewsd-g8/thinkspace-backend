@@ -50,9 +50,18 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
-    public function reports() 
+    public function views()
+    {
+        return $this->hasMany(View::class);
+    }
+    public function reports()
     {
         $this->hasMany(Report::class);
+    }
+
+    public function browsers()
+    {
+        return $this->belongsToMany(Browser::class, 'browser_user', 'user_id', 'browser_id');
     }
     /**
      * The attributes that should be hidden for serialization.

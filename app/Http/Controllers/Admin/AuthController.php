@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Browser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
+use Jenssegers\Agent\Agent;
 
 class AuthController extends Controller
 {
@@ -25,6 +27,10 @@ class AuthController extends Controller
                 if (!$user->is_active) {
                     return response()->error("Account is not active. Please contact admin to login.", Response::HTTP_FORBIDDEN, ['email' => ['Inactive account!']]);
                 }
+
+                $agent = new Agent();
+                $browser = Browser::firstOrCreate(['name' => $agent->browser()]);
+                $user->browsers()->syncWithoutDetaching([$browser->id]);
 
                 Auth::guard('admin')->setUser($user);
                 $data['access_token'] = $user->createToken('adminAuthToken')->accessToken;

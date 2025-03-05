@@ -21,7 +21,7 @@ class IdeaRepository
     public function getIdeas($request)
     {
         $idea = Idea::with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])->withCount([
-            'comments',
+            'comments', 'views',
             'reactions as likes' => function ($query) {
                 $query->where('type', true);
             },
@@ -79,9 +79,20 @@ class IdeaRepository
 
     public function getIdea($id)
     {
-        return Idea::where('id', $id)->with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])->withCount(['comments', 'reactions'])->withExists(['reactions as has_reacted' => function ($query) {
-            return $query->where('user_id', auth()->id());
-        }])->first();
+        $idea = Idea::where('id', $id)->with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])
+            ->withCount(['comments', 'views', 
+            'reactions as likes' => function ($query) {
+                $query->where('type', true);
+            },
+            'reactions as unlikes' => function ($query) {
+                $query->where('type', false);
+            }])
+            ->first();
+
+        if($idea) {
+            $idea->user_reaction = $idea->getUserReactionType();
+        }
+        return $idea;
     }
 
     public function update(Idea $idea, array $data): Idea
