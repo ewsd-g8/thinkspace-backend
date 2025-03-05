@@ -75,10 +75,8 @@ class CategoryRepository
         }
     }
 
-    public function getAllCategories($request)
+    public function getAllCategories()
     {
-        $categories = Category::select('id', 'name', 'description', 'is_active');
-
-        return $categories;
+        return Category::latest()->get();
     }
 }

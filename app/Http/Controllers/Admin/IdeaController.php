@@ -77,18 +77,4 @@ class IdeaController extends Controller implements HasMiddleware
     {
         //
     }
-
-    // public function changeStatus(Closure $closure)
-    // {
-    //     $this->catergoryService->changeStatus($closure);
-
-    //     return response()->success('Success!', Response::HTTP_OK);
-    // }
-
-    public function increaseViews(Idea $idea)
-    {
-        $this->ideaService->increaseViews($idea);
-
-        return response()->success('Success!', Response::HTTP_OK);
-    }
 }

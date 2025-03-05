@@ -67,14 +67,4 @@ class IdeaService implements IdeaServiceInterface
 
         return $result;
     }
-
-    //  public function changeStatus(Closure $closure)
-    //  {
-    //      return $this->closureRepository->changeStatus($closure);
-    //  }
-
-    public function increaseViews(Idea $idea)
-    {
-        return $this->ideaRepository->increaseViews($idea);
-    }
 }
