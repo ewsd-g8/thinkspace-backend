@@ -21,11 +21,11 @@ class IdeaRepository
     public function getIdeas($request)
     {
         $idea = Idea::with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])->withCount([
-            'comments',
-            'reactions as likes' => function ($query) {
+            'comments', 'views',
+            'reactions as likes_count' => function ($query) {
                 $query->where('type', true);
             },
-            'reactions as unlikes' => function ($query) {
+            'reactions as unlikes_count' => function ($query) {
                 $query->where('type', false);
             }])
             ->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();

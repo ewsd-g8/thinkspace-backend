@@ -2,7 +2,7 @@
 
 namespace App\Services\Interfaces\Admin;
 
-interface ReactionServiceInterface
+interface ViewServiceInterface
 {
     public function increaseView(array $data);
     public function getUsersViewByIdea($ideaId);

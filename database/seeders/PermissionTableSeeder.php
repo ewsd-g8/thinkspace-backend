@@ -194,24 +194,36 @@ class PermissionTableSeeder extends Seeder
                 'guard_name' => 'admin'
             ],
             [
-<<<<<<< HEAD
                 'category' => 'View Management',
                 'name' => 'view-list',
-=======
-                'category' => 'Report Type Management',
-                'name' => 'reportType-list',
->>>>>>> 8b8c7ed947cd8aea6a69c1cc68c61074d3c668c0
                 'label' => 'Read',
                 'guard_name' => 'admin'
             ],
             [
-<<<<<<< HEAD
                 'category' => 'View Management',
                 'name' => 'view-create',
                 'label' => 'Write',
                 'guard_name' => 'admin'
             ],
-=======
+            [
+                'category' => 'View Management',
+                'name' => 'view-update',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'View Management',
+                'name' => 'view-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Type Management',
+                'name' => 'reportType-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
                 'category' => 'Report Type Management',
                 'name' => 'reportType-create',
                 'label' => 'Write',
@@ -254,7 +266,6 @@ class PermissionTableSeeder extends Seeder
                 'label' => 'Destroy',
                 'guard_name' => 'admin'
             ],
->>>>>>> 8b8c7ed947cd8aea6a69c1cc68c61074d3c668c0
         ];
 
         foreach ($permissions as $permission) {
