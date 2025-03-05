@@ -22,10 +22,10 @@ class IdeaRepository
     {
         $idea = Idea::with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])->withCount([
             'comments', 'views',
-            'reactions as likes_count' => function ($query) {
+            'reactions as likes' => function ($query) {
                 $query->where('type', true);
             },
-            'reactions as unlikes_count' => function ($query) {
+            'reactions as unlikes' => function ($query) {
                 $query->where('type', false);
             }])
             ->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
@@ -81,10 +81,10 @@ class IdeaRepository
     {
         $idea = Idea::where('id', $id)->with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])
             ->withCount(['comments', 'views', 
-            'reactions as likes_count' => function ($query) {
+            'reactions as likes' => function ($query) {
                 $query->where('type', true);
             },
-            'reactions as unlikes_count' => function ($query) {
+            'reactions as unlikes' => function ($query) {
                 $query->where('type', false);
             }])
             ->first();
