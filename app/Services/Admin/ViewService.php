@@ -3,12 +3,13 @@
 namespace App\Services\Admin;
 
 use App\Repositories\Admin\ViewRepository;
+use App\Services\Interfaces\Admin\ViewServiceInterface;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 
-class ViewService 
+class ViewService implements ViewServiceInterface
 {
     protected $viewRepository;
     

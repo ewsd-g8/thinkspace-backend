@@ -59,7 +59,7 @@ class Idea extends Model
     // }
 
     // get the user's reaction type / status for an idea
-    public function getUserReactionAttribute()
+    public function getUserReactionType()
     {
         $reaction = $this->reactions()->where('user_id', auth()->id())->first();
         return $reaction ? ($reaction->type ? true : false) : 'has not reacted';
