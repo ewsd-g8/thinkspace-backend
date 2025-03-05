@@ -38,6 +38,10 @@ class Idea extends Model
     {
         return $this->hasMany(Document::class);
     }
+    public function views()
+    {
+        return $this->hasMany(View::class);
+    }
 
     public function reports()
     {

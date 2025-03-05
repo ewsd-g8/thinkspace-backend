@@ -79,7 +79,7 @@ class IdeaRepository
 
     public function getIdea($id)
     {
-        return Idea::where('id', $id)->with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])->withCount(['comments', 'reactions'])->withExists(['reactions as has_reacted' => function ($query) {
+        return Idea::where('id', $id)->with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])->withCount(['comments', 'reactions', 'views'])->withExists(['reactions as has_reacted' => function ($query) {
             return $query->where('user_id', auth()->id());
         }])->first();
     }
