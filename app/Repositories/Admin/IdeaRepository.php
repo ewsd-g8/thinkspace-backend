@@ -146,12 +146,6 @@ class IdeaRepository
 
         return $idea;
     }
-
-    public function increaseViews(Idea $idea)
-    {
-        $idea->increment('views');
-    }
-
     //  public function changeStatus(Closure $closure)
     //  {
     //      if ($closure->is_active == 0) {

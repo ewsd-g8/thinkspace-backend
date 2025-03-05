@@ -38,7 +38,6 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('users/hide-status/{user}', [UserController::class, 'changeHiddenStatus']);    
 
     Route::get('categories/change-status/{category}', [CategoryController::class, 'changeStatus']);
-    Route::get('ideas/increase-views/{idea}', [IdeaController::class, 'increaseViews']);
 
     Route::post('reactions', [ReactionController::class, 'store']);
 
