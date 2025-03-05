@@ -21,7 +21,7 @@ class IdeaRepository
     public function getIdeas($request)
     {
         $idea = Idea::with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])->withCount([
-            'comments', 'views',
+            'comments',
             'reactions as likes' => function ($query) {
                 $query->where('type', true);
             },
