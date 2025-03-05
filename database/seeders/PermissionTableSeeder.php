@@ -194,17 +194,67 @@ class PermissionTableSeeder extends Seeder
                 'guard_name' => 'admin'
             ],
             [
+<<<<<<< HEAD
                 'category' => 'View Management',
                 'name' => 'view-list',
+=======
+                'category' => 'Report Type Management',
+                'name' => 'reportType-list',
+>>>>>>> 8b8c7ed947cd8aea6a69c1cc68c61074d3c668c0
                 'label' => 'Read',
                 'guard_name' => 'admin'
             ],
             [
+<<<<<<< HEAD
                 'category' => 'View Management',
                 'name' => 'view-create',
                 'label' => 'Write',
                 'guard_name' => 'admin'
             ],
+=======
+                'category' => 'Report Type Management',
+                'name' => 'reportType-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Type Management',
+                'name' => 'reportType-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Type Management',
+                'name' => 'reportType-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
+
+            [
+                'category' => 'Report Management',
+                'name' => 'report-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Management',
+                'name' => 'report-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Management',
+                'name' => 'report-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Management',
+                'name' => 'report-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
+>>>>>>> 8b8c7ed947cd8aea6a69c1cc68c61074d3c668c0
         ];
 
         foreach ($permissions as $permission) {

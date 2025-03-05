@@ -30,14 +30,4 @@ class ReactionService
         DB::commit();
         return $result;
     }
-
-    public function getIdeaReactionCount ($ideaId)
-    {
-        return $this->reactionRepository->getIdeaReactionCount($ideaId);
-    }
-
-    public function getUserReactionForIdea ($userId, $ideaId)
-    {
-        return $this->reactionRepository->getUserReactionForIdea($userId, $ideaId);
-    }
 }

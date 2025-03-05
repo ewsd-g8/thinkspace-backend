@@ -45,15 +45,20 @@ class User extends Authenticatable
         return $this->hasMany(Idea::class);
     }
 
-
     public function comments()
     {
         return $this->hasMany(Comment::class);
     }
 
+<<<<<<< HEAD
     public function views()
     {
         return $this->hasMany(View::class);
+=======
+    public function reports() 
+    {
+        $this->hasMany(Report::class);
+>>>>>>> 8b8c7ed947cd8aea6a69c1cc68c61074d3c668c0
     }
     /**
      * The attributes that should be hidden for serialization.
