@@ -55,9 +55,4 @@ class ReportTypeRepository
 
         return $reportType;
     }
-
-    public function getAllReportTypes()
-    {
-        return ReportType::latest()->get(); 
-    }
 }

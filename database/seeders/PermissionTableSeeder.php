@@ -194,30 +194,6 @@ class PermissionTableSeeder extends Seeder
                 'guard_name' => 'admin'
             ],
             [
-                'category' => 'View Management',
-                'name' => 'view-list',
-                'label' => 'Read',
-                'guard_name' => 'admin'
-            ],
-            [
-                'category' => 'View Management',
-                'name' => 'view-create',
-                'label' => 'Write',
-                'guard_name' => 'admin'
-            ],
-            [
-                'category' => 'View Management',
-                'name' => 'view-update',
-                'label' => 'Update',
-                'guard_name' => 'admin'
-            ],
-            [
-                'category' => 'View Management',
-                'name' => 'view-delete',
-                'label' => 'Destroy',
-                'guard_name' => 'admin'
-            ],
-            [
                 'category' => 'Report Type Management',
                 'name' => 'reportType-list',
                 'label' => 'Read',
