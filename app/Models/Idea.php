@@ -79,7 +79,19 @@ class Idea extends Model
     {
         if (!is_null($search)) {
             $query->where('title', 'like', "%$search%")
-                  ->orWhere('content', 'like', "%$search%");
+                  ->orWhere('content', 'like', "%$search%")
+                  ->orWhereHas('categories', function ($query) use ($search) {
+                      $query->where('name', 'like', "%$search%");
+                  });
         }
+    }
+    public function scopeFilterByCategories($query, $categoryIds)
+    {
+        if (!empty($categoryIds)) {
+            return $query->whereHas('categories', function ($query) use ($categoryIds) {
+                $query->whereIn('categories.name', $categoryIds);
+            });
+        }
+        return $query;
     }
 }
