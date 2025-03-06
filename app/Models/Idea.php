@@ -85,6 +85,14 @@ class Idea extends Model
                   });
         }
     }
+
+    public function scopeFilterHiddenUser($query)
+    {
+        $query->whereHas('user', function ($q) {
+            $q->where('is_hidden', false);
+        });
+    }
+
     public function scopeFilterByCategory($query, $category)
     {
         if ($category) {

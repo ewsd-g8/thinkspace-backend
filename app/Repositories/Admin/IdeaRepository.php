@@ -31,6 +31,7 @@ class IdeaRepository
                     $query->where('type', false);
                 }
             ])
+            ->filterHiddenUser()
             ->when($request->search, function ($query) use ($request) {
                 $query->adminSearch($request->search);
             })
