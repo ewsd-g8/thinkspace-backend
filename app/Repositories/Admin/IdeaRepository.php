@@ -20,34 +20,42 @@ class IdeaRepository
 
     public function getIdeas($request)
     {
-        $idea = Idea::with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])->withCount([
-            'comments',
-            'views',
-            'reactions as likes' => function ($query) {
-                $query->where('type', true);
-            },
-            'reactions as unlikes' => function ($query) {
-                $query->where('type', false);
-            }
-        ])
-        ->when($request->categories, function($query) use ($request) {
-            $query->filterByCategories($request->categories);
-        })
-        ->when($request->departments, function($query) use ($request) {
-            $query->filterByDepartments($request->departments);
-        })
-        ->when($request->closures, function($query) use ($request) {
-            $query->filterByClosures($request->closures);
-        })
-        ->adminSort($request->sortType, $request->sortBy)
-        ->adminSearch($request->search)
-        ->latest();
-        
+        $idea = Idea::with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])
+            ->withCount([
+                'comments',
+                'views',
+                'reactions as likes' => function ($query) {
+                    $query->where('type', true);
+                },
+                'reactions as unlikes' => function ($query) {
+                    $query->where('type', false);
+                }
+            ])
+            ->when($request->search, function ($query) use ($request) {
+                $query->adminSearch($request->search);
+            })
+            ->when($request->category, function ($query) use ($request) {
+                $query->filterByCategory($request->category);
+            })
+            ->when($request->department, function ($query) use ($request) {
+                $query->filterByDepartment($request->department);
+            })
+            ->when($request->closure, function ($query) use ($request) {
+                $query->filterByClosure($request->closure);
+            })
+            ->when($request->contentLength, function ($query) use ($request) {
+                $query->filterByContentLength($request->contentLength);
+            })
+            ->when($request->sort, function ($query) use ($request) {
+                $query->customSort($request->sort);
+            }, function ($query) use ($request) {
+                $query->adminSort($request->sortType, $request->sortBy);
+            });
 
         if (request()->has('paginate')) {
             $idea = $idea->paginate(request()->get('paginate'));
         } else {
-            $idea = $idea->paginate(10);
+            $idea = $idea->paginate(5);
         }
 
         return $idea->through(function ($item) {
