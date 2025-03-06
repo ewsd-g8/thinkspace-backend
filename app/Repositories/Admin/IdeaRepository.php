@@ -21,14 +21,28 @@ class IdeaRepository
     public function getIdeas($request)
     {
         $idea = Idea::with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])->withCount([
-            'comments', 'views',
+            'comments',
+            'views',
             'reactions as likes' => function ($query) {
                 $query->where('type', true);
             },
             'reactions as unlikes' => function ($query) {
                 $query->where('type', false);
-            }])
-            ->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
+            }
+        ])
+        ->when($request->categories, function($query) use ($request) {
+            $query->filterByCategories($request->categories);
+        })
+        ->when($request->departments, function($query) use ($request) {
+            $query->filterByDepartments($request->departments);
+        })
+        ->when($request->closures, function($query) use ($request) {
+            $query->filterByClosures($request->closures);
+        })
+        ->adminSort($request->sortType, $request->sortBy)
+        ->adminSearch($request->search)
+        ->latest();
+        
 
         if (request()->has('paginate')) {
             $idea = $idea->paginate(request()->get('paginate'));
@@ -57,7 +71,7 @@ class IdeaRepository
 
         if (isset($data['documents'])) {
             if (count($data['documents'])) {
-                for ($document=0; $document < count($data['documents']) ; $document++) {
+                for ($document = 0; $document < count($data['documents']); $document++) {
                     $mediaHelper = new MediaHelper($data['documents'][$document], 'documents');
                     $media = $mediaHelper->save();
                     if ($media['status'] == false) {
@@ -80,16 +94,19 @@ class IdeaRepository
     public function getIdea($id)
     {
         $idea = Idea::where('id', $id)->with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])
-            ->withCount(['comments', 'views', 
-            'reactions as likes' => function ($query) {
-                $query->where('type', true);
-            },
-            'reactions as unlikes' => function ($query) {
-                $query->where('type', false);
-            }])
+            ->withCount([
+                'comments',
+                'views',
+                'reactions as likes' => function ($query) {
+                    $query->where('type', true);
+                },
+                'reactions as unlikes' => function ($query) {
+                    $query->where('type', false);
+                }
+            ])
             ->first();
 
-        if($idea) {
+        if ($idea) {
             $idea->user_reaction = $idea->getUserReactionType();
         }
         return $idea;
@@ -127,7 +144,7 @@ class IdeaRepository
                     }
                 }
 
-                for ($document=0; $document < count($data['documents']) ; $document++) {
+                for ($document = 0; $document < count($data['documents']); $document++) {
                     $mediaHelper = new MediaHelper($data['documents'][$document], 'documents');
                     $media = $mediaHelper->save();
                     if ($media['status'] == false) {

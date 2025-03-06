@@ -79,7 +79,36 @@ class Idea extends Model
     {
         if (!is_null($search)) {
             $query->where('title', 'like', "%$search%")
-                  ->orWhere('content', 'like', "%$search%");
+                  ->orWhere('content', 'like', "%$search%")
+                  ->orWhereHas('categories', function ($query) use ($search) {
+                      $query->where('name', 'like', "%$search%");
+                  });
         }
+    }
+    public function scopeFilterByCategories($query, $categoryIds)
+    {
+        if (!empty($categoryIds)) {
+            return $query->whereHas('categories', function ($query) use ($categoryIds) {
+                $query->whereIn('categories.id', $categoryIds);
+            });
+        }
+        return $query;
+    }
+    public function scopeFilterByDepartments($query, $departmentIds)
+    {
+        if (!empty($departmentIds)) {
+            return $query->whereHas('user', function ($query) use ($departmentIds) {
+                $query->whereIn('department_id', $departmentIds);
+            });
+        }
+        return $query;
+    }
+
+    public function scopeFilterByClosures($query, $closureIds)
+    {
+        if (!empty($closureIds)) {
+            return $query->whereIn('closure_id', $closureIds);
+        }
+        return $query;
     }
 }
