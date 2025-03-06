@@ -89,8 +89,25 @@ class Idea extends Model
     {
         if (!empty($categoryIds)) {
             return $query->whereHas('categories', function ($query) use ($categoryIds) {
-                $query->whereIn('categories.name', $categoryIds);
+                $query->whereIn('categories.id', $categoryIds);
             });
+        }
+        return $query;
+    }
+    public function scopeFilterByDepartments($query, $departmentIds)
+    {
+        if (!empty($departmentIds)) {
+            return $query->whereHas('user', function ($query) use ($departmentIds) {
+                $query->whereIn('department_id', $departmentIds);
+            });
+        }
+        return $query;
+    }
+
+    public function scopeFilterByClosures($query, $closureIds)
+    {
+        if (!empty($closureIds)) {
+            return $query->whereIn('closure_id', $closureIds);
         }
         return $query;
     }

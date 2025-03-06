@@ -33,7 +33,15 @@ class IdeaRepository
         ->when($request->categories, function($query) use ($request) {
             $query->filterByCategories($request->categories);
         })
-        ->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
+        ->when($request->departments, function($query) use ($request) {
+            $query->filterByDepartments($request->departments);
+        })
+        ->when($request->closures, function($query) use ($request) {
+            $query->filterByClosures($request->closures);
+        })
+        ->adminSort($request->sortType, $request->sortBy)
+        ->adminSearch($request->search)
+        ->latest();
         
 
         if (request()->has('paginate')) {
