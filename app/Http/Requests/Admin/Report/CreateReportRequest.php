@@ -22,7 +22,9 @@ class CreateReportRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'reason' => 'required|string'
+            'reason' => 'required|string',
+            'idea_id' => 'required|exists:ideas,id',
+            'report_type_id' => 'required|exists:report_types,id',
         ];
     }
 }

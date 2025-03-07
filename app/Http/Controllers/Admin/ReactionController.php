@@ -37,17 +37,4 @@ class ReactionController extends Controller implements HasMiddleware
         return $result === null ? response()->success('Reaction removed', Response::HTTP_OK)
                                 : response()->success('Reaction set', Response::HTTP_OK, $result);
     }
-
-    public function getIdeaReactionCount ($idea)
-    {
-        $count = $this->reactionService->getIdeaReactionCount($idea);
-        return response()->success('Success!', Response::HTTP_OK, $count);
-    }
-
-    public function getUserReactionForIdea ($idea)
-    {
-        $userId = auth()->user()->id;
-        $data = $this->reactionService->getUserReactionForIdea($userId, $idea);
-        return response()->success('Success!', Response::HTTP_OK, $data);
-    }
 }

@@ -151,6 +151,9 @@ class Idea extends Model
                 case 'mostDislikes':
                     $query->orderBy('unlikes', 'desc');
                     break;
+                case 'mostViews':
+                    $query->orderBy('views', 'desc');
+                    break;
                 default:
                     $query->latest('created_at');
             }
