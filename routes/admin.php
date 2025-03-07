@@ -16,8 +16,9 @@ use App\Http\Controllers\Admin\ViewController;
 
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/logout', [AuthController::class, 'logout']);
     Route::group(['middleware' => 'auth:admin'], function () {
-        Route::post('/logout', [AuthController::class, 'logout']);
+        // moved /logout outside and it worked sooo
     });
 });
 

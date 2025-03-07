@@ -10,8 +10,8 @@ use App\Http\Resources\Department\DepartmentResource;
 use Illuminate\Routing\Controllers\Middleware;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
-use App\Http\Requests\Department\CreateDepartmentRequest;
-use App\Http\Requests\Department\UpdateDepartmentRequest;
+use App\Http\Requests\Admin\Department\CreateDepartmentRequest;
+use App\Http\Requests\Admin\Department\UpdateDepartmentRequest;
 
 
 class DepartmentController extends Controller implements HasMiddleware
