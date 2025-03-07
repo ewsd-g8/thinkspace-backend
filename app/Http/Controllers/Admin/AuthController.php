@@ -80,7 +80,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        if (Auth::guard('admin')->check()) {
+        if (Auth::check()) {
             $request->user()->currentAccessToken()->delete();
         }
         
