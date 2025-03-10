@@ -70,6 +70,7 @@ class IdeaRepository
         $idea = Idea::create([
             'title'  => $data['title'],
             'content' => $data['content'],
+            'is_anonymous' => $data['is_anonymous'],
             'closure_id' => $data['closure_id'],
             'user_id' => $data['user_id'],
         ]);
@@ -125,6 +126,7 @@ class IdeaRepository
     {
         $idea->title = isset($data['title']) ? $data['title'] : $idea->title;
         $idea->content = isset($data['content']) ? $data['content'] : $idea->content;
+        $idea->is_anonymous = isset($data['is_anonymous']) ? $data['is_anoonymous'] : $idea->is_anonymous;
         $idea->closure_id = isset($data['closure_id']) ? $data['closure_id'] : $idea->closure_id;
         $idea->user_id = isset($data['user_id']) ? $data['user_id'] : $idea->user_id;
 

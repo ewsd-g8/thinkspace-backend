@@ -24,6 +24,7 @@ class CreateIdeaRequest extends FormRequest
         return [
             'title' => 'required|string',
             'content' => 'required|string',
+            'is_anonymous' => 'required|boolean',
             'closure_id' => 'required|exists:closures,id',
             'user_id' => 'required|exists:users,id',
             'categories' => 'required|array',
