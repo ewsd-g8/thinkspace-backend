@@ -4,6 +4,8 @@ namespace App\Repositories\Admin;
 
 
 use App\Models\Comment;
+use App\Mail\CommentMail;
+use Illuminate\Support\Facades\Mail;
 
 
 class CommentRepository
@@ -36,6 +38,14 @@ class CommentRepository
             'user_id' => $user->id,
             'idea_id' => $data['idea_id'],
         ]);
+
+        // Send email notification to the idea owner
+        $ideaowner = $comment->idea->user;
+        $commenter = $comment->user_id;
+        if ($ideaowner->id != $commenter) {
+           Mail::to($ideaowner->email)->send(new CommentMail($comment));
+        }
+
 
         return $comment;
     }
