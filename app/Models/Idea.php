@@ -85,30 +85,80 @@ class Idea extends Model
                   });
         }
     }
-    public function scopeFilterByCategories($query, $categoryIds)
+
+    public function scopeFilterHiddenUser($query)
     {
-        if (!empty($categoryIds)) {
-            return $query->whereHas('categories', function ($query) use ($categoryIds) {
-                $query->whereIn('categories.id', $categoryIds);
-            });
-        }
-        return $query;
-    }
-    public function scopeFilterByDepartments($query, $departmentIds)
-    {
-        if (!empty($departmentIds)) {
-            return $query->whereHas('user', function ($query) use ($departmentIds) {
-                $query->whereIn('department_id', $departmentIds);
-            });
-        }
-        return $query;
+        $query->whereHas('user', function ($q) {
+            $q->where('is_hidden', false);
+        });
     }
 
-    public function scopeFilterByClosures($query, $closureIds)
+    public function scopeFilterByCategory($query, $category)
     {
-        if (!empty($closureIds)) {
-            return $query->whereIn('closure_id', $closureIds);
+        if ($category) {
+            $query->whereHas('categories', function ($q) use ($category) {
+                $q->where('name', $category);
+            });
         }
-        return $query;
+    }
+
+    public function scopeFilterByDepartment($query, $department)
+    {
+        if ($department) {
+            $query->whereHas('user', function ($q) use ($department) {
+                $q->whereHas('department', function ($d) use ($department) {
+                    $d->where('name', $department);
+                });
+            });
+        }
+    }
+
+    public function scopeFilterByClosure($query, $closure)
+    {
+        if ($closure) {
+            $query->whereHas('closure', function ($q) use ($closure) {
+                $q->where('name', $closure);
+            });
+        }
+    }
+
+    public function scopeFilterByContentLength($query, $contentLength)
+    {
+        if ($contentLength) {
+            if ($contentLength === 'short') {
+                $query->whereRaw('LENGTH(content) < 100');
+            } elseif ($contentLength === 'medium') {
+                $query->whereRaw('LENGTH(content) >= 100 AND LENGTH(content) <= 400');
+            } elseif ($contentLength === 'long') {
+                $query->whereRaw('LENGTH(content) > 400');
+            }
+        }
+    }
+
+    public function scopeCustomSort($query, $sort)
+    {
+        if ($sort) {
+            switch ($sort) {
+                case 'newest':
+                    $query->latest('created_at');
+                    break;
+                case 'oldest':
+                    $query->oldest('created_at');
+                    break;
+                case 'mostLikes':
+                    $query->orderBy('likes', 'desc');
+                    break;
+                case 'mostDislikes':
+                    $query->orderBy('unlikes', 'desc');
+                    break;
+                case 'mostViews':
+                    $query->orderBy('views', 'desc');
+                    break;
+                default:
+                    $query->latest('created_at');
+            }
+        } else {
+            $query->latest('created_at');
+        }
     }
 }

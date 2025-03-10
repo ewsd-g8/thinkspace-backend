@@ -30,11 +30,12 @@ class ReportRepository
 
     public function create(array $data): Report
     {
+        $userId = auth()->user()->id;
         $report = Report::create([
             'reason'  => $data['reason'],
             'is_active' => Status::Active,
             'idea_id' => $data['idea_id'],
-            'user_id' => $data['user_id'],
+            'user_id' => $userId,
             'report_type_id' => $data['report_type_id']
         ]);
 

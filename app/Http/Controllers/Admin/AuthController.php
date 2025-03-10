@@ -109,6 +109,7 @@ class AuthController extends Controller
         $data['name'] = $user->name;
         $data['email'] = $user->email;
         $data['profile'] = $user->profile ? $user->profile : null;
+        $data['is_blocked'] = $user->is_blocked;
         // if ($user->profile) {
         //     $data['profile'] = (Storage::disk('s3')->exists($user->profile)) ? Storage::disk('s3')->url($user->profile) : null;
         // }

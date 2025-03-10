@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Idea;
 use Illuminate\Http\Request;
-use App\Services\Admin\ideaService;
+use App\Services\Admin\IdeaService;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Controllers\Middleware;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +14,7 @@ use App\Http\Requests\Admin\Idea\UpdateIdeaRequest;
 
 class IdeaController extends Controller implements HasMiddleware
 {
-    
+
     protected $ideaService;
     public static function middleware(): array
     {
