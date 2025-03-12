@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->string('email')->unique();
             $table->string('mobile')->unique()->nullable();
             $table->string('profile')->nullable();
+            $table->string('last_logout_at')->nullable();
             $table->boolean('is_active')->default(1);
             $table->boolean('is_blocked')->default(0);
             $table->boolean('is_hidden')->default(0);

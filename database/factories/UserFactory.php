@@ -30,7 +30,6 @@ class UserFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'mobile' => $this->faker->unique()->phoneNumber(),
             'is_active' => true,
-            'is_anonymous' => true,
             'is_blocked' => false,
             'is_hidden' => false,
             'department_id' => fn () => Department::inRandomOrder()->first()->id ?? Department::factory()->create()->id,

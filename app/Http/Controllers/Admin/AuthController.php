@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use Carbon\Traits\Timestamp;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Browser;
@@ -82,6 +83,7 @@ class AuthController extends Controller
     {
         if (Auth::check()) {
             $request->user()->currentAccessToken()->delete();
+            $request->user()->update(['last_logout_at' => now()]);
         }
         
         return response()->success('Successfully Logout', Response::HTTP_OK);

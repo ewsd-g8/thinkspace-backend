@@ -16,8 +16,20 @@ class RoleTableSeeder extends Seeder
     {
         $roles = [
             [
-                'name' => 'Superadmin',
+                'name' => 'Super Admin',
                 'guard_name' => 'admin'
+            ],
+            [
+                'name' => 'QA Manager',
+                'guard_name' => 'qamanager'
+            ],
+            [
+                'name' => 'QA Coordinator',
+                'guard_name' => 'qacoordinator'
+            ],
+            [
+                'name' => 'Staff',
+                'guard_name' => 'staff'
             ],
         ];
 
