@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use ZipArchive;
 use App\Models\Idea;
 use App\Models\Closure;
 use App\Exports\IdeasExport;
 use Illuminate\Http\Request;
 use App\Services\Admin\IdeaService;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Routing\Controllers\Middleware;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -88,5 +91,40 @@ class IdeaController extends Controller implements HasMiddleware
         $filename = 'Ideas_For_' . str_replace(' ', '_', $closure->name) . '.xlsx';
 
         return Excel::download(new IdeasExport($closure_id), $filename);
+    }
+
+    public function downloadDocuments($closure_id)
+    {
+        $closure = Closure::where('id', $closure_id)->first();
+        $ideas = Idea::with('documents')->where('closure_id', $closure_id)->get();
+
+        $zipFileName = 'Documents_For_' . str_replace(' ', '_', $closure->name) . '.zip';
+        $zipPath = storage_path('app/public/' . $zipFileName);
+        $zip = new ZipArchive;
+
+        if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+            foreach ($ideas as $idea) {
+                foreach ($idea->documents as $document) {
+                    $path = parse_url($document->file_path, PHP_URL_PATH);
+                    $pathParts = explode('/', $path);
+                    $filepath = implode('/', array_slice($pathParts, 2));
+
+                    if ($filepath && Storage::exists($filepath)) {
+                        // Get the full path of the file to add to the ZIP
+                        $fullFilePath = storage_path('app/public/' . $filepath);
+                        $zip->addFile($fullFilePath, basename($fullFilePath));
+                    } else {
+                        // Log a warning for missing files
+                        Log::warning("File not found: " . $filepath);
+                    }
+
+                }
+            }
+            $zip->close();
+        } else {
+            return response()->json(['message' => 'Unable to create ZIP file'], 500);
+        }
+
+        return response()->download($zipPath)->deleteFileAfterSend(true);
     }
 }

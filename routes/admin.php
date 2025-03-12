@@ -54,7 +54,11 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('reports/change-status/{report}', [ReportController::class, 'changeStatus']);
 
     Route::get('export-ideas/{closure_id}', [IdeaController::class, 'export']);
+    Route::get('download-documents/{closure_id}', [IdeaController::class, 'downloadDocuments']);
 });
+
+
+
 
 //dummy api for dropzone
 Route::get('/dummy-data', function () {
