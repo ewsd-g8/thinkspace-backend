@@ -24,9 +24,18 @@ class UserRepository
 
     public function getUsers($request)
     {
-        $users = User::select('id', 'name', 'email', 'mobile', 'is_active', 'department_id', 'created_at', 'updated_at')->with(['roles','department' => function ($q) {
+        $users = User::select('id', 'name', 'full_name', 'email', 'mobile', 'last_logout_at', 'is_active', 'department_id', 'created_at', 'updated_at')->with(['roles','department' => function ($q) {
             $q->select('id', 'name');
-        }])->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
+        }])
+        ->withCount(['ideas', 'comments'])
+        ->when($request->search, function ($query) use ($request) {
+            return $query->adminSearch($request->search);
+        })
+        ->when($request->mostActiveUser, function ($query) {
+            return $query->filterByMostActiveUser();
+        }, function ($query) use ($request) {
+            return $query->adminSort($request->sortType, $request->sortBy)->latest();
+        });
 
         if (request()->has('paginate')) {
             $users = $users->paginate(request()->get('paginate'));

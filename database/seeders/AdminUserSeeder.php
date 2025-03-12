@@ -29,7 +29,7 @@ class AdminUserSeeder extends Seeder
             ]
         ];
 
-        $role = Role::where('name', 'Superadmin')->first();
+        $role = Role::where('name', 'Super Admin')->first();
 
         foreach ($users as $user) {
             $data = User::create([
