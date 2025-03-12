@@ -35,7 +35,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     ]);
     Route::get('users/change-status/{user}', [UserController::class, 'changeStatus']);
     Route::get('users/block-status/{user}', [UserController::class, 'changeBlockStatus']);
-    Route::get('users/hide-status/{user}', [UserController::class, 'changeHiddenStatus']);    
+    Route::get('users/hide-status/{user}', [UserController::class, 'changeHiddenStatus']);
 
     Route::get('categories/change-status/{category}', [CategoryController::class, 'changeStatus']);
 
@@ -52,7 +52,13 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/get-all-report-types', [ReportTypeController::class, 'getAllReportTypes']);
 
     Route::get('reports/change-status/{report}', [ReportController::class, 'changeStatus']);
+
+    Route::get('export-ideas/{closure_id}', [IdeaController::class, 'export']);
+    Route::get('download-documents/{closure_id}', [IdeaController::class, 'downloadDocuments']);
 });
+
+
+
 
 //dummy api for dropzone
 Route::get('/dummy-data', function () {

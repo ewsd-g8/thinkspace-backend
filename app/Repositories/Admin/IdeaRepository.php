@@ -211,4 +211,9 @@ class IdeaRepository
     //          return $closure->refresh();
     //      }
     //  }
+
+    public function getIdeasByClosure($closure_id)
+    {
+        return  Idea::where('closure_id', $closure_id)->get();
+    }
 }
