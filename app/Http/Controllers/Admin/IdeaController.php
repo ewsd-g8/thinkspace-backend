@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Idea;
+use App\Models\Closure;
+use App\Exports\IdeasExport;
 use Illuminate\Http\Request;
 use App\Services\Admin\IdeaService;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Routing\Controllers\Middleware;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
@@ -76,5 +79,14 @@ class IdeaController extends Controller implements HasMiddleware
     public function destroy(string $id)
     {
         //
+    }
+
+
+    public function export($closure_id)
+    {
+        $closure = Closure::where('id', $closure_id)->first();
+        $filename = 'Ideas_For_' . str_replace(' ', '_', $closure->name) . '.xlsx';
+
+        return Excel::download(new IdeasExport($closure_id), $filename);
     }
 }

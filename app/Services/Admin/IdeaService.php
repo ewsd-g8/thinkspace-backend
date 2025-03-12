@@ -67,4 +67,9 @@ class IdeaService implements IdeaServiceInterface
 
         return $result;
     }
+
+    public function getIdeasByClosure($closure_id)
+    {
+        return $result = $this->ideaRepository->getIdeasByClosure($closure_id);
+    }
 }
