@@ -76,7 +76,7 @@ class IdeaRepository
         $idea = Idea::create([
             'title'  => $data['title'],
             'content' => $data['content'],
-            'is_anonymous' => true,
+            'is_anonymous' => $data['is_anonymous'],
             'closure_id' => $data['closure_id'],
             'user_id' => $data['user_id'],
         ]);
