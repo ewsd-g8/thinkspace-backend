@@ -2,9 +2,12 @@
 
 namespace App\Repositories\Admin;
 
+use App\Mail\IdeaPostedEmail;
 use App\Models\Idea;
 use App\Models\Document;
 use App\Helpers\MediaHelper;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -73,13 +76,13 @@ class IdeaRepository
         $idea = Idea::create([
             'title'  => $data['title'],
             'content' => $data['content'],
-            'is_anonymous' => $data['is_anonymous'],
+            'is_anonymous' => true,
             'closure_id' => $data['closure_id'],
             'user_id' => $data['user_id'],
         ]);
 
         if (!empty($data['categories'])) {
-            $idea->categories()->attach($data['categories']); // Attach categories
+            $idea->categories()->attach($data['categories']);
         }
 
         if (isset($data['documents'])) {
@@ -98,6 +101,21 @@ class IdeaRepository
                         'idea_id' => $idea->id
                     ]);
                 }
+            }
+        }
+
+        $user = $idea->user;
+        $departmentId = $idea->user->department_id;
+        $qaCoordinators = User::where('department_id', $departmentId)
+                        ->whereHas('roles', function ($query) {
+                            $query->where('name', 'QAcoordinator');
+                        })->get();
+
+        
+        //send email to all qaCoordinators in the department
+        if ($qaCoordinators->isNotEmpty()) {
+            foreach ($qaCoordinators as $qaCoordinator) {
+                Mail::to($qaCoordinator->email)->send(new IdeaPostedEmail($idea, $user));
             }
         }
 
