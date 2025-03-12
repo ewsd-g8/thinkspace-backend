@@ -18,11 +18,6 @@ class UserService implements UserServiceInterface
       */
     protected $userRepository;
 
-    /**
-     * AppointmentService constructor.
-     *
-     * @param AppointmentRepository $appointmentRepository
-     */
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
