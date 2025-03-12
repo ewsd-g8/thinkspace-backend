@@ -32,7 +32,7 @@ class UserRepository
             return $query->adminSearch($request->search);
         })
         ->when($request->mostActiveUser, function ($query) {
-            return $query->filterByMostActiveUser();
+            return $query->mostActiveUserSort();
         }, function ($query) use ($request) {
             return $query->adminSort($request->sortType, $request->sortBy)->latest();
         });

@@ -110,7 +110,7 @@ class User extends Authenticatable
         }
     }
 
-    public function scopeFilterByMostActiveUser ($query) {
+    public function scopeMostActiveUserSort ($query) {
         $query->withCount(['ideas', 'comments'])->orderByRaw('(ideas_count + (comments_count / 4)) DESC');
     }
 }
