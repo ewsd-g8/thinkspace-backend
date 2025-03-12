@@ -2,9 +2,12 @@
 
 namespace App\Repositories\Admin;
 
+use App\Mail\IdeaPostedEmail;
 use App\Models\Idea;
 use App\Models\Document;
 use App\Helpers\MediaHelper;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -47,6 +50,9 @@ class IdeaRepository
             ->when($request->contentLength, function ($query) use ($request) {
                 $query->filterByContentLength($request->contentLength);
             })
+            ->when($request->noComment, function ($query) {
+                $query->filterByNoComment();
+            })
             ->when($request->sort, function ($query) use ($request) {
                 $query->customSort($request->sort);
             }, function ($query) use ($request) {
@@ -70,12 +76,13 @@ class IdeaRepository
         $idea = Idea::create([
             'title'  => $data['title'],
             'content' => $data['content'],
+            'is_anonymous' => $data['is_anonymous'],
             'closure_id' => $data['closure_id'],
             'user_id' => $data['user_id'],
         ]);
 
         if (!empty($data['categories'])) {
-            $idea->categories()->attach($data['categories']); // Attach categories
+            $idea->categories()->attach($data['categories']);
         }
 
         if (isset($data['documents'])) {
@@ -94,6 +101,21 @@ class IdeaRepository
                         'idea_id' => $idea->id
                     ]);
                 }
+            }
+        }
+
+        $user = $idea->user;
+        $departmentId = $idea->user->department_id;
+        $qaCoordinators = User::where('department_id', $departmentId)
+                        ->whereHas('roles', function ($query) {
+                            $query->where('name', 'QAcoordinator');
+                        })->get();
+
+        
+        //send email to all qaCoordinators in the department
+        if ($qaCoordinators->isNotEmpty()) {
+            foreach ($qaCoordinators as $qaCoordinator) {
+                Mail::to($qaCoordinator->email)->send(new IdeaPostedEmail($idea, $user));
             }
         }
 
@@ -125,6 +147,7 @@ class IdeaRepository
     {
         $idea->title = isset($data['title']) ? $data['title'] : $idea->title;
         $idea->content = isset($data['content']) ? $data['content'] : $idea->content;
+        $idea->is_anonymous = isset($data['is_anonymous']) ? $data['is_anoonymous'] : $idea->is_anonymous;
         $idea->closure_id = isset($data['closure_id']) ? $data['closure_id'] : $idea->closure_id;
         $idea->user_id = isset($data['user_id']) ? $data['user_id'] : $idea->user_id;
 

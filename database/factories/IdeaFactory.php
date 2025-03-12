@@ -21,6 +21,7 @@ class IdeaFactory extends Factory
         return [
             'title' => $this->faker->sentence(),
             'content' => $this->faker->paragraphs(3, true),
+            'is_anonymous' => $this->faker->boolean(50),
             'closure_id' => fn () => Closure::inRandomOrder()->first()->id ?? Closure::factory()->create()->id,
             'user_id' => fn () => User::inRandomOrder()->first()->id ?? User::factory()->create()->id,
         ];

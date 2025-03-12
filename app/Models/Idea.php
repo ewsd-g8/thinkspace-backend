@@ -122,6 +122,11 @@ class Idea extends Model
         }
     }
 
+    public function scopeFilterByNoComment($query)
+    {
+        $query->doesntHave('comments');
+    }
+
     public function scopeFilterByContentLength($query, $contentLength)
     {
         if ($contentLength) {
