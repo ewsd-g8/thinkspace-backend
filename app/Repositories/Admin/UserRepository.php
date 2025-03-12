@@ -24,7 +24,7 @@ class UserRepository
 
     public function getUsers($request)
     {
-        $users = User::select('id', 'name', 'email', 'mobile', 'is_active', 'department_id', 'created_at', 'updated_at')->with(['roles','department' => function ($q) {
+        $users = User::select('id', 'name', 'email', 'mobile', 'is_active', 'department_id', 'created_at', 'updated_at','is_blocked','is_hidden')->with(['roles','department' => function ($q) {
             $q->select('id', 'name');
         }])->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
 
@@ -47,6 +47,7 @@ class UserRepository
             'password' => Hash::make($data['password']),
             'is_active' => Status::Active,
             'department_id' => $data['department_id'],
+          
         ]);
         if (isset($data['profile'])) {
             //   $mediaRepository = new MediaRepository();

@@ -30,6 +30,7 @@ class CreateIdeaRequest extends FormRequest
             'categories.*' => 'exists:categories,id',
             'documents' => 'nullable|array|max:3',
             'documents.*' => 'file|mimes:jpg,jpeg,png,pdf|max:5120',
+            'is_anonymous' => 'required|boolean',
          ];
     }
 }

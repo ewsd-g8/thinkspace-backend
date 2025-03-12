@@ -77,6 +77,7 @@ class IdeaController extends Controller implements HasMiddleware
     {
         //
     }
+<<<<<<< Updated upstream
 
     // public function changeStatus(Closure $closure)
     // {
@@ -91,4 +92,7 @@ class IdeaController extends Controller implements HasMiddleware
 
         return response()->success('Success!', Response::HTTP_OK);
     }
+=======
+    
+>>>>>>> Stashed changes
 }
