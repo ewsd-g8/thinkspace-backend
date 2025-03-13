@@ -50,9 +50,6 @@ class IdeaRepository
             ->when($request->contentLength, function ($query) use ($request) {
                 $query->filterByContentLength($request->contentLength);
             })
-            ->when($request->noComment, function ($query) {
-                $query->filterByNoComment();
-            })
             ->when($request->sort, function ($query) use ($request) {
                 $query->customSort($request->sort);
             }, function ($query) use ($request) {
