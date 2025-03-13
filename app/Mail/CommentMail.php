@@ -9,19 +9,25 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use App\Models\Comment;
+use App\Models\User;
+use App\Models\Idea;
 
 class CommentMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $comment;
+    public $user;
+    public $idea;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(Comment $comment)
+    public function __construct(Comment $comment, User $user, Idea $idea)
     {
         $this->comment = $comment;
+        $this->user = $user;
+        $this->idea = $idea;
     }
 
     /**
@@ -41,6 +47,11 @@ class CommentMail extends Mailable
     {
         return new Content(
             view: 'view.email.comment',
+            with:[
+                'commentContent' => $this->comment->content,
+                'ideaTitle' => $this->idea->title,
+                'username' => $this->user->username,
+            ]
         );
     }
 
