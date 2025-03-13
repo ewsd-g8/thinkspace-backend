@@ -121,7 +121,7 @@ class IdeaRepository
 
     public function getIdea($id)
     {
-        $idea = Idea::where('id', $id)->with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])
+        $idea = Idea::where('id', $id)->with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments', 'comments.user'])
             ->withCount([
                 'comments',
                 'views',
