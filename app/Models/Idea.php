@@ -122,11 +122,6 @@ class Idea extends Model
         }
     }
 
-    public function scopeFilterByNoComment($query)
-    {
-        $query->doesntHave('comments');
-    }
-
     public function scopeFilterByContentLength($query, $contentLength)
     {
         if ($contentLength) {
@@ -157,7 +152,10 @@ class Idea extends Model
                     $query->orderBy('unlikes', 'desc');
                     break;
                 case 'mostViews':
-                    $query->orderBy('views', 'desc');
+                    $query->orderBy('views_count', 'desc');
+                    break;
+                case 'noComments':
+                    $query->doesntHave('comments');
                     break;
                 default:
                     $query->latest('created_at');
