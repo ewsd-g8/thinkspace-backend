@@ -88,7 +88,7 @@ class IdeaController extends Controller implements HasMiddleware
     public function export($closure_id)
     {
         $closure = Closure::where('id', $closure_id)->first();
-        $filename = 'Ideas_For_' . str_replace(' ', '_', $closure->name) . '.xlsx';
+        $filename = 'Ideas_For_' . str_replace(' ', '_', $closure->name) . '.csv';
 
         return Excel::download(new IdeasExport($closure_id), $filename);
     }
