@@ -33,6 +33,7 @@ class CommentRepository
         $user = auth()->user();
         $comment = Comment::create([
             'content' => $data['content'],
+            'is_anonymous' => $data['is_anonymous'],
             'user_id' => $user->id,
             'idea_id' => $data['idea_id'],
         ]);
