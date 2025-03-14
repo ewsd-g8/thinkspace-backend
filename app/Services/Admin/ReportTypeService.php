@@ -62,6 +62,20 @@ class ReportTypeService implements ReportTypeServiceInterface
         return $result;
     }
 
+    public function changeStatus(ReportType $reportType)
+    {
+        DB::beginTransaction();
+        try {
+            $result = $this->ReportTypeRepository->changeStatus($reportType);
+        } catch (Exception $exc) {
+            DB::rollBack();
+            Log::error($exc->getMessage());
+            throw new InvalidArgumentException('Unable to change report type status');
+        }
+        DB::commit();
+        return $result;
+    }
+
     public function getAllReportTypes()
     {
         return $this->ReportTypeRepository->getAllReportTypes();

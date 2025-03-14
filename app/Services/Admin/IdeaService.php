@@ -68,6 +68,20 @@ class IdeaService implements IdeaServiceInterface
         return $result;
     }
 
+    public function changeStatus(Idea $idea)
+    {
+        DB::beginTransaction();
+        try {
+            $result = $this->ideaRepository->changeStatus($idea);
+        } catch (Exception $exc) {
+            DB::rollBack();
+            Log::error($exc->getMessage());
+            throw new InvalidArgumentException('Unable to change idea status');
+        }
+        DB::commit();
+        return $result;
+    }
+
     public function getIdeasByClosure($closure_id)
     {
         return $result = $this->ideaRepository->getIdeasByClosure($closure_id);

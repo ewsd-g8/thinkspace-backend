@@ -78,9 +78,9 @@ class UserController extends Controller implements HasMiddleware
 
     public function changeStatus(User $user)
     {
-        $this->userService->changeStatus($user);
+        $changedStatus = $this->userService->changeStatus($user);
 
-        return response()->success('Success!', Response::HTTP_OK);
+        return response()->success('Success!', Response::HTTP_OK, $changedStatus);
     }
 
     public function changeBlockStatus(User $user)

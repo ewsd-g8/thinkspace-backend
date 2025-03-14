@@ -12,7 +12,8 @@ class ReportType extends Model
 
     protected $fillable = [
         'name',
-        'description'
+        'description',
+        'is_active'
     ];
 
     public function reports() 

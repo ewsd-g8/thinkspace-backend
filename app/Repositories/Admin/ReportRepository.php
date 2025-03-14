@@ -49,18 +49,13 @@ class ReportRepository
 
     public function changeStatus(Report $report)
     {
-        if ($report->is_active == 0) {
-            $report->update([
-                'is_active' => 1,
-            ]);
+        $newStatus = $report->is_active == 1 ? 0 : 1;
 
-            return $report->refresh();
-        } else {
-            $report->update([
-                'is_active' => 0,
-            ]);
+        $report->update([
+            'is_active' => $newStatus,
+            'updated_at' => now(),
+        ]);
 
-            return $report->refresh();
-        }
+        return $report->refresh();
     }
 }
