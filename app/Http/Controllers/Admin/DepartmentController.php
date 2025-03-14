@@ -21,7 +21,7 @@ class DepartmentController extends Controller implements HasMiddleware
         return [
             new Middleware('permission:department-list', only:['index','show']),
             new Middleware('permission:department-create', only: ['store']),
-            new Middleware('permission:department-edit', only: ['update']),
+            new Middleware('permission:department-edit', only: ['update', 'changeStatus']),
             new Middleware('permission:department-delete', only: ['destroy'])
         ];
     }
@@ -139,5 +139,12 @@ class DepartmentController extends Controller implements HasMiddleware
                 'message' => 'Department not found'
             ], 404);
         }
+    }
+
+    public function changeStatus(Department $department)
+    {
+        $changedStatus = $this->departmentService->changeStatus($department);
+
+        return response()->success('Success!', Response::HTTP_OK, $changedStatus);
     }
 }

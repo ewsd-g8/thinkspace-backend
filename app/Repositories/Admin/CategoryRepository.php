@@ -60,19 +60,14 @@ class CategoryRepository
 
     public function changeStatus(Category $category)
     {
-        if ($category->is_active == 0) {
-            $category->update([
-                'is_active' => 1,
-            ]);
+        $newStatus = $category->is_active == 1 ? 0 : 1;
 
-            return $category->refresh();
-        } else {
-            $category->update([
-                'is_active' => 0,
-            ]);
+        $category->update([
+            'is_active' => $newStatus,
+            'updated_at' => now(),
+        ]);
 
-            return $category->refresh();
-        }
+        return $category->refresh();
     }
 
     public function getAllCategories()

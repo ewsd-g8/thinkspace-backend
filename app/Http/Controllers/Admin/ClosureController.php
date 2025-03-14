@@ -21,7 +21,7 @@ class ClosureController extends Controller implements HasMiddleware
         return [
             new Middleware('permission:closure-list', only: ['index', 'show']),
             new Middleware('permission:closure-create', only: ['store']),
-            new Middleware('permission:closure-edit', only: ['update'])
+            new Middleware('permission:closure-edit', only: ['update', 'changeStatus'])
         ];
 
     }
@@ -78,10 +78,10 @@ class ClosureController extends Controller implements HasMiddleware
         //
     }
 
-    // public function changeStatus(Closure $closure)
-    // {
-    //     $this->catergoryService->changeStatus($closure);
+    public function changeStatus(ClosureModel $closure)
+    {
+        $changedStatus = $this->closureService->changeStatus($closure);
 
-    //     return response()->success('Success!', Response::HTTP_OK);
-    // }
+        return response()->success('Success!', Response::HTTP_OK, $changedStatus);
+    }
 }

@@ -71,7 +71,7 @@ class UserService implements UserServiceInterface
         } catch (Exception $exc) {
             DB::rollBack();
             Log::error($exc->getMessage());
-            throw new InvalidArgumentException('Unable to active user');
+            throw new InvalidArgumentException('Unable to change user status');
         }
         DB::commit();
         return $result;

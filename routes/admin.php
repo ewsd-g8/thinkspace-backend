@@ -23,26 +23,32 @@ Route::prefix('auth')->group(function () {
 
 Route::group(['middleware' => 'auth:admin'], function () {
     Route::apiResources([
-        'users' => UserController::class,
-        'roles' => RoleController::class,
-        'departments' => DepartmentController::class,
         'categories' => CategoryController::class,
         'closures' => ClosureController::class,
+        'departments' => DepartmentController::class,
         'ideas' => IdeaController::class,
-        'comments' => CommentController::class,
-        'report-types' => ReportTypeController::class,
         'reports' => ReportController::class,
+        'report-types' => ReportTypeController::class,
+        'users' => UserController::class,
+        'roles' => RoleController::class,
+        'comments' => CommentController::class,
     ]);
-    Route::get('users/change-status/{user}', [UserController::class, 'changeStatus']);
+    
     Route::get('users/block-status/{user}', [UserController::class, 'changeBlockStatus']);
     Route::get('users/hide-status/{user}', [UserController::class, 'changeHiddenStatus']);
-
-    Route::get('categories/change-status/{category}', [CategoryController::class, 'changeStatus']);
 
     Route::post('reactions', [ReactionController::class, 'store']);
 
     Route::post('views', [ViewController::class, 'store']);
     Route::get('views/get-users-view-idea/{idea}', [ViewController::class,'getUsersViewByIdea']);
+
+    Route::get('categories/change-status/{category}', [CategoryController::class, 'changeStatus']);
+    Route::get('closures/change-status/{closure}', [ClosureController::class, 'changeStatus']);
+    Route::get('departments/change-status/{department}', [DepartmentController::class, 'changeStatus']);
+    Route::get('ideas/change-status/{idea}', [IdeaController::class, 'changeStatus']);
+    Route::get('reports/change-status/{report}', [ReportController::class, 'changeStatus']);
+    Route::get('report-types/change-status/{reportType}', [ReportTypeController::class, 'changeStatus']);
+    Route::get('users/change-status/{user}', [UserController::class, 'changeStatus']);
 
     Route::get('auth-user', [AuthController::class, 'getAuthUser']);
     Route::get('/permissions', [RoleController::class, 'getPermissions']);
@@ -50,8 +56,6 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/get-all-categories', [CategoryController::class, 'getAllCategories']);
     Route::get('/get-all-departments', [UserController::class, 'getDepartments']);
     Route::get('/get-all-report-types', [ReportTypeController::class, 'getAllReportTypes']);
-
-    Route::get('reports/change-status/{report}', [ReportController::class, 'changeStatus']);
 
     Route::get('export-ideas/{closure_id}', [IdeaController::class, 'export']);
     Route::get('download-documents/{closure_id}', [IdeaController::class, 'downloadDocuments']);

@@ -53,6 +53,17 @@ class DepartmentRepository
         return $department;
     }
 
+    public function changeStatus(Department $department)
+    {
+        $newStatus = $department->is_active == 1 ? 0 : 1;
+
+        $department->update([
+            'is_active' => $newStatus,
+            'updated_at' => now(),
+        ]);
+
+        return $department->refresh();
+    }
 
     public function getDepartmentById($id)
     {

@@ -10,5 +10,6 @@ interface IdeaServiceInterface
     public function getIdeas(Request $request);
     public function create(array $data);
     public function update(Idea $idea, array $data);
+    public function changeStatus(Idea $idea);
     public function getIdea($id);
 }

@@ -56,6 +56,18 @@ class ReportTypeRepository
         return $reportType;
     }
 
+    public function changeStatus(ReportType $reportType)
+    {
+        $newStatus = $reportType->is_active == 1 ? 0 : 1;
+
+        $reportType->update([
+            'is_active' => $newStatus,
+            'updated_at' => now(),
+        ]);
+
+        return $reportType->refresh();
+    }
+
     public function getAllReportTypes()
     {
         return ReportType::latest()->get(); 
