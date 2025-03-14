@@ -42,10 +42,10 @@ class CommentRepository
 
         // Send email notification to the idea owner
         $idea = $comment->idea;
-        $ideaowner = $comment->idea->user;
-        $commenter = $comment->user_id;
-        if ($ideaowner->id != $commenter) {
-           Mail::to($ideaowner->email)->send(new CommentMail($comment,  $ideaowner, $idea));
+        $ideaowner = $idea->user;
+        $commenter = $comment->user;
+        if ($ideaowner->id != $commenter->id) {
+           Mail::to($ideaowner->email)->send(new CommentMail($comment,  $commenter, $idea));
         }
 
 

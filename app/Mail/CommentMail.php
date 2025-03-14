@@ -46,11 +46,11 @@ class CommentMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.email.comment',
+            view: 'email.comment',
             with:[
                 'commentContent' => $this->comment->content,
                 'ideaTitle' => $this->idea->title,
-                'username' => $this->user->username,
+                'userName' => $this->comment->is_anonymous ? 'Anonymous' : $this->user->name,
             ]
         );
     }
