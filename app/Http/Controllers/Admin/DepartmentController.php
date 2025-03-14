@@ -20,7 +20,7 @@ class DepartmentController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('permission:department-list', only:['index','show']),
+            new Middleware('permission:department-list', only:['index','show','ideasPerDepartment','userContributionsPerDepartment']),
             new Middleware('permission:department-create', only: ['store']),
             new Middleware('permission:department-edit', only: ['update', 'changeStatus']),
             new Middleware('permission:department-delete', only: ['destroy'])
@@ -172,5 +172,28 @@ class DepartmentController extends Controller implements HasMiddleware
             'total_ideas' => $totalIdeas,
             'departments' => $stats,
         ]);
+    }
+
+    public function userContributionsPerDepartment(){
+        $departments = Department::with(['users' => function($query){
+            $query->withCount(['ideas', 'comments']);
+        }])->get();
+
+        $stats = $departments->map(function ($department){
+            return [
+                'department_name' => $department->name,
+                'users' => $department->users->map(function ($user){
+                    return [
+                        'user_name' => $user->name,
+                        'ideas_count' => $user->ideas_count,
+                        'comments_count' => $user->comments_count,
+                    ];
+                })->all(),
+            ];
+        })->filter(function ($department) {
+            return !empty($department['users']); // Only include departments with contributing users
+        })->values();
+
+        return response()->json($stats);
     }
 }
