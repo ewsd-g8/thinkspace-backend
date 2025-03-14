@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Department;
+use App\Models\Idea;
 use App\Services\Admin\DepartmentService;
 use App\Http\Resources\Department\DepartmentResource;
 use Illuminate\Routing\Controllers\Middleware;
@@ -149,16 +150,27 @@ class DepartmentController extends Controller implements HasMiddleware
     }
     
     public function ideasPerDepartment(){
+        // Get total number of ideas
+        $totalIdeas = Idea::count();
+
+        // Get departments with their idea counts
         $departments = Department::withCount('ideas')->get();
 
-        // Format for response
-        $stats = $departments->map(function ($department) {
+        // Format the response with percentages
+        $stats = $departments->map(function ($department) use ($totalIdeas) {
+            $ideasCount = $department->ideas_count;
+            $percentage = $totalIdeas > 0 ? round(($ideasCount / $totalIdeas) * 100, 2) : 0;
+
             return [
                 'department_name' => $department->name,
-                'ideas_count' => $department->ideas_count,
+                'ideas_count' => $ideasCount,
+                'percentage' => $percentage,
             ];
         });
 
-        return response()->json($stats);
+        return response()->json([
+            'total_ideas' => $totalIdeas,
+            'departments' => $stats,
+        ]);
     }
 }
