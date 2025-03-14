@@ -3,6 +3,7 @@
 namespace App\Repositories\Admin;
 
 
+use App\Enums\Status;
 use App\Models\Department;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -39,6 +40,7 @@ class DepartmentRepository
         $department = Department::create([
             'name'  => $data['name'],
             'description' => $data['description'],
+            'is_active' => Status::Active,
         ]);
 
         return $department;
