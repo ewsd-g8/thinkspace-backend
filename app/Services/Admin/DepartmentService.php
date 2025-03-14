@@ -58,6 +58,20 @@ class DepartmentService implements DepartmentServiceInterface
         return $result;
     }
 
+    public function changeStatus(Department $department)
+    {
+        DB::beginTransaction();
+        try {
+            $result = $this->departmentRepository->changeStatus($department);
+        } catch (Exception $exc) {
+            DB::rollBack();
+            Log::error($exc->getMessage());
+            throw new InvalidArgumentException('Unable to change department status');
+        }
+        DB::commit();
+        return $result;
+    }
+
     public function getDepartmentById($id)
     {
         return $this->departmentRepository->getDepartmentById($id);

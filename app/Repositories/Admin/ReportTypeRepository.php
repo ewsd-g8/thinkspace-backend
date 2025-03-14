@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Admin;
 
+use App\Enums\Status;
 use App\Models\ReportType;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
@@ -34,6 +35,7 @@ class ReportTypeRepository
         $reportType = ReportType::create([
             'name'  => $data['name'],
             'description' => $data['description'],
+            'is_active' => Status::Active,
         ]);
 
         return $reportType;
@@ -54,6 +56,18 @@ class ReportTypeRepository
         }
 
         return $reportType;
+    }
+
+    public function changeStatus(ReportType $reportType)
+    {
+        $newStatus = $reportType->is_active == 1 ? 0 : 1;
+
+        $reportType->update([
+            'is_active' => $newStatus,
+            'updated_at' => now(),
+        ]);
+
+        return $reportType->refresh();
     }
 
     public function getAllReportTypes()

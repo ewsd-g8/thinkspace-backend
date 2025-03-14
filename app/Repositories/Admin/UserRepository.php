@@ -138,21 +138,15 @@ class UserRepository
 
     public function changeStatus(User $user)
     {
-        if ($user->is_active == 0) {
-            $user->update([
-                'is_active' => 1,
-            ]);
+        $newStatus = $user->is_active == 1 ? 0 : 1;
 
-            return $user->refresh();
-        } else {
-            $user->update([
-                'is_active' => 0,
-            ]);
+        $user->update([
+            'is_active' => $newStatus,
+            'updated_at' => now(),
+        ]);
 
-            $user->tokens()->delete();
-
-            return $user->refresh();
-        }
+        $user->tokens()->delete();
+        return $user->refresh();
     }
     
     public function changeBlockStatus(User $user): void 

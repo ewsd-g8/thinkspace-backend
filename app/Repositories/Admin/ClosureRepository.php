@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Admin;
 
+use App\Enums\Status;
 use App\Models\Closure;
 
 class ClosureRepository
@@ -33,6 +34,7 @@ class ClosureRepository
             'name'  => $data['name'],
             'date' => $data['date'],
             'final_date' => $data['final_date'],
+            'is_active' => Status::Active,
         ]);
 
         return $closure;
@@ -56,20 +58,15 @@ class ClosureRepository
         return $closure;
     }
 
-   //  public function changeStatus(Closure $closure)
-   //  {
-   //      if ($closure->is_active == 0) {
-   //          $closure->update([
-   //              'is_active' => 1,
-   //          ]);
+    public function changeStatus(Closure $closure)
+    {
+        $newStatus = $closure->is_active == 1 ? 0 : 1;
 
-   //          return $closure->refresh();
-   //      } else {
-   //          $closure->update([
-   //              'is_active' => 0,
-   //          ]);
+        $closure->update([
+            'is_active' => $newStatus,
+            'updated_at' => now(),
+        ]);
 
-   //          return $closure->refresh();
-   //      }
-   //  }
+        return $closure->refresh();
+    }
 }

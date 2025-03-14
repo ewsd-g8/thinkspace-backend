@@ -11,4 +11,5 @@ interface DepartmentServiceInterface
     public function getDepartmentById($id);
     public function create(array $data);
     public function update(Department $department, array $data);
+    public function changeStatus(Department $department);
 }

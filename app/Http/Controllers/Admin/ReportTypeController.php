@@ -20,7 +20,7 @@ class ReportTypeController extends Controller implements HasMiddleware
         return [
             new Middleware('permission:reportType-list', only: ['index', 'show']),
             new Middleware('permission:reportType-create', only: ['store']),
-            new Middleware('permission:reportType-edit', only: ['update'])
+            new Middleware('permission:reportType-edit', only: ['update', 'changeStatus'])
         ];
     }
 
@@ -55,6 +55,13 @@ class ReportTypeController extends Controller implements HasMiddleware
         $updated = $this->reportTypeService->update($reportType, $request->all());
 
         return response()->success('Success!', Response::HTTP_OK, $updated);
+    }
+
+    public function changeStatus(ReportType $reportType)
+    {
+        $changedStatus = $this->reportTypeService->changeStatus($reportType);
+
+        return response()->success('Success!', Response::HTTP_OK, $changedStatus);
     }
 
     public function getAllReportTypes()

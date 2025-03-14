@@ -82,9 +82,9 @@ class CategoryController extends Controller implements HasMiddleware
 
     public function changeStatus(Category $category)
     {
-        $this->catergoryService->changeStatus($category);
+        $changedStatus = $this->catergoryService->changeStatus($category);
 
-        return response()->success('Success!', Response::HTTP_OK);
+        return response()->success('Success!', Response::HTTP_OK, $changedStatus);
     }
 
     public function getAllCategories()
