@@ -82,8 +82,8 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         if (Auth::check()) {
-            $request->user()->tokens()->delete();
             $request->user()->update(['last_logout_at' => now()]);
+            $request->user()->tokens()->delete();
         }
         
         return response()->success('Successfully Logout', Response::HTTP_OK);
