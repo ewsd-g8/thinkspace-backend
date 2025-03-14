@@ -12,7 +12,7 @@ use App\Models\Comment;
 use App\Models\User;
 use App\Models\Idea;
 
-class CommentMail extends Mailable
+class CommentMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -46,7 +46,7 @@ class CommentMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'email.comment',
+            view: 'emails.comment',
             with:[
                 'commentContent' => $this->comment->content,
                 'ideaTitle' => $this->idea->title,

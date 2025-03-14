@@ -145,6 +145,7 @@ class UserRepository
             'updated_at' => now(),
         ]);
 
+        $user->tokens()->delete();
         return $user->refresh();
     }
     
