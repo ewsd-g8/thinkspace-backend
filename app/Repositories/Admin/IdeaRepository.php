@@ -28,6 +28,7 @@ class IdeaRepository
             ->withCount([
                 'comments',
                 'views',
+                'reports',
                 'reactions as likes' => function ($query) {
                     $query->where('type', true);
                 },
@@ -121,12 +122,17 @@ class IdeaRepository
         return $idea;
     }
 
-    public function getIdea($id)
+    public function getIdea($id, $sortLatest = true)
     {
-        $idea = Idea::where('id', $id)->with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments', 'comments.user'])
+        $idea = Idea::where('id', $id)->with(['categories:id,name,description', 'user', 'closure', 'documents',
+                'comments' => function ($query) use ($sortLatest) {
+                    $query->orderBy('created_at', $sortLatest === true ? 'desc' : 'asc')->with('user');
+                }
+                , 'reports'])
             ->withCount([
                 'comments',
                 'views',
+                'reports',
                 'reactions as likes' => function ($query) {
                     $query->where('type', true);
                 },
