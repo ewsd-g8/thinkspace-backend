@@ -82,7 +82,7 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         if (Auth::check()) {
-            $request->user()->currentAccessToken()->delete();
+            $request->user()->tokens()->delete();
             $request->user()->update(['last_logout_at' => now()]);
         }
         
