@@ -140,4 +140,18 @@ class DepartmentController extends Controller implements HasMiddleware
             ], 404);
         }
     }
+
+    public function ideasPerDepartment(){
+        $departments = Department::withCount('ideas')->get();
+
+        // Format for response
+        $stats = $departments->map(function ($department) {
+            return [
+                'department_name' => $department->name,
+                'ideas_count' => $department->ideas_count,
+            ];
+        });
+
+        return response()->json($stats);
+    }
 }

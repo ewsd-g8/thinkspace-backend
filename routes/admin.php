@@ -55,6 +55,9 @@ Route::group(['middleware' => 'auth:admin'], function () {
 
     Route::get('export-ideas/{closure_id}', [IdeaController::class, 'export']);
     Route::get('download-documents/{closure_id}', [IdeaController::class, 'downloadDocuments']);
+
+    // Statistic Routes
+    Route::get('/stats/ideas-per-department', [DepartmentController::class,'ideasPerDepartment']);
 });
 
 

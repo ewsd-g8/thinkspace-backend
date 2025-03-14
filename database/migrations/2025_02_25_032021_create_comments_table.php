@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->text('content');
+            $table->boolean('is_anonymous');
             $table->uuid('user_id');
             $table->uuid('idea_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

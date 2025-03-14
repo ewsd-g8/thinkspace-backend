@@ -18,6 +18,10 @@ class Department extends Model
         return $this->hasMany(User::class);
     }
 
+    public function ideas(){
+        return $this->hasManyThrough(Idea::class, User::class);
+    }
+
     public function scopeAdminSort($query, $sortType, $sortBy)
     {
         $sortFields = ['name','description'] ;

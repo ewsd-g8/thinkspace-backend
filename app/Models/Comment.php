@@ -11,6 +11,7 @@ class Comment extends Model
     use HasFactory, Uuids;
     protected $fillable = [
         'content',
+        'is_anonymous',
         'user_id',
         'idea_id',
     ];

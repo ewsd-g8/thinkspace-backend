@@ -23,6 +23,7 @@ class CreateCommentRequest extends FormRequest
     {
         return [
             'content' => 'required|string',
+            'is_anonymous' =>'required|boolean',
             'idea_id' => 'required|exists:ideas,id',
         ];
     }
