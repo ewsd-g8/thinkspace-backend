@@ -69,7 +69,16 @@ class CategoryService implements CategoryServiceInterface
 
     public function changeStatus(Category $category)
     {
-        return $this->categoryRepository->changeStatus($category);
+        DB::beginTransaction();
+        try {
+            $result = $this->categoryRepository->changeStatus($category);
+        } catch (Exception $exc) {
+            DB::rollBack();
+            Log::error($exc->getMessage());
+            throw new InvalidArgumentException('Unable to change category status');
+        }
+        DB::commit();
+        return $result;
     }
 
     public function getAllCategories()

@@ -27,7 +27,7 @@ class IdeaController extends Controller implements HasMiddleware
         return [
             new Middleware('permission:idea-list', only: ['index', 'show']),
             new Middleware('permission:idea-create', only: ['store']),
-            new Middleware('permission:idea-edit', only: ['update'])
+            new Middleware('permission:idea-edit', only: ['update', 'changeStatus'])
         ];
 
     }
@@ -84,6 +84,12 @@ class IdeaController extends Controller implements HasMiddleware
         //
     }
 
+    public function changeStatus(Idea $idea)
+    {
+        $changedStatus = $this->ideaService->changeStatus($idea);
+
+        return response()->success('Success!', Response::HTTP_OK, $changedStatus);
+    }
 
     public function export($closure_id)
     {

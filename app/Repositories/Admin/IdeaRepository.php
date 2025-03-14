@@ -192,22 +192,18 @@ class IdeaRepository
 
         return $idea;
     }
-    //  public function changeStatus(Closure $closure)
-    //  {
-    //      if ($closure->is_active == 0) {
-    //          $closure->update([
-    //              'is_active' => 1,
-    //          ]);
+    
+    public function changeStatus(Idea $idea)
+    {
+        $newStatus = $idea->is_active == 1 ? 0 : 1;
 
-    //          return $closure->refresh();
-    //      } else {
-    //          $closure->update([
-    //              'is_active' => 0,
-    //          ]);
+        $idea->update([
+            'is_active' => $newStatus,
+            'updated_at' => now(),
+        ]);
 
-    //          return $closure->refresh();
-    //      }
-    //  }
+        return $idea->refresh();
+    }
 
     public function getIdeasByClosure($closure_id)
     {

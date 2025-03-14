@@ -11,5 +11,6 @@ interface ReportTypeServiceInterface
     public function create(array $data);
     public function getReportType($id);
     public function update(ReportType $reportType, array $data);
+    public function changeStatus(ReportType $reportType);
     public function getAllReportTypes();
 }

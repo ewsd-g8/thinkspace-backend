@@ -67,8 +67,17 @@ class ClosureService implements ClosureServiceInterface
         return $result;
     }
 
-   //  public function changeStatus(Closure $closure)
-   //  {
-   //      return $this->closureRepository->changeStatus($closure);
-   //  }
+    public function changeStatus(Closure $closure)
+    {
+        DB::beginTransaction();
+        try {
+            $result = $this->closureRepository->changeStatus($closure);
+        } catch (Exception $exc) {
+            DB::rollBack();
+            Log::error($exc->getMessage());
+            throw new InvalidArgumentException('Unable to change closure status');
+        }
+        DB::commit();
+        return $result;
+    }
 }
