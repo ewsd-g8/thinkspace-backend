@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Admin;
 
+use App\Enums\Status;
 use App\Models\Closure;
 
 class ClosureRepository
@@ -33,6 +34,7 @@ class ClosureRepository
             'name'  => $data['name'],
             'date' => $data['date'],
             'final_date' => $data['final_date'],
+            'is_active' => Status::Active,
         ]);
 
         return $closure;
