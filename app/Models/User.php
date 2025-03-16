@@ -28,6 +28,7 @@ class User extends Authenticatable
         'mobile',
         'profile',
         'password',
+        'last_logout_at',
         'is_active',
         'is_blocked',
         'is_hidden',

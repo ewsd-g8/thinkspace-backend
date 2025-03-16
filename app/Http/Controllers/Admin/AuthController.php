@@ -40,6 +40,7 @@ class AuthController extends Controller
                 $data['user']['email'] = $user->email;
                 $data['user']['mobile'] = $user->mobile;
                 $data['user']['profile'] = $user->profile ? $user->profile : null;
+                $data['user']['last_logout_at'] = $user->last_logout_at ? $user->last_logout_at : null;
                 $data['roles'] = $user->getRoleNames();
                 $data['permissions'] = $user->getPermissionsViaRoles()->pluck('name');
 
@@ -82,8 +83,8 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         if (Auth::check()) {
-            $request->user()->tokens()->delete();
             $request->user()->update(['last_logout_at' => now()]);
+            $request->user()->tokens()->delete();
         }
         
         return response()->success('Successfully Logout', Response::HTTP_OK);
