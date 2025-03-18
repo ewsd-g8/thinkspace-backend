@@ -25,6 +25,11 @@ class IdeaRepository
     public function getIdeas($request)
     {
         $idea = Idea::with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])
+            ->where('is_active', true)
+            ->whereHas('closure', function ($query) {
+                $query->where('final_date', '>', now())
+                      ->Where('is_active', true);
+            })
             ->withCount([
                 'comments',
                 'views',

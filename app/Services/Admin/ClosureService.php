@@ -34,6 +34,10 @@ class ClosureService implements ClosureServiceInterface
 
     public function create(array $data)
     {
+        if (Closure::where('is_active', true)->exists()) {
+            throw new InvalidArgumentException('An active closure already exists.');
+        }
+        
         DB::beginTransaction();
         try {
             $result = $this->closureRepository->create($data);

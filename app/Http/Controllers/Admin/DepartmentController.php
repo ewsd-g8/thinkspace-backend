@@ -163,6 +163,7 @@ class DepartmentController extends Controller implements HasMiddleware
 
             return [
                 'department_name' => $department->name,
+                'department_color' => $department->color,
                 'ideas_count' => $ideasCount,
                 'percentage' => $percentage,
             ];
@@ -182,6 +183,7 @@ class DepartmentController extends Controller implements HasMiddleware
         $stats = $departments->map(function ($department){
             return [
                 'department_name' => $department->name,
+                'department_color' => $department->color,
                 'users' => $department->users->map(function ($user){
                     return [
                         'user_name' => $user->name,

@@ -16,29 +16,25 @@ class DepartmentTableSeeder extends Seeder
         $departments = [
             [
                 'name' => 'Engineering',
+                'color' => '#b63418',
                 'description' => 'Engineering Department'
             ],
             [
                 'name' => 'Business',
+                'color' => '#5bb618',
                 'description' => 'Business Department'
             ],
             [
                 'name' => 'Arts and Science',
+                'color' => '#1859b6',
                 'description' => 'Arts and Science Department'
-            ],
-            [
-                'name' => 'Education',
-                'description' => 'Education Department'
-            ],
-            [
-                'name' => 'Health Science',
-                'description' => 'Health Science Department'
-            ],
+            ]
         ];
 
         foreach ($departments as $department) {
             $department = Department::create([
                 'name' => $department['name'],
+                'color' => $department['color'],
                 'description' => $department['description']
             ]);
         }

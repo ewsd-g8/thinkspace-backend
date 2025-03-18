@@ -12,7 +12,7 @@ class Department extends Model
 
     protected $guarded=[];
 
-    protected $fillable = ['name', 'description', 'is_active'];
+    protected $fillable = ['name', 'description', 'is_active', 'color'];
 
     public function users(){
         return $this->hasMany(User::class);
