@@ -22,7 +22,7 @@ class DepartmentRepository
 
     public function getDepartments($request)
     {
-        $departments = Department::select('id', 'name', 'description', 'created_at', 'updated_at')
+        $departments = Department::select('id', 'name', 'description', 'is_active', 'created_at', 'updated_at')
         ->adminSort($request->sortType, $request->sortBy)
         ->adminSearch($request->search)
         ->latest();
@@ -39,6 +39,7 @@ class DepartmentRepository
     {
         $department = Department::create([
             'name'  => $data['name'],
+            'color' => $data['color'],
             'description' => $data['description'],
             'is_active' => Status::Active,
         ]);
@@ -49,6 +50,7 @@ class DepartmentRepository
     public function update(Department $department, array $data): Department
     {
         $department->name = isset($data['name']) ? $data['name'] : $department->name;
+        $department->color = isset($data['color']) ? $data['color'] : $department->color;
         $department->description = isset($data['description']) ? $data['description'] : $department->description;
         $department->save();
 

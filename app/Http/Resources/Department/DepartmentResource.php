@@ -17,6 +17,7 @@ class DepartmentResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'color' => $this->color,
             'description' => $this->description,
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d h:i A')
         ];

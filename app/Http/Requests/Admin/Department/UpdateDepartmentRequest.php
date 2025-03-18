@@ -23,6 +23,7 @@ class UpdateDepartmentRequest extends FormRequest
     {
         return [
             'name' => 'required|string|unique:departments,name,' . $this->route('department')->id,
+            'color' =>'required|string',
             'description' => 'required|string',
         ];
     }

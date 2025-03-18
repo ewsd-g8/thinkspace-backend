@@ -23,6 +23,7 @@ class CreateDepartmentRequest extends FormRequest
     {
         return [
             'name' => 'required|string|unique:departments,name',
+            'color' => 'required|string',
             'description' => 'required|string',
         ];
     }
