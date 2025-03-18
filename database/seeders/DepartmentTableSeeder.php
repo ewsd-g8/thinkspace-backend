@@ -21,24 +21,14 @@ class DepartmentTableSeeder extends Seeder
             ],
             [
                 'name' => 'Business',
-                'color' => '#b63418',
+                'color' => '#5bb618',
                 'description' => 'Business Department'
             ],
             [
                 'name' => 'Arts and Science',
-                'color' => '#b63418',
+                'color' => '#1859b6',
                 'description' => 'Arts and Science Department'
-            ],
-            [
-                'name' => 'Education',
-                'color' => '#b63418',
-                'description' => 'Education Department'
-            ],
-            [
-                'name' => 'Health Science',
-                'color' => '#b63418',
-                'description' => 'Health Science Department'
-            ],
+            ]
         ];
 
         foreach ($departments as $department) {
