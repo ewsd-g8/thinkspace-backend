@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
-use Carbon\Traits\Timestamp;
+use App\Models\Browser;
+use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Browser;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
-use Jenssegers\Agent\Agent;
 
 class AuthController extends Controller
 {
@@ -30,7 +29,10 @@ class AuthController extends Controller
                 }
 
                 $agent = new Agent();
-                $browser = Browser::firstOrCreate(['name' => $agent->browser()]);
+                $browser = Browser::firstOrCreate(
+                    ['name' => $agent->browser()],
+                    ['color' => sprintf('#%06X', mt_rand(0, 0xFFFFFF))]
+                );
                 $user->browsers()->syncWithoutDetaching([$browser->id]);
 
                 Auth::guard('admin')->setUser($user);
