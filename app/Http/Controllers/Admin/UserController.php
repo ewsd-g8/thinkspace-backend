@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
+use App\Models\Browser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Services\Admin\UserService;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Controllers\Middleware;
@@ -106,6 +108,20 @@ class UserController extends Controller implements HasMiddleware
     {
         $data = $this->userService->getDepartments();
 
-        return response()->success('Success', Response::HTTP_OK, $data); 
+        return response()->success('Success', Response::HTTP_OK, $data);
+    }
+
+    public function getBrowsers()
+    {
+        $totalUsers = DB::table('browser_user')->count(); // Total users who have browsers
+
+        return Browser::select('id', 'name', 'color')->withCount('users')
+            ->get()
+            ->map(function ($browser) use ($totalUsers) {
+                $browser->usage_percentage = $totalUsers > 0
+                    ? round(($browser->users_count / $totalUsers) * 100, 2)
+                    : 0;
+                return $browser;
+            });
     }
 }
