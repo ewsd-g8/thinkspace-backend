@@ -158,7 +158,7 @@ class Idea extends Model
                     $query->doesntHave('comments');
                     break;
                 case 'latestReport':
-                    $query->whereHas('report', function ($q) {
+                    $query->whereHas('reports', function ($q) {
                         $q->latest('created_at');
                     });
                     break;
