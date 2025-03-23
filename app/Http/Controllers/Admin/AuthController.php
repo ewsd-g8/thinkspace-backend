@@ -45,10 +45,10 @@ class AuthController extends Controller
                 $data['user']['mobile'] = $user->mobile;
                 $data['user']['profile'] = $user->profile ? $user->profile : null;
                 $data['user']['last_logout_at'] = $user->last_logout_at ? $user->last_logout_at : null;
-                $data['roles'] = $user->getRoleNames();
-                $data['permissions'] = $user->getPermissionsViaRoles()->pluck('name');
                 $data['department']['id'] = $user->department_id;
                 $data['department']['name'] = $department->name;
+                $data['roles'] = $user->getRoleNames();
+                $data['permissions'] = $user->getPermissionsViaRoles()->pluck('name');
 
                 return response()->success('Login Success!', Response::HTTP_OK, $data);
             } else {
