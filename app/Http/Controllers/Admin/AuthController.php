@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\Department;
 use App\Models\User;
 use App\Models\Browser;
 use Jenssegers\Agent\Agent;
@@ -28,6 +29,7 @@ class AuthController extends Controller
                     return response()->error("Account is not active. Please contact admin to login.", Response::HTTP_FORBIDDEN, ['email' => ['Inactive account!']]);
                 }
 
+                $department = Department::where('id', $user->department_id);
                 $agent = new Agent();
                 $browser = Browser::firstOrCreate(
                     ['name' => $agent->browser()],
@@ -45,6 +47,8 @@ class AuthController extends Controller
                 $data['user']['last_logout_at'] = $user->last_logout_at ? $user->last_logout_at : null;
                 $data['roles'] = $user->getRoleNames();
                 $data['permissions'] = $user->getPermissionsViaRoles()->pluck('name');
+                $data['department']['id'] = $user->department_id;
+                $data['department']['name'] = $department->name;
 
                 return response()->success('Login Success!', Response::HTTP_OK, $data);
             } else {

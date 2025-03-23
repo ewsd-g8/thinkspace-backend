@@ -110,8 +110,4 @@ class User extends Authenticatable
                   ->orWhereRaw($sql, ["%{$search}%"]);
         }
     }
-
-    public function scopeMostActiveUserSort ($query) {
-        $query->withCount(['ideas', 'comments'])->orderByRaw('(ideas_count + (comments_count / 4)) DESC');
-    }
 }
