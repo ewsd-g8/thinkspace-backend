@@ -29,7 +29,7 @@ class AuthController extends Controller
                     return response()->error("Account is not active. Please contact admin to login.", Response::HTTP_FORBIDDEN, ['email' => ['Inactive account!']]);
                 }
 
-                $department = Department::where('id', $user->department_id);
+                $department = Department::where('id', $user->department_id)->first();
                 $agent = new Agent();
                 $browser = Browser::firstOrCreate(
                     ['name' => $agent->browser()],
