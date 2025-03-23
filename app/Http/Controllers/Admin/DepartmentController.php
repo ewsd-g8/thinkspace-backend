@@ -13,14 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use App\Http\Requests\Admin\Department\CreateDepartmentRequest;
 use App\Http\Requests\Admin\Department\UpdateDepartmentRequest;
-
+use Illuminate\Container\Attributes\Auth;
 
 class DepartmentController extends Controller implements HasMiddleware
 {
     public static function middleware(): array
     {
         return [
-            new Middleware('permission:department-list', only:['index','show','ideasPerDepartment','userContributionsPerDepartment']),
+            new Middleware('permission:department-list', only:['index','show','ideasPerDepartment','userContributionsPerDepartment', 'userContributionsRelatedDepartment']),
             new Middleware('permission:department-create', only: ['store']),
             new Middleware('permission:department-edit', only: ['update', 'changeStatus']),
             new Middleware('permission:department-delete', only: ['destroy'])
@@ -197,5 +197,65 @@ class DepartmentController extends Controller implements HasMiddleware
         })->values();
 
         return response()->json($stats);
+    }
+
+    public function userContributionsRelatedDepartment(){
+
+        $user = auth()->user();
+
+        // Check if user is authenticated
+        if (!$user) {
+            return response()->json(['error' => 'Unauthenticated'], 401);
+        }
+
+        // Check if the user is a QA Coordinator using Spatie
+        $isQaCoordinator = $user->hasRole('QAcoordinator');
+
+        // Define the base query
+        $query = Department::with(['users' => function ($query) {
+            $query->with(['ideas' => function ($q) {
+                $q->select('id', 'title', 'user_id'); // Select only needed fields
+            }, 'comments' => function ($q) {
+                $q->select('id', 'content', 'user_id'); // Select only needed fields
+            }]);
+        }]);
+
+        // If QA Coordinator, filter to their department
+        if ($isQaCoordinator && $user->department_id) {
+            $query->where('id', $user->department_id);
+        }
+
+        // Execute the query
+        $departments = $query->get();
+
+        $stats = $departments->map(function ($department) {
+            return [
+                'department_name' => $department->name,
+                'department_color' => $department->color,
+                'users' => $department->users->map(function ($user) {
+                    return [
+                        'user_name' => $user->name,
+                        'ideas' => $user->ideas->map(function ($idea) {
+                            return [
+                                'idea_title' => $idea->title,
+                            ];
+                        })->all(),
+                        'comments' => $user->comments->map(function ($comment) {
+                            return [
+                                'comment_content' => $comment->content,
+                            ];
+                        })->all(),
+                    ];
+                })->filter(function ($user) {
+                    // Only include users with at least one idea or comment
+                    return !empty($user['ideas']) || !empty($user['comments']);
+                })->all(),
+            ];
+        })->filter(function ($department) {
+            return !empty($department['users']); // Only include departments with contributing users
+        })->values();
+
+        return response()->json($stats);
+        
     }
 }
