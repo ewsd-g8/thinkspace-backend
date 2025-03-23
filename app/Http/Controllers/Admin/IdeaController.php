@@ -133,4 +133,10 @@ class IdeaController extends Controller implements HasMiddleware
 
         return response()->download($zipPath)->deleteFileAfterSend(true);
     }
+
+    public function mostPopularIdeas()
+    {
+        $ideas = Idea::withCount(['reactions', 'comments', 'views'])->orderByRaw('(comments_count + (reactions_count / 4) + (views_count / 8)) DESC')->take(10)->get();
+        return $ideas;
+    }
 }

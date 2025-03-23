@@ -97,6 +97,7 @@ class UserController extends Controller implements HasMiddleware
         
         return response()->success('Success!', Response::HTTP_OK);
     }
+
     public function getRoles()
     {
         $data = $this->userService->getRoles();
@@ -123,5 +124,11 @@ class UserController extends Controller implements HasMiddleware
                     : 0;
                 return $browser;
             });
+    }
+
+    public function mostActiveUsers()
+    {
+        $users = User::withCount(['ideas', 'comments'])->orderByRaw('(ideas_count + (comments_count / 4)) DESC')->take(10)->get();
+        return $users;
     }
 }

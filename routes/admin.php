@@ -65,6 +65,9 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/stats/contributions-per-department', [DepartmentController::class,'userContributionsPerDepartment']);
     Route::get('/stats/contributions-related-department', [DepartmentController::class,'userContributionsRelatedDepartment']);
 
+    Route::get('/stats/most-active-users', [UserController::class, 'mostActiveUsers']);
+    Route::get('/stats/most-popular-ideas', [IdeaController::class, 'mostPopularIdeas']);
+
     Route::get('/stats/browsers', [UserController::class, 'getBrowsers']);
 });
 
