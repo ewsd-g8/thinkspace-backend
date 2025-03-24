@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Mail\WelcomeEmail;
 use App\Models\Department;
 use App\Models\User;
 use App\Models\Browser;
+use Illuminate\Support\Facades\Mail;
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
+use function PHPUnit\Framework\isEmpty;
 
 class AuthController extends Controller
 {
@@ -49,6 +52,10 @@ class AuthController extends Controller
                 $data['department']['name'] = $department->name;
                 $data['roles'] = $user->getRoleNames();
                 $data['permissions'] = $user->getPermissionsViaRoles()->pluck('name');
+
+                if(is_null($user->last_logout_at)) {
+                    Mail::to($user->email)->send(new WelcomeEmail($user));
+                }
 
                 return response()->success('Login Success!', Response::HTTP_OK, $data);
             } else {
