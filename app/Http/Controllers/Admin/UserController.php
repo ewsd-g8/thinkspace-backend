@@ -128,7 +128,7 @@ class UserController extends Controller implements HasMiddleware
 
     public function mostActiveUsers()
     {
-        $users = User::withCount(['ideas', 'comments'])->orderByRaw('(ideas_count + (comments_count / 4)) DESC')->take(10)->get();
+        $users = User::with(['department:id,name'])->withCount(['ideas', 'comments'])->orderByRaw('(ideas_count + (comments_count / 4)) DESC')->take(10)->get();
         return $users;
     }
 }
