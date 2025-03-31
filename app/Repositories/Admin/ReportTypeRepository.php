@@ -19,7 +19,7 @@ class ReportTypeRepository
 
     public function getReportTypes($request)
     {
-        $reportTypes = ReportType::select('id', 'name', 'description', 'created_at', 'updated_at')->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
+        $reportTypes = ReportType::select('id', 'name', 'description','is_active', 'created_at', 'updated_at')->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
 
         if (request()->has('paginate')) {
             $reportTypes = $reportTypes->paginate(request()->get('paginate'));

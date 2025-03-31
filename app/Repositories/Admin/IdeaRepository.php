@@ -24,12 +24,7 @@ class IdeaRepository
 
     public function getIdeas($request)
     {
-        $idea = Idea::with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments'])
-            ->where('is_active', true)
-            ->whereHas('closure', function ($query) {
-                $query->where('final_date', '>', now())
-                      ->Where('is_active', true);
-            })
+        $idea = Idea::with(['categories:id,name,description', 'user', 'closure', 'documents', 'comments','reports'])
             ->withCount([
                 'comments',
                 'views',
@@ -42,6 +37,14 @@ class IdeaRepository
                 }
             ])
             ->filterHiddenUser()
+            ->when($request->user_id, function ($query) use ($request) {
+                $query->where('user_id', $request->user_id);
+            }) 
+            ->when(!$request->active_only, function ($query) {
+                
+            }, function ($query) {
+                $query->where('is_active', 1); 
+            })
             ->when($request->search, function ($query) use ($request) {
                 $query->adminSearch($request->search);
             })
@@ -133,7 +136,15 @@ class IdeaRepository
                 'comments' => function ($query) use ($sortLatest) {
                     $query->orderBy('created_at', $sortLatest === true ? 'desc' : 'asc')->with('user');
                 }
-                , 'reports'])
+                , 'reports' => function ($query) {
+                    // Explicitly load user and reportType with necessary fields
+                    $query->with([
+                        'user:id,full_name,email',
+                        'reportType:id,name'
+                    ]);
+                }
+                
+                ])
             ->withCount([
                 'comments',
                 'views',

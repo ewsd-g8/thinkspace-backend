@@ -2,7 +2,6 @@
 
 namespace App\Repositories\Admin;
 
-use App\Enums\Status;
 use App\Models\Closure;
 
 class ClosureRepository
@@ -17,7 +16,7 @@ class ClosureRepository
 
     public function getClosures($request)
     {
-        $closures = Closure::select('id', 'name', 'date', 'final_date', 'created_at', 'updated_at')->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
+        $closures = Closure::select('id', 'name', 'date', 'final_date', 'is_active', 'created_at', 'updated_at')->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
 
         if (request()->has('paginate')) {
             $closures = $closures->paginate(request()->get('paginate'));
@@ -34,7 +33,7 @@ class ClosureRepository
             'name'  => $data['name'],
             'date' => $data['date'],
             'final_date' => $data['final_date'],
-            'is_active' => Status::Active,
+            
         ]);
 
         return $closure;

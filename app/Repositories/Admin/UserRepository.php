@@ -24,7 +24,7 @@ class UserRepository
 
     public function getUsers($request)
     {
-        $users = User::select('id', 'name', 'full_name', 'email', 'mobile', 'last_logout_at', 'is_active', 'department_id', 'created_at', 'updated_at')->with(['roles','department' => function ($q) {
+        $users = User::select('id', 'name', 'full_name', 'email', 'mobile', 'last_logout_at', 'is_active','is_blocked','is_hidden', 'department_id', 'created_at', 'updated_at')->with(['roles','department' => function ($q) {
             $q->select('id', 'name');
         }])
         ->withCount(['ideas', 'comments'])
@@ -120,9 +120,9 @@ class UserRepository
             $user->save();
         }
 
-        $role_array = [];
-        $role_array[] = $data['roles'];
-        $user->assignRole($role_array);
+       if (isset($data['roles'])) {
+        $user->syncRoles([$data['roles']]); 
+    }
 
         return $user;
     }
@@ -141,7 +141,6 @@ class UserRepository
             'updated_at' => now(),
         ]);
 
-        $user->tokens()->delete();
         return $user->refresh();
     }
     
