@@ -31,11 +31,7 @@ class UserRepository
         ->when($request->search, function ($query) use ($request) {
             return $query->adminSearch($request->search);
         })
-        ->when($request->mostActiveUser, function ($query) {
-            return $query->mostActiveUserSort();
-        }, function ($query) use ($request) {
-            return $query->adminSort($request->sortType, $request->sortBy)->latest();
-        });
+        ->adminSort($request->sortType, $request->sortBy)->latest();
 
         if (request()->has('paginate')) {
             $users = $users->paginate(request()->get('paginate'));

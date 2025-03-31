@@ -27,7 +27,8 @@ class IdeaController extends Controller implements HasMiddleware
         return [
             new Middleware('permission:idea-list', only: ['index', 'show']),
             new Middleware('permission:idea-create', only: ['store']),
-            new Middleware('permission:idea-edit', only: ['update', 'changeStatus'])
+            new Middleware('permission:idea-edit', only: ['update', 'changeStatus']),
+            new Middleware('permission:dashboard-view', only: ['mostPopularIdeas'])
         ];
 
     }
@@ -132,5 +133,11 @@ class IdeaController extends Controller implements HasMiddleware
         }
 
         return response()->download($zipPath)->deleteFileAfterSend(true);
+    }
+
+    public function mostPopularIdeas()
+    {
+        $ideas = Idea::withCount(['reactions', 'comments', 'views'])->orderByRaw('(comments_count + (reactions_count / 4) + (views_count / 8)) DESC')->take(10)->get();
+        return $ideas;
     }
 }

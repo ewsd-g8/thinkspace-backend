@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Mail\WelcomeEmail;
+use App\Models\Department;
 use App\Models\User;
 use App\Models\Browser;
+use Illuminate\Support\Facades\Mail;
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
+use function PHPUnit\Framework\isEmpty;
 
 class AuthController extends Controller
 {
@@ -28,6 +32,7 @@ class AuthController extends Controller
                     return response()->error("Account is not active. Please contact admin to login.", Response::HTTP_FORBIDDEN, ['email' => ['Inactive account!']]);
                 }
 
+                $department = Department::where('id', $user->department_id)->first();
                 $agent = new Agent();
                 $browser = Browser::firstOrCreate(
                     ['name' => $agent->browser()],
@@ -43,8 +48,14 @@ class AuthController extends Controller
                 $data['user']['mobile'] = $user->mobile;
                 $data['user']['profile'] = $user->profile ? $user->profile : null;
                 $data['user']['last_logout_at'] = $user->last_logout_at ? $user->last_logout_at : null;
+                $data['department']['id'] = $user->department_id;
+                $data['department']['name'] = $department->name;
                 $data['roles'] = $user->getRoleNames();
                 $data['permissions'] = $user->getPermissionsViaRoles()->pluck('name');
+
+                if(is_null($user->last_logout_at)) {
+                    Mail::to($user->email)->send(new WelcomeEmail($user));
+                }
 
                 return response()->success('Login Success!', Response::HTTP_OK, $data);
             } else {
