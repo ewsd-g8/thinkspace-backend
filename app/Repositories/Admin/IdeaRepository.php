@@ -136,8 +136,7 @@ class IdeaRepository
                 'comments' => function ($query) use ($sortLatest) {
                     $query->orderBy('created_at', $sortLatest === true ? 'desc' : 'asc')->with('user');
                 }
-                , 'reports' => function ($query) {
-                    // Explicitly load user and reportType with necessary fields
+                ,'reports' => function ($query) {
                     $query->with([
                         'user:id,full_name,email',
                         'reportType:id,name'
