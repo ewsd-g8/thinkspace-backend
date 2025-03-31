@@ -266,6 +266,12 @@ class PermissionTableSeeder extends Seeder
                 'label' => 'Destroy',
                 'guard_name' => 'admin'
             ],
+            [
+                'category' => 'Admin Dashboard',
+                'name' => 'dashboard-view',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
         ];
 
         foreach ($permissions as $permission) {

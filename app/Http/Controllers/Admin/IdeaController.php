@@ -27,7 +27,8 @@ class IdeaController extends Controller implements HasMiddleware
         return [
             new Middleware('permission:idea-list', only: ['index', 'show']),
             new Middleware('permission:idea-create', only: ['store']),
-            new Middleware('permission:idea-edit', only: ['update', 'changeStatus'])
+            new Middleware('permission:idea-edit', only: ['update', 'changeStatus']),
+            new Middleware('permission:dashboard-view', only: ['mostPopularIdeas'])
         ];
 
     }
