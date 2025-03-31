@@ -39,7 +39,7 @@ class ClosureController extends Controller implements HasMiddleware
 
         return response()->success('Success!', Response::HTTP_OK, $closures);
     }
-
+            
     /**
      * Store a newly created resource in storage.
      */

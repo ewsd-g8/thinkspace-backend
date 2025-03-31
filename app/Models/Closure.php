@@ -19,7 +19,7 @@ class Closure extends Model
 
     public function scopeAdminSort($query, $sortType, $sortBy)
     {
-        $sortFields = ['name', 'date', 'final_date'] ;
+        $sortFields = ['name', 'date', 'final_date','is_active'] ;
 
         if ($sortBy && $sortType) {
             $sortField = in_array($sortBy, $sortFields) ? $sortBy : 'name';
@@ -35,4 +35,5 @@ class Closure extends Model
                   ->orWhere('final_date', 'like', "%$search%");
         }
     }
+    
 }
