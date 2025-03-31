@@ -84,4 +84,9 @@ class ClosureService implements ClosureServiceInterface
         DB::commit();
         return $result;
     }
+
+    public function getAllClosures()
+    {
+        return $this->closureRepository->getAllClosures();
+    }
 }

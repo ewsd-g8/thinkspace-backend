@@ -84,4 +84,11 @@ class ClosureController extends Controller implements HasMiddleware
 
         return response()->success('Success!', Response::HTTP_OK, $changedStatus);
     }
+
+    public function getAllClosures()
+    {
+        $data = $this->closureService->getAllClosures();
+
+        return response()->success('Success', Response::HTTP_OK, $data); 
+    }
 }

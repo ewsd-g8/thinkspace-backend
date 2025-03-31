@@ -69,4 +69,9 @@ class ClosureRepository
 
         return $closure->refresh();
     }
+
+    public function getAllClosures()
+    {
+        return Closure::latest()->get(); 
+    }
 }
