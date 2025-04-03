@@ -137,7 +137,14 @@ class IdeaController extends Controller implements HasMiddleware
 
     public function mostPopularIdeas()
     {
-        $ideas = Idea::withCount(['reactions', 'comments', 'views'])->orderByRaw('(comments_count + (reactions_count / 4) + (views_count / 8)) DESC')->take(10)->get();
+        $ideas = Idea::withCount(['reactions', 'comments', 'views'])->orderByRaw('(comments_count + (reactions_count / 4) + (views_count / 8)) DESC');
+
+        if (request()->has('paginate')) {
+            $ideas = $ideas->paginate(request()->get('paginate'));
+        } else {
+            $ideas = $ideas->paginate(5);
+        }
+
         return $ideas;
     }
 }
