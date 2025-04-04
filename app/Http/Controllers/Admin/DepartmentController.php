@@ -200,63 +200,88 @@ class DepartmentController extends Controller implements HasMiddleware
         return response()->json($stats);
     }
 
-    public function userContributionsRelatedDepartment(){
+    public function userContributionsRelatedDepartment()
+    {
+            $user = auth()->user();
 
-        $user = auth()->user();
+            // Check if user is authenticated
+            if (!$user) {
+                return response()->json(['error' => 'Unauthenticated'], 401);
+            }
 
-        // Check if user is authenticated
-        if (!$user) {
-            return response()->json(['error' => 'Unauthenticated'], 401);
-        }
+            // Check if the user is a QA Coordinator using Spatie
+            if (!$user->hasRole('QAcoordinator')) {
+                return response()->json(['error' => 'Forbidden: Only QA Coordinators can access this data'], 403);
+            }
 
-        // Check if the user is a QA Coordinator using Spatie
-        $isQaCoordinator = $user->hasRole('QAcoordinator');
+            // Ensure the QA Coordinator has a department
+            if (!$user->department_id) {
+                return response()->json(['error' => 'No department assigned to this QA Coordinator'], 400);
+            }
 
-        // Define the base query
-        $query = Department::with(['users' => function ($query) {
-            $query->with(['ideas' => function ($q) {
-                $q->select('id', 'title', 'user_id'); // Select only needed fields
-            }, 'comments' => function ($q) {
-                $q->select('id', 'content', 'user_id'); // Select only needed fields
-            }]);
-        }]);
+            // Fetch the QA Coordinator's department with users, ideas, and comments
+            $department = Department::with(['users' => function ($query) {
+                $query->with(['ideas' => function ($q) {
+                    $q->select('id', 'title', 'user_id');
+                }, 'comments' => function ($q) {
+                    $q->select('id', 'content', 'user_id');
+                }]);
+            }])->where('id', $user->department_id)->first();
 
-        // If QA Coordinator, filter to their department
-        if ($isQaCoordinator && $user->department_id) {
-            $query->where('id', $user->department_id);
-        }
+            // If department not found
+            if (!$department) {
+                return response()->json(['error' => 'Department not found'], 404);
+            }
 
-        // Execute the query
-        $departments = $query->get();
+            // Filter and map users with contributions
+            $usersWithContributions = $department->users->map(function ($user) {
+                return [
+                    'user_name' => $user->name,
+                    'ideas' => $user->ideas->map(function ($idea) {
+                        return [
+                            'idea_title' => $idea->title,
+                        ];
+                    })->all(),
+                    'comments' => $user->comments->map(function ($comment) {
+                        return [
+                            'comment_content' => $comment->content,
+                        ];
+                    })->all(),
+                ];
+            })->filter(function ($user) {
+                return !empty($user['ideas']) || !empty($user['comments']);
+            });
 
-        $stats = $departments->map(function ($department) {
-            return [
+            // Paginate the users
+            $perPage = request()->has('paginate') ? max(1, (int) request()->get('paginate')) : 5;
+            $paginatedUsers = $usersWithContributions->forPage(
+                request()->get('page', 1),
+                $perPage
+            )->values();
+
+            // Manually calculate pagination metadata
+            $totalUsers = $usersWithContributions->count();
+            $currentPage = (int) request()->get('page', 1);
+            $lastPage = (int) ceil($totalUsers / $perPage);
+
+            // Build the stats array
+            $stats = [
                 'department_name' => $department->name,
                 'department_color' => $department->color,
-                'users' => $department->users->map(function ($user) {
-                    return [
-                        'user_name' => $user->name,
-                        'ideas' => $user->ideas->map(function ($idea) {
-                            return [
-                                'idea_title' => $idea->title,
-                            ];
-                        })->all(),
-                        'comments' => $user->comments->map(function ($comment) {
-                            return [
-                                'comment_content' => $comment->content,
-                            ];
-                        })->all(),
-                    ];
-                })->filter(function ($user) {
-                    // Only include users with at least one idea or comment
-                    return !empty($user['ideas']) || !empty($user['comments']);
-                })->all(),
+                'users' => $paginatedUsers->all(),
             ];
-        })->filter(function ($department) {
-            return !empty($department['users']); // Only include departments with contributing users
-        })->values();
 
-        return response()->json($stats);
-        
-    }
+            // Return response with pagination metadata
+            return response()->json([
+                'data' => $stats,
+                'pagination' => [
+                    'current_page' => $currentPage,
+                    'per_page' => $perPage,
+                    'total' => $totalUsers,
+                    'last_page' => $lastPage,
+                    'from' => ($currentPage - 1) * $perPage + 1,
+                    'to' => min($currentPage * $perPage, $totalUsers),
+                ],
+            ]);
+    } 
 }
