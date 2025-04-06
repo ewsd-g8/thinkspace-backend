@@ -37,14 +37,10 @@ class IdeaRepository
                 }
             ])
             ->filterHiddenUser()
+            ->where('is_active', 1)
             ->when($request->user_id, function ($query) use ($request) {
                 $query->where('user_id', $request->user_id);
             }) 
-            ->when(!$request->active_only, function ($query) {
-                
-            }, function ($query) {
-                $query->where('is_active', 1); 
-            })
             ->when($request->search, function ($query) use ($request) {
                 $query->adminSearch($request->search);
             })
@@ -144,6 +140,7 @@ class IdeaRepository
                 }
                 
                 ])
+            ->where('is_active', 1)
             ->withCount([
                 'comments',
                 'views',
