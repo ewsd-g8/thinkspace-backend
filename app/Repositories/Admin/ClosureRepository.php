@@ -71,6 +71,6 @@ class ClosureRepository
 
     public function getAllClosures()
     {
-        return Closure::latest()->get(); 
+        return Closure::where('is_active', 1)->latest()->get(); 
     }
 }

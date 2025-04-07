@@ -155,7 +155,7 @@ class DepartmentController extends Controller implements HasMiddleware
         $totalIdeas = Idea::count();
 
         // Get departments with their idea counts
-        $departments = Department::withCount('ideas')->get();
+        $departments = Department::withCount('ideas')->where('is_active', 1)->get();
 
         // Format the response with percentages
         $stats = $departments->map(function ($department) use ($totalIdeas) {
@@ -177,7 +177,7 @@ class DepartmentController extends Controller implements HasMiddleware
     }
 
     public function userContributionsPerDepartment(){
-        $departments = Department::with(['users' => function($query){
+        $departments = Department::where('is_active', 1)->with(['users' => function($query){
             $query->withCount(['ideas', 'comments']);
         }])->get();
 
@@ -220,7 +220,7 @@ class DepartmentController extends Controller implements HasMiddleware
             }
 
             // Fetch the QA Coordinator's department with users, ideas, and comments
-            $department = Department::with(['users' => function ($query) {
+            $department = Department::where('is_active', 1)->with(['users' => function ($query) {
                 $query->with(['ideas' => function ($q) {
                     $q->select('id', 'title', 'user_id');
                 }, 'comments' => function ($q) {

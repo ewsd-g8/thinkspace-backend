@@ -25,7 +25,7 @@ class AdminUserSeeder extends Seeder
                 'password' => '123456',
                 'mobile' => '09422555544',
                 'is_active' => 1,
-                'department_id' => Department::first()->id
+                'department_id' => Department::inRandomOrder()->first()->id
             ]
         ];
 
