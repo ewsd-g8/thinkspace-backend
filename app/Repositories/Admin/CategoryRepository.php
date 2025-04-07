@@ -72,6 +72,6 @@ class CategoryRepository
 
     public function getAllCategories()
     {
-        return Category::latest()->get();
+        return Category::where('is_active', 1)->latest()->get();
     }
 }

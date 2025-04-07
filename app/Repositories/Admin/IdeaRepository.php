@@ -38,6 +38,9 @@ class IdeaRepository
             ])
             ->filterHiddenUser()
             ->where('is_active', 1)
+            ->whereHas('closure', function ($query) {
+                $query->where('is_active', 1);
+            })
             ->when($request->user_id, function ($query) use ($request) {
                 $query->where('user_id', $request->user_id);
             }) 

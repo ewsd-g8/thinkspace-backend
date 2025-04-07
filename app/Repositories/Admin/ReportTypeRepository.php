@@ -72,6 +72,6 @@ class ReportTypeRepository
 
     public function getAllReportTypes()
     {
-        return ReportType::latest()->get(); 
+        return ReportType::where('is_active', 1)->latest()->get(); 
     }
 }

@@ -191,6 +191,6 @@ class UserRepository
 
     public function getDepartments()
     {
-        return Department::latest()->get(); 
+        return Department::where('is_active', 1)->latest()->get(); 
     }
 }
