@@ -16,12 +16,15 @@ class DatabaseSeeder extends Seeder
         $this->call([
             DepartmentTableSeeder::class,
             CategoryTableSeeder::class,
+            ClosureTableSeeder::class,
+            ReportTypeTableSeeder::class,
             PermissionTableSeeder::class,
             RoleTableSeeder::class,
             RoleHasPermissionTableSeeder::class,
             AdminUserSeeder::class,
             UserTableSeeder::class,
             IdeaTableSeeder::class,
+            CategoryIdeaTableSeeder::class,
         ]);
     }
 }

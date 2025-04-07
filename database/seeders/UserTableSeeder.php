@@ -47,7 +47,56 @@ class UserTableSeeder extends Seeder
                 'is_active' => 1,
                 'department_id' => Department::inRandomOrder()->first()->id,
                 'role' => 'Staff'
-            ]
+            ],
+            [
+                'name' => 'Staff Member',
+                'full_name' => 'Jacky Chan',
+                'email' => 'chan@idea.com',
+                'password' => '123456',
+                'mobile' => '09422555548',
+                'is_active' => 1,
+                'department_id' => Department::inRandomOrder()->first()->id,
+                'role' => 'Staff'
+            ],
+            [
+                'name' => 'Staff Member',
+                'full_name' => 'Bruce Lee',
+                'email' => 'bruce@idea.com',
+                'password' => '123456',
+                'mobile' => '09422555549',
+                'is_active' => 1,
+                'department_id' => Department::inRandomOrder()->first()->id,
+                'role' => 'Staff'
+            ],
+            [
+                'name' => 'Staff Member',
+                'full_name' => 'Bat Man',
+                'email' => 'bratman@idea.com',
+                'password' => '123456',
+                'mobile' => '09422555550',
+                'is_active' => 1,
+                'department_id' => Department::inRandomOrder()->first()->id,
+                'role' => 'Staff'
+            ],[
+                'name' => 'Staff Member',
+                'full_name' => 'Pa Pa',
+                'email' => 'papa@idea.com',
+                'password' => '123456',
+                'mobile' => '09422555551',
+                'is_active' => 1,
+                'department_id' => Department::inRandomOrder()->first()->id,
+                'role' => 'Staff'
+            ],
+            [
+                'name' => 'Staff Member',
+                'full_name' => 'Aye Chan Myat',
+                'email' => 'acm@idea.com',
+                'password' => '123456',
+                'mobile' => '09422555552',
+                'is_active' => 1,
+                'department_id' => Department::inRandomOrder()->first()->id,
+                'role' => 'Staff'
+            ],
         ];
 
         $role = Role::where('name', 'Superadmin')->first();

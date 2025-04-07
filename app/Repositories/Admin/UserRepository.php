@@ -186,7 +186,7 @@ class UserRepository
 
     public function getRoles()
     {
-        return Role::where('is_active', 1)->latest()->get();
+        return Role::latest()->get();
     }
 
     public function getDepartments()
