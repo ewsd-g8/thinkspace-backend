@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\Admin\IdeaRepository;
 use App\Services\Interfaces\Admin\IdeaServiceInterface;
+use Carbon\Carbon;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class IdeaService implements IdeaServiceInterface
 {
@@ -37,7 +39,12 @@ class IdeaService implements IdeaServiceInterface
     {
         DB::beginTransaction();
         try {
-            $result = $this->ideaRepository->create($data);
+            $activeClosure = Closure::where("is_active", true)->first();
+            if (!$activeClosure || $activeClosure->date < now()) {
+                throw new HttpException(400, 'Closure date has passed for posts');
+            } else {
+                $result = $this->ideaRepository->create($data);
+            }
         } catch (Exception $exc) {
             DB::rollBack();
             Log::error($exc->getMessage());
