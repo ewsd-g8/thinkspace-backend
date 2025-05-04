@@ -22,7 +22,7 @@ class AdminUserSeeder extends Seeder
                 'name' => 'Super Admin',
                 'full_name' => 'John Wick',
                 'email' => 'superadmin@idea.com',
-                'password' => '123456',
+                'password' => 'Thinkspace@123456',
                 'mobile' => '09422555544',
                 'is_active' => 1,
                 'department_id' => Department::inRandomOrder()->first()->id

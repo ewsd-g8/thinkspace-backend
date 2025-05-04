@@ -283,5 +283,6 @@ class DepartmentController extends Controller implements HasMiddleware
                     'to' => min($currentPage * $perPage, $totalUsers),
                 ],
             ]);
+            
     } 
 }

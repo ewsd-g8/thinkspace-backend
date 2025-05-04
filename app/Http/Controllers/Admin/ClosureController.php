@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Closure\CreateClosureRequest;
 use App\Http\Requests\Admin\Closure\UpdateClosureRequest;
-use App\Models\Closure as ClosureModel;
+use App\Models\Closure;
 use App\Services\Admin\ClosureService;
 use Illuminate\Routing\Controllers\Middleware;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,5 +90,38 @@ class ClosureController extends Controller implements HasMiddleware
         $data = $this->closureService->getAllClosures();
 
         return response()->success('Success', Response::HTTP_OK, $data); 
+    }
+
+    public function getClosurePostStatus()
+    {
+        $result = [
+            "post" => false,
+            "comment" => false
+        ];
+
+        $activeClosure = Closure::where("is_active", true)->first();
+
+        if (!$activeClosure) {
+            return response()->success('Success', Response::HTTP_OK, $result);
+        }
+
+        $date = new \DateTime($activeClosure->date);
+        $finalDate = new \DateTime($activeClosure->final_date);
+        $now = now();
+        
+        if ($now < $date) {
+            $result["post"] = true;
+            $result["comment"] = true;
+        } 
+        elseif ($now >= $date && $now <= $finalDate) {
+            $result["post"] = false;
+            $result["comment"] = true;
+        } 
+        elseif ($now > $finalDate) {
+            $result["post"] = false;
+            $result["comment"] = false;
+        }
+
+        return response()->success('Success', Response::HTTP_OK, $result);
     }
 }

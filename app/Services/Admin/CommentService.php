@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Models\Closure;
 use App\Models\Comment;
 use Exception;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\Admin\CommentRepository;
 use App\Services\Interfaces\Admin\CommentServiceInterface;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CommentService implements CommentServiceInterface
 {
@@ -30,7 +32,12 @@ class CommentService implements CommentServiceInterface
     {
         DB::beginTransaction();
         try {
-            $result = $this->commentRepository->create($data);
+            $activeClosure = Closure::where("is_active", true)->first();
+            if (!$activeClosure || $activeClosure->final_date < now()) {
+                throw new HttpException(400, 'Closure date has passed for posts');
+            } else {
+                $result = $this->commentRepository->create($data);
+            }
         } catch (Exception $exc) {
             DB::rollBack();
             Log::error($exc->getMessage());

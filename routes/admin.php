@@ -57,6 +57,7 @@ Route::group(['middleware' => 'auth:admin'], function () {
     Route::get('/get-all-departments', [UserController::class, 'getDepartments']);
     Route::get('/get-all-report-types', [ReportTypeController::class, 'getAllReportTypes']);
     Route::get('/get-all-closures', [ClosureController::class, 'getAllClosures']);
+    Route::get('/get-closure-post-status', [ClosureController::class, 'getClosurePostStatus']);
 
     Route::get('export-ideas/{closure_id}', [IdeaController::class, 'export']);
     Route::get('download-documents/{closure_id}', [IdeaController::class, 'downloadDocuments']);
