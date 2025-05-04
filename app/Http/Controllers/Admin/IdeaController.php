@@ -103,28 +103,44 @@ class IdeaController extends Controller implements HasMiddleware
     public function downloadDocuments($closure_id)
     {
         $closure = Closure::where('id', $closure_id)->first();
+
+        if (!$closure) {
+            return response()->success('Success!', Response::HTTP_NOT_FOUND, $changedStatus);
+        }
+
         $ideas = Idea::with('documents')->where('closure_id', $closure_id)->get();
+
+        $hasDocuments = $ideas->contains(function ($idea) {
+            return $idea->documents->isNotEmpty();
+        });
+
+        if (!$hasDocuments) {
+            return response()->error('No documents found for this closure!', Response::HTTP_NOT_FOUND);
+        }
 
         $zipFileName = 'Documents_For_' . str_replace(' ', '_', $closure->name) . '.zip';
         $zipPath = storage_path('app/public/' . $zipFileName);
         $zip = new ZipArchive;
 
         if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+            
             foreach ($ideas as $idea) {
-                foreach ($idea->documents as $document) {
-                    $path = parse_url($document->file_path, PHP_URL_PATH);
-                    $pathParts = explode('/', $path);
-                    $filepath = implode('/', array_slice($pathParts, 2));
+                if (!$idea->documents->isEmpty()) {
+                    foreach ($idea->documents as $document) {
+                        $path = parse_url($document->file_path, PHP_URL_PATH);
+                        $pathParts = explode('/', $path);
+                        $filepath = implode('/', array_slice($pathParts, 2));
 
-                    if ($filepath && Storage::exists($filepath)) {
-                        // Get the full path of the file to add to the ZIP
-                        $fullFilePath = storage_path('app/public/' . $filepath);
-                        $zip->addFile($fullFilePath, basename($fullFilePath));
-                    } else {
-                        // Log a warning for missing files
-                        Log::warning("File not found: " . $filepath);
+                        if ($filepath && Storage::exists($filepath)) {
+                            // Get the full path of the file to add to the ZIP
+                            $fullFilePath = storage_path('app/public/' . $filepath);
+                            $zip->addFile($fullFilePath, basename($fullFilePath));
+                        } else {
+                            // Log a warning for missing files
+                            Log::warning("File not found: " . $filepath);
+                        }
+
                     }
-
                 }
             }
             $zip->close();
