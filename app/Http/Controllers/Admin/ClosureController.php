@@ -78,7 +78,7 @@ class ClosureController extends Controller implements HasMiddleware
         //
     }
 
-    public function changeStatus(ClosureModel $closure)
+    public function changeStatus(Closure $closure)
     {
         $changedStatus = $this->closureService->changeStatus($closure);
 
