@@ -4,11 +4,11 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Traits\Uuids;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -23,47 +23,13 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'full_name',
         'email',
         'mobile',
         'profile',
         'password',
-        'last_logout_at',
-        'is_active',
-        'is_blocked',
-        'is_hidden',
-        'is_anonymous',
-        'department_id',
+        'is_active'
     ];
 
-    public function department()
-    {
-        return $this->belongsTo(Department::class);
-    }
-
-    public function ideas()
-    {
-        return $this->hasMany(Idea::class);
-    }
-
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
-
-    public function views()
-    {
-        return $this->hasMany(View::class);
-    }
-    public function reports()
-    {
-        $this->hasMany(Report::class);
-    }
-
-    public function browsers()
-    {
-        return $this->belongsToMany(Browser::class, 'browser_user', 'user_id', 'browser_id');
-    }
     /**
      * The attributes that should be hidden for serialization.
      *

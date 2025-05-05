@@ -26,7 +26,7 @@ class RoleController extends Controller
         return [
             new Middleware(PermissionMiddleware::using('role-list'), only:['index']),
             new Middleware(PermissionMiddleware::using('role-create'), only:['store']),
-            new Middleware(PermissionMiddleware::using('role-edit'), only:['update']),
+            new Middleware(PermissionMiddleware::using('role-edit'), only:['update', 'changeStatus']),
         ];
     }
 

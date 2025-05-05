@@ -26,8 +26,7 @@ class UpdateUserRequest extends FormRequest
             'email' => 'required|email|max:' . config('constants.STRING_DEFAULT_MAX_LENGTH') . '|unique:users,email,' . $this->route('user')->id,
             'mobile' => 'nullable|regex:/^([0-9\s\-\+\(\)]*)$/|phone:MM|max:' . config('constants.STRING_DEFAULT_MAX_LENGTH') . '|unique:users,mobile,' . $this->route('user')->id,
             'profile' => 'nullable|mimes:jpeg,png,jpg,gif',
-            'roles' => 'required',
-            'department_id' => 'required|exists:departments,id',
+            'roles' => 'required'
         ];
     }
 }
