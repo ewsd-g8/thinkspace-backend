@@ -11,10 +11,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        // Department::factory()->count(5)->create();
+
         $this->call([
+            DepartmentTableSeeder::class,
+            CategoryTableSeeder::class,
+            ClosureTableSeeder::class,
+            ReportTypeTableSeeder::class,
             PermissionTableSeeder::class,
             RoleTableSeeder::class,
+            RoleHasPermissionTableSeeder::class,
             AdminUserSeeder::class,
+            UserTableSeeder::class,
+            IdeaTableSeeder::class,
+            CategoryIdeaTableSeeder::class,
         ]);
     }
 }

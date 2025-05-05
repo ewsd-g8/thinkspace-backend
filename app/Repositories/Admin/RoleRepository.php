@@ -14,12 +14,6 @@ class RoleRepository
         return Role::class;
     }
 
-    /**
-     * Get lists of carPost.
-     *
-     * @return Collection | static []
-     */
-
     public function getRoles($request)
     {
         $roles = Role::adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();

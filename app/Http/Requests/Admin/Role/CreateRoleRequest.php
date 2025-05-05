@@ -26,6 +26,7 @@ class CreateRoleRequest extends FormRequest
         return [
             'name' => 'required|max:' . config('constants.STRING_DEFAULT_MAX_LENGTH') . '|unique:roles,name',
             'permission' => 'required',
+           
         ];
     }
 }

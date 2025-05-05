@@ -61,6 +61,217 @@ class PermissionTableSeeder extends Seeder
                 'label' => 'Destroy',
                 'guard_name' => 'admin'
             ],
+            [
+                'category' => 'Category Management',
+                'name' => 'category-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Category Management',
+                'name' => 'category-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Category Management',
+                'name' => 'category-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Category Management',
+                'name' => 'category-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Closure Management',
+                'name' => 'closure-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Closure Management',
+                'name' => 'closure-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Closure Management',
+                'name' => 'closure-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Closure Management',
+                'name' => 'closure-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Idea Management',
+                'name' => 'idea-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Idea Management',
+                'name' => 'idea-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Idea Management',
+                'name' => 'idea-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Idea Management',
+                'name' => 'idea-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Department Management',
+                'name' => 'department-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Department Management',
+                'name' => 'department-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Department Management',
+                'name' => 'department-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Department Management',
+                'name' => 'department-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Comment Management',
+                'name' => 'comment-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Comment Management',
+                'name' => 'comment-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Comment Management',
+                'name' => 'comment-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Comment Management',
+                'name' => 'comment-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Reaction Management',
+                'name' => 'reaction-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Reaction Management',
+                'name' => 'reaction-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'View Management',
+                'name' => 'view-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'View Management',
+                'name' => 'view-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'View Management',
+                'name' => 'view-update',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'View Management',
+                'name' => 'view-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Type Management',
+                'name' => 'reportType-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Type Management',
+                'name' => 'reportType-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Type Management',
+                'name' => 'reportType-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Type Management',
+                'name' => 'reportType-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
+
+            [
+                'category' => 'Report Management',
+                'name' => 'report-list',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Management',
+                'name' => 'report-create',
+                'label' => 'Write',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Management',
+                'name' => 'report-edit',
+                'label' => 'Update',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Report Management',
+                'name' => 'report-delete',
+                'label' => 'Destroy',
+                'guard_name' => 'admin'
+            ],
+            [
+                'category' => 'Admin Dashboard',
+                'name' => 'dashboard-view',
+                'label' => 'Read',
+                'guard_name' => 'admin'
+            ],
         ];
 
         foreach ($permissions as $permission) {

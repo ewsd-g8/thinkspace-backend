@@ -18,11 +18,6 @@ class UserService implements UserServiceInterface
       */
     protected $userRepository;
 
-    /**
-     * AppointmentService constructor.
-     *
-     * @param AppointmentRepository $appointmentRepository
-     */
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
@@ -76,12 +71,39 @@ class UserService implements UserServiceInterface
         } catch (Exception $exc) {
             DB::rollBack();
             Log::error($exc->getMessage());
-            throw new InvalidArgumentException('Unable to active user');
+            throw new InvalidArgumentException('Unable to change user status');
         }
         DB::commit();
         return $result;
     }
 
+    public function changeBlockStatus(User $user)
+    {
+        DB::beginTransaction();
+        try {
+            $result = $this->userRepository->changeBlockStatus($user);
+        } catch (Exception $exc) {
+            DB::rollBack();
+            Log::error($exc->getMessage());
+            throw new InvalidArgumentException('Unable to block user');
+        }
+        DB::commit();
+        return $result;
+    }
+
+    public function changeHiddenStatus(User $user)
+    {
+        DB::beginTransaction();
+        try {
+            $result = $this->userRepository->changeHiddenStatus($user);
+        } catch (Exception $exc) {
+            DB::rollBack();
+            Log::error($exc->getMessage());
+            throw new InvalidArgumentException('Unable to hide user');
+        }
+        DB::commit();
+        return $result;
+    }
     //  public function destroy(User $user)
     //  {
     //      DB::beginTransaction();
@@ -100,5 +122,10 @@ class UserService implements UserServiceInterface
     public function getRoles()
     {
         return $this->userRepository->getRoles();
+    }
+
+    public function getDepartments()
+    {
+        return $this->userRepository->getDepartments();
     }
 }

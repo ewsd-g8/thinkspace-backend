@@ -18,11 +18,6 @@ class RoleService implements RoleServiceInterface
       */
     protected $roleRepository;
 
-    /**
-     * AppointmentService constructor.
-     *
-     * @param AppointmentRepository $appointmentRepository
-     */
     public function __construct(RoleRepository $roleRepository)
     {
         $this->roleRepository = $roleRepository;
