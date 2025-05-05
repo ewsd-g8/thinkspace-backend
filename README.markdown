@@ -25,14 +25,15 @@ This is the backend repository for the ThinkSpace Idea Collection. Follow the st
 5. **Configure Environment File**
    Open the `.env` file and add the necessary database credentials.
    ```bash
-   MAIL_MAILER=
-   MAIL_HOST=
-   MAIL_PORT=
+   MAIL_MAILER=smtp
+   MAIL_HOST=smtp.gmail.com
+   MAIL_PORT=587 
    MAIL_USERNAME=
    MAIL_PASSWORD=
-   MAIL_ENCRYPTION=
+   MAIL_ENCRYPTION=tls
    MAIL_FROM_ADDRESS=
-   MAIL_FROM_NAME=
+   MAIL_FROM_NAME="ThinkSpace"
+   FILESYSTEM_DISK=public
    QUEUE_CONNECTION=database
 
    DB_CONNECTION=mysql
