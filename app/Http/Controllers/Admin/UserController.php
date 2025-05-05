@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
-use App\Models\Browser;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Services\Admin\UserService;
 use App\Http\Controllers\Controller;
 use Illuminate\Routing\Controllers\Middleware;
@@ -23,8 +21,7 @@ class UserController extends Controller implements HasMiddleware
         return [
             new Middleware(PermissionMiddleware::using('user-list'), only:['index']),
             new Middleware(PermissionMiddleware::using('user-create'), only:['store']),
-            new Middleware(PermissionMiddleware::using('user-edit'), only:['update', 'changeStatus','changeBlockStatus','changeHiddenStatus']),
-            new Middleware(PermissionMiddleware::using('dashboard-view'), only:['mostActiveUsers', 'getBrowsers']),
+            new Middleware(PermissionMiddleware::using('user-edit'), only:['update', 'changeStatus']),
         ];
     }
     
@@ -81,21 +78,8 @@ class UserController extends Controller implements HasMiddleware
 
     public function changeStatus(User $user)
     {
-        $changedStatus = $this->userService->changeStatus($user);
+        $this->userService->changeStatus($user);
 
-        return response()->success('Success!', Response::HTTP_OK, $changedStatus);
-    }
-
-    public function changeBlockStatus(User $user)
-    {
-        $this->userService->changeBlockStatus($user);
-
-        return response()->success('Success!', Response::HTTP_OK);
-    }
-    public function changeHiddenStatus(User $user)
-    {
-        $this->userService->changeHiddenStatus($user);
-        
         return response()->success('Success!', Response::HTTP_OK);
     }
 
@@ -104,39 +88,5 @@ class UserController extends Controller implements HasMiddleware
         $data = $this->userService->getRoles();
 
         return response()->success('Success!', Response::HTTP_OK, $data);
-    }
-
-    public function getDepartments()
-    {
-        $data = $this->userService->getDepartments();
-
-        return response()->success('Success', Response::HTTP_OK, $data);
-    }
-
-    public function getBrowsers()
-    {
-        $totalUsers = DB::table('browser_user')->count(); // Total users who have browsers
-
-        return Browser::select('id', 'name', 'color')->withCount('users')
-            ->get()
-            ->map(function ($browser) use ($totalUsers) {
-                $browser->usage_percentage = $totalUsers > 0
-                    ? round(($browser->users_count / $totalUsers) * 100, 2)
-                    : 0;
-                return $browser;
-            });
-    }
-
-    public function mostActiveUsers()
-    {
-        $users = User::where('is_active', 1)->with(['department:id,name'])->withCount(['ideas', 'comments'])->orderByRaw('(ideas_count + (comments_count / 4)) DESC');
-
-        if (request()->has('paginate')) {
-            $users = $users->paginate(request()->get('paginate'));
-        } else {
-            $users = $users->paginate(5);
-        }
-        
-        return $users;
     }
 }

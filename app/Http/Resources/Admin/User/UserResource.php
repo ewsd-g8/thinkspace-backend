@@ -25,8 +25,7 @@ class UserResource extends JsonResource
             'profile'=>$this->profile ? $this->profile : null,
             'is_active' => $this->is_active,
             'roles' => $this->roles,
-            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d h:i A'),
-            'department' => $this->department,
+            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d h:i A')
         ];
     }
 }
