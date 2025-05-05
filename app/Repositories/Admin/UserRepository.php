@@ -4,9 +4,9 @@ namespace App\Repositories\Admin;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Department;
 use App\Enums\Status;
 use App\Helpers\MediaHelper;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,17 +22,16 @@ class UserRepository
         return User::class;
     }
 
-    /**
-     * Get lists of carPost.
-     *
-     * @return Collection | static []
-     */
-
     public function getUsers($request)
     {
-        $users = User::select('id', 'name', 'email', 'mobile', 'is_active')->with(['roles' => function ($q) {
-            $q->select('name');
-        }])->adminSort($request->sortType, $request->sortBy)->adminSearch($request->search)->latest();
+        $users = User::select('id', 'name', 'full_name', 'email', 'mobile', 'last_logout_at', 'is_active','is_blocked','is_hidden', 'department_id', 'created_at', 'updated_at')->with(['roles','department' => function ($q) {
+            $q->select('id', 'name');
+        }])
+        ->withCount(['ideas', 'comments'])
+        ->when($request->search, function ($query) use ($request) {
+            return $query->adminSearch($request->search);
+        })
+        ->adminSort($request->sortType, $request->sortBy)->latest();
 
         if (request()->has('paginate')) {
             $users = $users->paginate(request()->get('paginate'));
@@ -47,10 +46,12 @@ class UserRepository
     {
         $user = User::create([
             'name'  => $data['name'],
-            'password' => Hash::make($data['password']),
+            'full_name' => $data['full_name'],
             'email' => $data['email'],
             'mobile' => isset($data['mobile']) ? $data['mobile'] : null,
+            'password' => Hash::make($data['password']),
             'is_active' => Status::Active,
+            'department_id' => $data['department_id'],
         ]);
         if (isset($data['profile'])) {
             //   $mediaRepository = new MediaRepository();
@@ -84,6 +85,7 @@ class UserRepository
         $user->name = isset($data['name']) ? $data['name'] : $user->name;
         $user->email = isset($data['email']) ? $data['email'] : $user->email;
         $user->mobile = isset($data['mobile']) ? $data['mobile'] : $user->mobile;
+        $user->department_id = isset($data['department_id'])? $data['department_id'] : $user->department_id;
         if (isset($data['profile'])) {
             // if ($user->profile && Storage::disk('s3')->exists($user->profile)) {
             //     Storage::disk('s3')->delete($user->profile);
@@ -118,37 +120,62 @@ class UserRepository
             $user->save();
         }
 
-        $role_array = [];
-        $role_array[] = $data['roles'];
-        $user->assignRole($role_array);
+       if (isset($data['roles'])) {
+        $user->syncRoles([$data['roles']]); 
+    }
 
         return $user;
     }
 
     public function getUserById($id)
     {
-        return User::with('roles')->where('id', $id)->first();
+        return User::with('roles', 'department:id,name')->where('id', $id)->first();
     }
 
     public function changeStatus(User $user)
     {
-        if ($user->is_active == 0) {
+        $newStatus = $user->is_active == 1 ? 0 : 1;
+
+        $user->update([
+            'is_active' => $newStatus,
+            'updated_at' => now(),
+        ]);
+
+        return $user->refresh();
+    }
+    
+    public function changeBlockStatus(User $user): void 
+    {
+        if ($user->is_blocked == 0) {
             $user->update([
-                'is_active' => 1,
+                'is_blocked' => 1,
             ]);
 
-            return $user->refresh();
+
         } else {
             $user->update([
-                'is_active' => 0,
+                'is_blocked' => 0,
             ]);
 
-            $user->tokens()->delete();
 
-            return $user->refresh();
         }
     }
 
+    public function changeHiddenStatus(User $user): void
+    {
+        if ($user->is_hidden == 0) {
+            $user->update([
+                'is_hidden' => 1,
+            ]);
+
+            
+        } else {
+            $user->update([
+                'is_hidden' => 0,
+            ]);
+
+        }
+    }
     //  public function destroy(User $user)
     //  {
     //      $deleted = $this->deleteById($user->id);
@@ -160,5 +187,10 @@ class UserRepository
     public function getRoles()
     {
         return Role::latest()->get();
+    }
+
+    public function getDepartments()
+    {
+        return Department::where('is_active', 1)->latest()->get(); 
     }
 }
