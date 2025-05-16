@@ -62,7 +62,15 @@ class RoleHasPermissionTableSeeder extends Seeder
                 'role' => Role::where('name', 'Staff')->first()
             ],
             [
+                'permission' => Permission::where('name', "report-edit")->first(),
+                'role' => Role::where('name', 'Staff')->first()
+            ],
+            [
                 'permission' => Permission::where('name', "reportType-list")->first(),
+                'role' => Role::where('name', 'Staff')->first()
+            ],
+            [
+                'permission' => Permission::where('name', "reportType-edit")->first(),
                 'role' => Role::where('name', 'Staff')->first()
             ],
             [
@@ -145,6 +153,10 @@ class RoleHasPermissionTableSeeder extends Seeder
             ],
             [
                 'permission' => Permission::where('name', "reportType-list")->first(),
+                'role' => Role::where('name', 'QAcoordinator')->first()
+            ],
+            [
+                'permission' => Permission::where('name', "reportType-edit")->first(),
                 'role' => Role::where('name', 'QAcoordinator')->first()
             ],
             [
@@ -247,6 +259,10 @@ class RoleHasPermissionTableSeeder extends Seeder
             ],
             [
                 'permission' => Permission::where('name', "reportType-list")->first(),
+                'role' => Role::where('name', 'QAmanager')->first()
+            ],
+            [
+                'permission' => Permission::where('name', "reportType-edit")->first(),
                 'role' => Role::where('name', 'QAmanager')->first()
             ],
             [
