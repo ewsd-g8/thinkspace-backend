@@ -13,4 +13,7 @@ interface UserServiceInterface
     public function update(User $user, array $data);
     public function changeStatus(User $user);
     public function getRoles();
+    public function changeBlockStatus(User $user);
+    public function changeHiddenStatus(User $user);
+    public function getDepartments();
 }
